@@ -4,7 +4,7 @@
 //                             →  src/app/favicon.ico          16/32/48 fallback for older browsers and crawlers
 //                             →  src/app/apple-icon.png       180×180, full-bleed (iOS rounds the corners itself)
 //                             →  public/icon-192.png · icon-512.png · icon-maskable-512.png   web manifest
-//  mark.svg + wordmark.svg    →  src/app/opengraph-image.png  1200×630 link preview
+//  assets/brand/og-image.png  →  src/app/opengraph-image.png  1200×630 link preview (flattened onto black)
 //  project covers + mark.svg  →  public/og/<slug>.jpg         1200×630 link preview per case study
 //
 // Next.js picks up the files in src/app/ by name and writes the <link>/<meta> tags itself.
@@ -12,10 +12,8 @@ import { copyFile, mkdir, readFile, writeFile } from "node:fs/promises";
 import sharp from "sharp";
 
 const PINK = "#FECCCD";
-const CREAM = "#F1EDE6";
 
 const mark = await readFile("assets/brand/mark.svg", "utf8");
-const wordmark = await readFile("assets/brand/wordmark.svg", "utf8");
 const glyph = mark.match(/<path[^>]*\/>/)[0];
 
 /** The mark on a square pink field with no rounded corners — for platforms that apply their own mask. */
@@ -53,19 +51,12 @@ await writeFile("public/icon-512.png", await png(mark, 512));
 // The glyph already sits inside the maskable safe zone (a centred circle of 80% diameter), so no extra padding.
 await writeFile("public/icon-maskable-512.png", await png(fullBleed, 512));
 
-// Open Graph: cream canvas, mark top-left, wordmark across the bottom — the site's own palette and lettering.
+// Open Graph: the designed 1200×630 preview, flattened so apps that ignore transparency don't show white edges.
 const W = 1200;
 const H = 630;
-const PAD = 72;
-const markSize = 132;
-const wordW = W - PAD * 2;
-const wordH = Math.round((wordW * 328) / 1340);
-const og = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">
-  <rect width="${W}" height="${H}" fill="${CREAM}"/>
-  <svg x="${PAD}" y="${PAD}" width="${markSize}" height="${markSize}" viewBox="0 0 512 512">${mark.replace(/^<svg[^>]*>|<\/svg>\s*$/g, "")}</svg>
-  <svg x="${PAD}" y="${H - PAD - wordH}" width="${wordW}" height="${wordH}" viewBox="0 0 1340 328">${wordmark.replace(/^<svg[^>]*>|<\/svg>\s*$/g, "")}</svg>
-</svg>`;
-await writeFile("src/app/opengraph-image.png", await sharp(Buffer.from(og)).png({ compressionLevel: 9 }).toBuffer());
+const ogMeta = await sharp("assets/brand/og-image.png").metadata();
+if (ogMeta.width !== W || ogMeta.height !== H) throw new Error(`assets/brand/og-image.png must be ${W}×${H}, got ${ogMeta.width}×${ogMeta.height}`);
+await sharp("assets/brand/og-image.png").flatten({ background: "#000000" }).png({ compressionLevel: 9 }).toFile("src/app/opengraph-image.png");
 
 // Case studies: the cover cropped to 1200×630 around its most detailed area, with the mark as a small badge.
 // The project name travels in og:title, so the image itself carries no text.

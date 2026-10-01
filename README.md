@@ -22,7 +22,7 @@ src/
   content/      site.ts (name, links, nav) · projects.ts (case studies) · home.ts (services, steps, stats, FAQ)
   lib/          contact form client · JSON-LD · image loader
 worker/         Cloudflare Worker: serves ./out and handles POST /api/contact → Telegram
-assets/brand/   logo mark + wordmark (source for icons and the OG image)
+assets/brand/   logo mark + Open Graph image (sources for icons and link previews)
 scripts/        image + icon pipelines
 ```
 
@@ -55,7 +55,7 @@ Breakpoints: `lg` (1024) switches to the desktop layout, `md` (768) gives two-co
 
 Reference images in content as `/images/<name>.webp`.
 
-Favicons, app icons and the Open Graph images (site-wide and one per case study, from its cover) are generated from `assets/brand/` with `npm run icons` — rerun it after changing the logo or a cover. Output is committed.
+Favicons, app icons and the Open Graph images (site-wide and one per case study, from its cover) are generated from `assets/brand/` with `npm run icons` — rerun it after changing the logo, `og-image.png` (must be 1200×630) or a cover. Output is committed.
 
 ## Motion
 
