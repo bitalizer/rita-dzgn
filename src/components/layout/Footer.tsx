@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CookieSettings } from "@/components/layout/CookieSettings";
 import { Wordmark } from "@/components/layout/Wordmark";
 import { Container } from "@/components/ui/Layout";
 import { primaryNav, secondaryNav, site } from "@/content/site";
@@ -25,6 +26,12 @@ export function Footer() {
               </Link>
             ))}
           </nav>
+        </div>
+        <div className="mt-10 flex flex-wrap gap-x-[clamp(24px,6.667vw,96px)] gap-y-3 text-label text-paper/60">
+          <Link href={site.privacyPolicyUrl} className={link}>
+            (privacy policy)
+          </Link>
+          <CookieSettings className={link} />
         </div>
         {/* Giant pink wordmark, cropped at the page bottom (1340 × 257 visible). */}
         <Wordmark className="mt-[21px] block h-auto w-full text-pink" />
