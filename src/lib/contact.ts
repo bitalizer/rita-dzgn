@@ -1,3 +1,5 @@
+import { getSource } from "@/lib/attribution";
+
 export type Lead = {
   name: string;
   email: string;
@@ -22,7 +24,7 @@ export async function sendLead(lead: Lead): Promise<SendResult> {
     const res = await fetch(ENDPOINT, {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ ...lead, page: typeof location !== "undefined" ? location.href : "" }),
+      body: JSON.stringify({ ...lead, page: location.href, source: getSource() }),
     });
     if (!res.ok) return { ok: false, error: `Request failed (${res.status}).` };
     return { ok: true };

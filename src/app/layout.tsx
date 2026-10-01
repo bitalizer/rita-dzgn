@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import { Attribution } from "@/components/Attribution";
 import { Cursor } from "@/components/motion/Cursor";
 import { site } from "@/content/site";
 import { personSchema, websiteSchema } from "@/lib/schema";
@@ -59,6 +60,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-dvh">
         {children}
         <Cursor ringSize={40} />
+        <Attribution />
       </body>
     </html>
   );

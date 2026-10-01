@@ -27,9 +27,10 @@ type Lead = {
   budget?: unknown;
   company?: unknown;
   page?: unknown;
+  source?: unknown;
 };
 
-const MAX = { name: 120, email: 200, message: 4000, type: 60, budget: 60, page: 300 } as const;
+const MAX = { name: 120, email: 200, message: 4000, type: 60, budget: 60, page: 300, source: 400 } as const;
 
 const str = (v: unknown, max: number) => (typeof v === "string" ? v.trim().slice(0, max) : "");
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -59,6 +60,7 @@ export default {
       type: str(raw.type, MAX.type),
       budget: str(raw.budget, MAX.budget),
       page: str(raw.page, MAX.page),
+      source: str(raw.source, MAX.source),
     };
     if (!lead.name || !lead.message || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lead.email)) {
       return reply({ ok: false, error: "Please fill in name, a valid e-mail and a message." }, 422);
@@ -73,6 +75,7 @@ export default {
       "",
       esc(lead.message),
       lead.page && `\n<i>${esc(lead.page)}</i>`,
+      lead.source && `<i>${esc(lead.source)}</i>`,
     ]
       .filter(Boolean)
       .join("\n");
