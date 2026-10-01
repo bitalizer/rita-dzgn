@@ -11,6 +11,8 @@ import { track } from "@/lib/zaraz";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
+const labelOf = (options: { value: string; label: string }[], value: string) => options.find((o) => o.value === value)?.label ?? value;
+
 /** Underlined fields: 62px tall, 1px white rule, cream placeholder. */
 const field =
   "w-full border-0 border-b border-paper bg-transparent px-[10px] py-5 text-body text-cream outline-none transition-colors duration-200 placeholder:text-cream focus:border-pink";
@@ -34,7 +36,8 @@ export function ContactForm() {
     if (lead.company) return; // honeypot tripped — silently ignore
 
     setStatus("sending");
-    const result = await sendLead(lead);
+    // The message shows the option labels ("Website design"), the conversion event keeps the stable values.
+    const result = await sendLead({ ...lead, type: labelOf(projectTypes, lead.type), budget: labelOf(budgets, lead.budget) });
     if (result.ok) {
       setStatus("sent");
       track("lead", { type: lead.type, budget: lead.budget });

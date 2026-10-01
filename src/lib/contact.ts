@@ -24,7 +24,7 @@ export async function sendLead(lead: Lead): Promise<SendResult> {
     const res = await fetch(ENDPOINT, {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ ...lead, page: location.href, source: getSource() }),
+      body: JSON.stringify({ ...lead, ...getSource(), page: location.href }),
     });
     if (!res.ok) return { ok: false, error: `Request failed (${res.status}).` };
     return { ok: true };
