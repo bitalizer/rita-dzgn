@@ -85,10 +85,11 @@ export function ContactForm() {
       </div>
 
       <p id="contact-note" className="text-body text-cream/50">
-        By clicking Send, you agree to the{" "}
+        Your details are used only to reply to you — see the{" "}
         <a href={site.privacyPolicyUrl} className="underline underline-offset-[3px]">
           Privacy Policy
         </a>
+        .
       </p>
 
       <Button type="submit" variant="pink" disabled={status === "sending" || sent} className="w-full disabled:cursor-default disabled:opacity-90">
