@@ -125,9 +125,6 @@
   p {
     text-wrap: pretty;
   }
-  ::placeholder {
-    @apply text-cream opacity-100;
-  }
   select option {
     @apply bg-paper text-ink;
   }
@@ -438,4 +435,65 @@ html[data-motion="off"] [data-trail] {
 }
 [data-trail][data-tone="ink"] {
   border-color: rgb(0 0 0 / 0.5);
+}
+
+/* ------------------------------------------------------------------
+   Contact form fields (components/sections/ContactForm.tsx → <Field>): control, then label, then underline.
+   The label rests exactly where a placeholder would (same spot, size and color) and rises above the text once the
+   field is focused or filled; the typed text itself never moves. A pink line draws in from the left under the focused
+   field and leaves to the right. Text controls report "filled" through :placeholder-shown, selects through data-filled.
+   ------------------------------------------------------------------ */
+[data-field] > label {
+  position: absolute;
+  top: 1.25rem;
+  left: 0.625rem;
+  color: var(--color-cream);
+  transform-origin: 0 0;
+  pointer-events: none; /* clicks land on the field underneath */
+  transition:
+    transform 0.45s var(--ease-out-expo),
+    color 0.3s;
+}
+[data-field] > :is(input, textarea):is(:focus, :not(:placeholder-shown), :autofill) ~ label,
+[data-field] > select:is(:focus, [data-filled]) ~ label {
+  transform: translateY(-1.25rem) scale(0.75);
+  color: color-mix(in srgb, var(--color-cream) 60%, transparent);
+}
+/* Same weight as the rule above and after it, so the focused field's label is pink whether or not it is filled. */
+[data-field] > :is(input, textarea, select):focus ~ label {
+  color: var(--color-pink);
+}
+[data-field] > [data-underline] {
+  position: absolute;
+  inset: auto 0 0;
+  height: 1px;
+  background: var(--color-pink);
+  transform: scaleX(0);
+  transform-origin: right;
+  pointer-events: none;
+  transition: transform 0.5s var(--ease-out-expo);
+}
+[data-field] > :focus ~ [data-underline] {
+  transform: none;
+  transform-origin: left;
+}
+/* An empty select shows only its label; the "—" of its empty option appears once it has focus. */
+[data-field] > select {
+  transition: color 0.3s;
+}
+[data-field] > select:not(:focus, [data-filled]) {
+  color: transparent;
+}
+/* The message box scrolls once it holds more than a line: keep that text from running up under the label. */
+[data-field] > textarea {
+  mask-image: linear-gradient(to bottom, transparent 1.25rem, #000 1.25rem);
+}
+/* Browsers repaint autofilled fields in their own colors (light blue, dark text); hold that off so they keep the form's. */
+[data-field] > input:autofill {
+  -webkit-text-fill-color: var(--color-cream);
+  caret-color: var(--color-cream);
+  transition: background-color 600000s 0s;
+}
+html[data-motion="off"] [data-field] > :is(label, [data-underline], select) {
+  transition: none;
 }

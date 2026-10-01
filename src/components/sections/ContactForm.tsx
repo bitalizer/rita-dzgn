@@ -1,6 +1,6 @@
 "use client";
 
-import { type FormEvent, useState } from "react";
+import { type FormEvent, type ReactNode, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Caret } from "@/components/ui/Icons";
 import { budgets, projectTypes } from "@/content/home";
@@ -13,13 +13,42 @@ type Status = "idle" | "sending" | "sent" | "error";
 
 const labelOf = (options: { value: string; label: string }[], value: string) => options.find((o) => o.value === value)?.label ?? value;
 
-/** Underlined fields: 62px tall, 1px white rule, cream placeholder. */
-const field =
-  "w-full border-0 border-b border-paper bg-transparent px-2.5 py-5 text-body text-cream outline-none transition-colors duration-200 placeholder:text-cream focus:border-pink";
+/** Underlined fields: 62px tall, 1px white rule. The label and the pink focus line come from <Field>. */
+const field = "w-full border-0 border-b border-paper bg-transparent px-2.5 py-5 text-body text-cream outline-none";
+
+/**
+ * A field with its floating label. The label rests where a placeholder would and rises above the text once the field
+ * is focused or filled, so the visitor never loses sight of what the field is for; a pink line draws in under the field
+ * that has focus. All of it is CSS (globals.css → [data-field]), keyed on the control's own state, so the control must
+ * be the first child and text controls need `placeholder=" "` (that is how CSS can tell an empty one from a filled one).
+ */
+function Field({ id, label, children }: { id: string; label: string; children: ReactNode }) {
+  return (
+    <div data-field className="relative">
+      {children}
+      <label htmlFor={id} className="text-body">
+        {label}
+      </label>
+      <span data-underline aria-hidden="true" />
+    </div>
+  );
+}
+
+const nothingPicked = { type: false, budget: false };
 
 export function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string>("");
+  // A select can't tell CSS whether it holds a choice (text fields can), so the form tracks it: data-filled lifts the label.
+  const [picked, setPicked] = useState(nothingPicked);
+  const pick = (name: keyof typeof nothingPicked, value: string) => setPicked((p) => ({ ...p, [name]: value !== "" }));
+  const formRef = useRef<HTMLFormElement>(null);
+  // Browsers put a form's values back when the page is reloaded or revisited, before React is running: start from what
+  // the selects really hold, or a restored choice would sit hidden under a resting label.
+  useEffect(() => {
+    const value = (name: string) => (formRef.current?.elements.namedItem(name) as HTMLSelectElement | null)?.value ?? "";
+    setPicked({ type: value("type") !== "", budget: value("budget") !== "" });
+  }, []);
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -42,6 +71,7 @@ export function ContactForm() {
       setStatus("sent");
       track("lead", { type: lead.type, budget: lead.budget });
       form.reset();
+      setPicked(nothingPicked);
     } else {
       setStatus("error");
       setError(result.error);
@@ -51,22 +81,35 @@ export function ContactForm() {
   const sent = status === "sent";
 
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-10" aria-describedby="contact-note">
+    <form ref={formRef} onSubmit={onSubmit} className="flex flex-col gap-10" aria-describedby="contact-note">
       <div className="flex flex-col gap-5">
-        <input name="name" placeholder="Name" required autoComplete="name" className={field} aria-label="Name" />
-        <input name="email" type="email" placeholder="E-mail" required autoComplete="email" className={field} aria-label="E-mail" />
-        <textarea
-          name="message"
-          placeholder="Tell me about your project"
-          rows={1}
-          required
-          maxLength={4000}
-          className={cn(field, "block min-h-15.5 resize-none")}
-          aria-label="Tell me about your project"
-        />
-        <div className="relative">
-          <select name="type" defaultValue="" className={cn(field, "cursor-pointer appearance-none pr-7.5")} aria-label="Project type">
-            <option value="">Project type</option>
+        <Field id="contact-name" label="Name">
+          <input id="contact-name" name="name" placeholder=" " required autoComplete="name" className={field} />
+        </Field>
+        <Field id="contact-email" label="E-mail">
+          <input id="contact-email" name="email" type="email" placeholder=" " required autoComplete="email" className={field} />
+        </Field>
+        <Field id="contact-message" label="Tell me about your project">
+          <textarea
+            id="contact-message"
+            name="message"
+            placeholder=" "
+            rows={1}
+            required
+            maxLength={4000}
+            className={cn(field, "block min-h-15.5 resize-none")}
+          />
+        </Field>
+        <Field id="contact-type" label="Project type">
+          <select
+            id="contact-type"
+            name="type"
+            defaultValue=""
+            data-filled={picked.type ? "" : undefined}
+            onChange={(e) => pick("type", e.currentTarget.value)}
+            className={cn(field, "cursor-pointer appearance-none pr-7.5")}
+          >
+            <option value="">—</option>
             {projectTypes.map((o) => (
               <option key={o.value} value={o.value}>
                 {o.label}
@@ -74,10 +117,17 @@ export function ContactForm() {
             ))}
           </select>
           <Caret className="pointer-events-none absolute top-1/2 right-3.75 -translate-y-1/2" />
-        </div>
-        <div className="relative">
-          <select name="budget" defaultValue="" className={cn(field, "cursor-pointer appearance-none pr-7.5")} aria-label="Budget">
-            <option value="">Budget</option>
+        </Field>
+        <Field id="contact-budget" label="Budget">
+          <select
+            id="contact-budget"
+            name="budget"
+            defaultValue=""
+            data-filled={picked.budget ? "" : undefined}
+            onChange={(e) => pick("budget", e.currentTarget.value)}
+            className={cn(field, "cursor-pointer appearance-none pr-7.5")}
+          >
+            <option value="">—</option>
             {budgets.map((o) => (
               <option key={o.value} value={o.value}>
                 {o.label}
@@ -85,7 +135,7 @@ export function ContactForm() {
             ))}
           </select>
           <Caret className="pointer-events-none absolute top-1/2 right-3.75 -translate-y-1/2" />
-        </div>
+        </Field>
         {/* Honeypot: hidden from people, irresistible to bots. */}
         <input type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden="true" className="absolute left-[-9999px] h-0 w-0 opacity-0" />
       </div>
