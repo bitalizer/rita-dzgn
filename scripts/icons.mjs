@@ -5,9 +5,10 @@
 //                             →  src/app/apple-icon.png       180×180, full-bleed (iOS rounds the corners itself)
 //                             →  public/icon-192.png · icon-512.png · icon-maskable-512.png   web manifest
 //  mark.svg + wordmark.svg    →  src/app/opengraph-image.png  1200×630 link preview
+//  project covers + mark.svg  →  public/og/<slug>.jpg         1200×630 link preview per case study
 //
 // Next.js picks up the files in src/app/ by name and writes the <link>/<meta> tags itself.
-import { copyFile, readFile, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, readFile, writeFile } from "node:fs/promises";
 import sharp from "sharp";
 
 const PINK = "#FECCCD";
@@ -66,4 +67,18 @@ const og = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">
 </svg>`;
 await writeFile("src/app/opengraph-image.png", await sharp(Buffer.from(og)).png({ compressionLevel: 9 }).toBuffer());
 
-console.log("icons: favicon.ico, icon.svg, apple-icon.png, icon-192/512/maskable, opengraph-image.png");
+// Case studies: the cover cropped to 1200×630 around its most detailed area, with the mark as a small badge.
+// The project name travels in og:title, so the image itself carries no text.
+const { projects } = await import("../src/content/projects.ts");
+const badge = 96;
+const badgeSvg = Buffer.from(mark.replace(/width="512" height="512"/, `width="${badge}" height="${badge}"`));
+await mkdir("public/og", { recursive: true });
+for (const p of projects) {
+  await sharp(`public${p.cover.src}`)
+    .resize(W, H, { fit: "cover", position: sharp.strategy.attention })
+    .composite([{ input: badgeSvg, left: 48, top: H - 48 - badge }])
+    .jpeg({ quality: 82, mozjpeg: true })
+    .toFile(`public/og/${p.slug}.jpg`);
+}
+
+console.log(`icons: favicon.ico, icon.svg, apple-icon.png, icon-192/512/maskable, opengraph-image.png, ${projects.length} project previews`);

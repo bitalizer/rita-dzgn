@@ -14,7 +14,7 @@
     "lint": "biome check .",
     "format": "biome check --write .",
     "deploy": "npm run build && wrangler deploy",
-    "icons": "node scripts/icons.mjs"
+    "icons": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/icons.mjs"
   },
   "dependencies": {
     "next": "^16.3.8",

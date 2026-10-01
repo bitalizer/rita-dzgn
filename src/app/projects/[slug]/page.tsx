@@ -12,6 +12,7 @@ import { type GalleryRow, galleryRows, getProject, projects } from "@/content/pr
 import { blur } from "@/lib/blur";
 import { cn } from "@/lib/cn";
 import { projectSchema } from "@/lib/schema";
+import { ogBase } from "@/lib/seo";
 
 type Params = { slug: string };
 
@@ -25,12 +26,14 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const p = getProject(slug);
   if (!p) return {};
   const title = `${p.title} ${p.category}`;
+  // 1200×630 preview generated from the cover by scripts/icons.mjs.
+  const image = { url: `/og/${p.slug}.jpg`, width: 1200, height: 630, alt: p.cover.alt, type: "image/jpeg" };
   return {
     title,
     description: p.intro,
     alternates: { canonical: `/projects/${p.slug}/` },
-    openGraph: { title, description: p.intro, type: "article", images: [{ url: p.cover.src, width: p.cover.width, height: p.cover.height, alt: p.cover.alt }] },
-    twitter: { card: "summary_large_image", title, description: p.intro, images: [p.cover.src] },
+    openGraph: { ...ogBase, type: "article", url: `/projects/${p.slug}/`, title, description: p.intro, images: [image] },
+    twitter: { card: "summary_large_image", title, description: p.intro, images: [image] },
   };
 }
 

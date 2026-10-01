@@ -55,7 +55,7 @@ Breakpoints: `lg` (1024) switches to the desktop layout, `md` (768) gives two-co
 
 Reference images in content as `/images/<name>.webp`.
 
-Favicons, app icons and the Open Graph image are generated from `assets/brand/` with `npm run icons` (output is committed).
+Favicons, app icons and the Open Graph images (site-wide and one per case study, from its cover) are generated from `assets/brand/` with `npm run icons` — rerun it after changing the logo or a cover. Output is committed.
 
 ## Motion
 
