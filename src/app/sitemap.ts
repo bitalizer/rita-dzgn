@@ -4,16 +4,7 @@ import { site } from "@/content/site";
 
 export const dynamic = "force-static";
 
+// No lastModified: a build timestamp would claim every page changed on every deploy, and Google ignores unreliable dates.
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
-  return [
-    { url: `${site.url}/`, lastModified: now, changeFrequency: "monthly", priority: 1 },
-    { url: `${site.url}/projects/`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
-    ...projects.map((p) => ({
-      url: `${site.url}/projects/${p.slug}/`,
-      lastModified: now,
-      changeFrequency: "yearly" as const,
-      priority: 0.6,
-    })),
-  ];
+  return [`${site.url}/`, `${site.url}/projects/`, ...projects.map((p) => `${site.url}/projects/${p.slug}/`)].map((url) => ({ url }));
 }
