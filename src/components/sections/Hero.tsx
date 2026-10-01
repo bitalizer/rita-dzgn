@@ -31,7 +31,10 @@ export function Hero() {
             Graphic &amp; web designer specializing in logo design, visual identity and website design. I create distinctive brands and digital experiences that
             combine thoughtful visuals, clear structure and personality.
           </p>
-          <div className="mt-[clamp(1.75rem,3.333vw,3rem)] flex min-h-0 shrink grow basis-[clamp(7.5rem,14.236vw,12.8125rem)] max-h-[clamp(10rem,19.2vw,17.3rem)] items-end gap-[clamp(0.5rem,1.186vw,1.0677rem)]">
+          {/* --collage is the row's size. The flex-basis is what sizes the row (it grows and shrinks with the card); the
+              height is for Safari up to 26.2, which only turns the tiles' height into a square's width when the row has
+              a real `height`. Without it the tiles are 0px wide wherever the card has no fixed height: every phone and tablet. */}
+          <div className="mt-[clamp(1.75rem,3.333vw,3rem)] flex h-(--collage) min-h-0 shrink grow basis-(--collage) max-h-[clamp(10rem,19.2vw,17.3rem)] items-end gap-[clamp(0.5rem,1.186vw,1.0677rem)] [--collage:clamp(7.5rem,14.236vw,12.8125rem)]">
             <div className="relative aspect-square h-full overflow-hidden bg-mist">
               <Image
                 src="/images/lagi.webp"
