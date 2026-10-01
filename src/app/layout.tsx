@@ -33,11 +33,9 @@ export const metadata: Metadata = {
     siteName: site.name,
     title: site.title,
     description: site.description,
-    images: [{ url: site.ogImage, width: 1320, height: 1980, alt: `${site.author} — ${site.role}` }],
   },
-  twitter: { card: "summary_large_image", title: site.title, description: site.description, images: [site.ogImage] },
+  twitter: { card: "summary_large_image", title: site.title, description: site.description },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large" } },
-  icons: { icon: "/favicon.svg" },
 };
 
 export const viewport: Viewport = {

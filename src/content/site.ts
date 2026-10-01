@@ -8,7 +8,6 @@ export const site = {
     "Graphic & web designer specializing in logo design, visual identity and website design. Distinctive brands and digital experiences that combine thoughtful visuals, clear structure and personality.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://ritadzgn.com",
   locale: "en",
-  ogImage: "/images/hero-panel.webp",
   contact: {
     email: "ritasobrak@gmail.com",
     whatsapp: "https://wa.me/32758062145",

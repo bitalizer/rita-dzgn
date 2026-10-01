@@ -22,7 +22,8 @@ src/
   content/      site.ts (name, links, nav) · projects.ts (case studies) · home.ts (services, steps, stats, FAQ)
   lib/          contact form client · JSON-LD · image loader
 worker/         Cloudflare Worker: serves ./out and handles POST /api/contact → Telegram
-scripts/        image pipeline
+assets/brand/   logo mark + wordmark (source for icons and the OG image)
+scripts/        image + icon pipelines
 ```
 
 Site details and contact links live in `src/content/site.ts`; all copy lives in `src/content/`.
@@ -53,6 +54,8 @@ Breakpoints: `lg` (1024) switches to the desktop layout, `md` (768) gives two-co
 3. `src/lib/image-loader.ts` maps `next/image` widths onto those files, so every `<Image>` ships a 700w / 1400w / 2800w `srcset`.
 
 Reference images in content as `/images/<name>.webp`.
+
+Favicons, app icons and the Open Graph image are generated from `assets/brand/` with `npm run icons` (output is committed).
 
 ## Motion
 

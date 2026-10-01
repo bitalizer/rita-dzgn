@@ -6,7 +6,7 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["**", "!public", "!out", "!.next", "!**/next-env.d.ts"]
+    "includes": ["**", "!public", "!out", "!.next", "!**/next-env.d.ts", "!**/*.svg"]
   },
   "formatter": {
     "enabled": true,

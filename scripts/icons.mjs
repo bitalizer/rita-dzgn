@@ -1,0 +1,69 @@
+// Favicons, app icons and the Open Graph image, generated from assets/brand/ — run `npm run icons` after changing them.
+//
+//  assets/brand/mark.svg      →  src/app/icon.svg             browsers (scalable favicon)
+//                             →  src/app/favicon.ico          16/32/48 fallback for older browsers and crawlers
+//                             →  src/app/apple-icon.png       180×180, full-bleed (iOS rounds the corners itself)
+//                             →  public/icon-192.png · icon-512.png · icon-maskable-512.png   web manifest
+//  mark.svg + wordmark.svg    →  src/app/opengraph-image.png  1200×630 link preview
+//
+// Next.js picks up the files in src/app/ by name and writes the <link>/<meta> tags itself.
+import { copyFile, readFile, writeFile } from "node:fs/promises";
+import sharp from "sharp";
+
+const PINK = "#FECCCD";
+const CREAM = "#F1EDE6";
+
+const mark = await readFile("assets/brand/mark.svg", "utf8");
+const wordmark = await readFile("assets/brand/wordmark.svg", "utf8");
+const glyph = mark.match(/<path[^>]*\/>/)[0];
+
+/** The mark on a square pink field with no rounded corners — for platforms that apply their own mask. */
+const fullBleed = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" fill="${PINK}"/>${glyph}</svg>`;
+
+const png = (svg, size) => sharp(Buffer.from(svg), { density: 300 }).resize(size, size).png({ compressionLevel: 9 }).toBuffer();
+
+/** ICO container holding PNG frames (supported by every browser since IE Vista era). */
+function ico(frames) {
+  const header = Buffer.alloc(6 + 16 * frames.length);
+  header.writeUInt16LE(1, 2);
+  header.writeUInt16LE(frames.length, 4);
+  let offset = header.length;
+  frames.forEach(({ size, data }, i) => {
+    const e = 6 + 16 * i;
+    header.writeUInt8(size, e);
+    header.writeUInt8(size, e + 1);
+    header.writeUInt16LE(1, e + 4);
+    header.writeUInt16LE(32, e + 6);
+    header.writeUInt32LE(data.length, e + 8);
+    header.writeUInt32LE(offset, e + 12);
+    offset += data.length;
+  });
+  return Buffer.concat([header, ...frames.map((f) => f.data)]);
+}
+
+await copyFile("assets/brand/mark.svg", "src/app/icon.svg");
+
+const frames = await Promise.all([16, 32, 48].map(async (size) => ({ size, data: await png(mark, size) })));
+await writeFile("src/app/favicon.ico", ico(frames));
+
+await writeFile("src/app/apple-icon.png", await png(fullBleed, 180));
+await writeFile("public/icon-192.png", await png(mark, 192));
+await writeFile("public/icon-512.png", await png(mark, 512));
+// The glyph already sits inside the maskable safe zone (a centred circle of 80% diameter), so no extra padding.
+await writeFile("public/icon-maskable-512.png", await png(fullBleed, 512));
+
+// Open Graph: cream canvas, mark top-left, wordmark across the bottom — the site's own palette and lettering.
+const W = 1200;
+const H = 630;
+const PAD = 72;
+const markSize = 132;
+const wordW = W - PAD * 2;
+const wordH = Math.round((wordW * 328) / 1340);
+const og = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">
+  <rect width="${W}" height="${H}" fill="${CREAM}"/>
+  <svg x="${PAD}" y="${PAD}" width="${markSize}" height="${markSize}" viewBox="0 0 512 512">${mark.replace(/^<svg[^>]*>|<\/svg>\s*$/g, "")}</svg>
+  <svg x="${PAD}" y="${H - PAD - wordH}" width="${wordW}" height="${wordH}" viewBox="0 0 1340 328">${wordmark.replace(/^<svg[^>]*>|<\/svg>\s*$/g, "")}</svg>
+</svg>`;
+await writeFile("src/app/opengraph-image.png", await sharp(Buffer.from(og)).png({ compressionLevel: 9 }).toBuffer());
+
+console.log("icons: favicon.ico, icon.svg, apple-icon.png, icon-192/512/maskable, opengraph-image.png");
