@@ -98,13 +98,15 @@
       font-size: calc(100vw / 90);
     }
   }
-  /* Sections carry their top spacing as padding (pt-section) — pull the anchor past it so a jump lands on the content, not the previous section's tail. */
+  /* Sections carry their top spacing as padding (pt-section) — pull the anchor past it so a jump lands on the content,
+     clear of the sticky header (4.875rem) plus breathing room. */
   #about,
   #projects,
   #services,
+  #process,
   #faq,
   #contact {
-    scroll-margin-top: calc(-1 * var(--spacing-section) + 2rem);
+    scroll-margin-top: calc(-1 * var(--spacing-section) + 4.875rem + 2rem);
   }
   body {
     @apply bg-ink text-paper font-sans antialiased;
