@@ -94,13 +94,13 @@ export function ProjectsGrid({ projects }: { projects: Project[] }) {
               const priority = i === 0 ? "high" : slot.size === "lg" ? "eager" : undefined;
               return (
                 <div key={slot.project.slug} {...place} className={cn(place.className, "animate-settle")}>
-                  <ProjectCard project={slot.project} size={slot.size} priority={priority} />
+                  <ProjectCard project={slot.project} size={slot.size} priority={priority} heading="h2" />
                 </div>
               );
             }
             return (
               <Reveal key={slot.project.slug} {...place}>
-                <ProjectCard project={slot.project} size={slot.size} />
+                <ProjectCard project={slot.project} size={slot.size} heading="h2" />
               </Reveal>
             );
           }),

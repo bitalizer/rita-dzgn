@@ -11,12 +11,15 @@ export function ProjectCard({
   project,
   size = "lg",
   priority,
+  heading: Title = "h3",
   className,
 }: {
   project: Project;
   size?: "lg" | "sm";
   /** For cards on screen at load: "eager" skips lazy-loading, "high" also marks the image as the page's most important one. */
   priority?: "eager" | "high";
+  /** Level of the title: h3 under a section heading (home, 404), h2 where the cards sit directly under the page title (/projects). Looks the same either way. */
+  heading?: "h2" | "h3";
   className?: string;
 }) {
   const { slug, title, category, year, cover } = project;
@@ -48,7 +51,7 @@ export function ProjectCard({
       </TransitionLink>
       <div className="flex items-start justify-between gap-3">
         <div className="flex flex-col gap-1.75">
-          <h3 className="text-sub font-semibold">{title}</h3>
+          <Title className="text-sub font-semibold">{title}</Title>
           <span className="text-body">({category})</span>
         </div>
         <span className="text-body whitespace-nowrap">{year}</span>
