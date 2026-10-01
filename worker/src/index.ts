@@ -17,6 +17,9 @@ export interface Env {
   ASSETS: Fetcher;
   TELEGRAM_BOT_TOKEN: string;
   TELEGRAM_CHAT_ID: string;
+  /** Form submissions allowed per visitor IP and for the whole site (limits live in wrangler.jsonc → ratelimits). */
+  CONTACT_LIMITER: RateLimit;
+  CONTACT_LIMITER_GLOBAL: RateLimit;
 }
 
 type Lead = {
@@ -37,7 +40,22 @@ const MAX = { name: 120, email: 200, message: 4000, type: 60, budget: 60, page: 
 const str = (v: unknown, max: number) => (typeof v === "string" ? v.trim().slice(0, max) : "");
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
-const reply = (body: unknown, status = 200) => Response.json(body, { status });
+const reply = (body: unknown, status = 200, headers?: HeadersInit) => Response.json(body, { status, headers });
+
+/**
+ * Spam brake without a captcha: a few submissions per minute per visitor, plus a ceiling for the whole site so a
+ * bot rotating addresses can't flood the Telegram chat. The visitor is checked first — someone already blocked must
+ * not eat into the shared allowance. If the limiter itself is down the lead still goes through.
+ */
+async function withinLimits(request: Request, env: Env): Promise<boolean> {
+  const visitor = request.headers.get("CF-Connecting-IP") ?? "unknown";
+  try {
+    if (!(await env.CONTACT_LIMITER.limit({ key: visitor })).success) return false;
+    return (await env.CONTACT_LIMITER_GLOBAL.limit({ key: "all" })).success;
+  } catch {
+    return true;
+  }
+}
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const REPLY_SUBJECT = "Re: your inquiry — rita.dzgn";
@@ -96,6 +114,9 @@ export default {
     // The form lives on this same origin; refuse cross-site posts.
     const origin = request.headers.get("Origin");
     if (origin && origin !== url.origin) return reply({ ok: false, error: "Forbidden" }, 403);
+    if (!(await withinLimits(request, env))) {
+      return reply({ ok: false, error: "Too many messages in a short time. Please wait a minute and try again." }, 429, { "Retry-After": "60" });
+    }
 
     const raw = (await request.json().catch(() => null)) as Lead | null;
     if (!raw) return reply({ ok: false, error: "Invalid JSON" }, 400);

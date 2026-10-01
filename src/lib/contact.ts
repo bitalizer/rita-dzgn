@@ -26,7 +26,11 @@ export async function sendLead(lead: Lead): Promise<SendResult> {
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ ...lead, ...getSource(), page: location.href }),
     });
-    if (!res.ok) return { ok: false, error: `Request failed (${res.status}).` };
+    if (!res.ok) {
+      // The worker explains itself ("Too many messages…", "Please fill in…") — show that rather than a status code.
+      const data = (await res.json().catch(() => null)) as { error?: string } | null;
+      return { ok: false, error: data?.error ?? `Request failed (${res.status}).` };
+    }
     return { ok: true };
   } catch {
     return { ok: false, error: "Network error — please try again." };
