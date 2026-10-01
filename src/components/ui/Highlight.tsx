@@ -1,4 +1,6 @@
-import type { ReactNode } from "react";
+"use client";
+
+import { type ReactNode, useEffect, useRef } from "react";
 import { cn } from "@/lib/cn";
 
 export type HighlightTone = "cream" | "pink" | "glass";
@@ -12,7 +14,8 @@ const tones: Record<HighlightTone, string> = {
 
 /**
  * Marker-style highlight behind a phrase inside a display heading.
- * Inside a <Reveal> it draws in from left to right when the heading scrolls into view.
+ * It draws in from left to right once the phrase itself is fully on screen (clear of the bottom 15%), so a long heading
+ * entering the viewport doesn't finish the effect before the highlighted words are visible.
  * `animate` runs the draw-in immediately (used above the fold, in the hero).
  */
 export function Highlight({
@@ -26,5 +29,31 @@ export function Highlight({
   className?: string;
   children: ReactNode;
 }) {
-  return <span className={cn("hl", tones[tone], animate && "animate-hl-in", className)}>{children}</span>;
+  const ref = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (animate || !el) return;
+    if (!("IntersectionObserver" in window)) {
+      el.dataset.hl = "in";
+      return;
+    }
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.dataset.hl = "in";
+          io.disconnect();
+        }
+      },
+      { threshold: 1, rootMargin: "0px 0px -15% 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [animate]);
+
+  return (
+    <span ref={ref} data-hl={animate ? undefined : ""} className={cn("hl", tones[tone], animate && "animate-hl-in", className)}>
+      {children}
+    </span>
+  );
 }

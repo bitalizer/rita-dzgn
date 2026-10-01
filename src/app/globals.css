@@ -147,17 +147,18 @@ html[data-js] [data-reveal="in"] {
   opacity: 1;
   transform: none;
 }
-html[data-js] [data-reveal] .hl {
+/* Highlight bars draw in on their own trigger (components/ui/Highlight.tsx), once the phrase is fully visible. */
+html[data-js] .hl[data-hl] {
   background-size: 0% 0.7875em;
-  transition: background-size 0.9s 0.35s var(--ease-out-expo);
+  transition: background-size 0.9s 0.15s var(--ease-out-expo);
 }
-html[data-js] [data-reveal="in"] .hl {
+html[data-js] .hl[data-hl="in"] {
   background-size: 100% 0.7875em;
 }
 
 /* Motion off — set by the head script when the OS asks for reduced motion (or ?motion=off). */
 html[data-js][data-motion="off"] [data-reveal],
-html[data-js][data-motion="off"] [data-reveal] .hl {
+html[data-js][data-motion="off"] .hl[data-hl] {
   opacity: 1;
   transform: none;
   transition: none;
