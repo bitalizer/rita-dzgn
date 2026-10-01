@@ -10,7 +10,7 @@ export const site = {
   locale: "en",
   contact: {
     email: "ritasobrak@gmail.com",
-    whatsapp: "https://wa.me/32758062145",
+    whatsapp: "https://wa.me/37258062145",
     telegram: "https://t.me/ritasobrak",
     instagram: "https://instagram.com/rita.dzgn",
   },
