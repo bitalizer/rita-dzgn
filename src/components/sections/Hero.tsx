@@ -14,22 +14,22 @@ import { blur } from "@/lib/blur";
 export function Hero() {
   return (
     <Container>
-      <section id="top" aria-labelledby="hero-title" className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,420px),1fr))] items-stretch gap-5">
+      <section id="top" aria-labelledby="hero-title" className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,26.25rem),1fr))] items-stretch gap-5">
         <div
           data-cursor-tone="ink"
-          className="flex flex-col items-center bg-pink px-[clamp(20px,2.431vw,35px)] pt-[clamp(28px,3.125vw,45px)] pb-[clamp(20px,2.431vw,35px)] text-center text-ink animate-fade-up lg:max-h-[max(600px,calc(100svh_-_98px))]"
+          className="flex flex-col items-center bg-pink px-[clamp(1.25rem,2.431vw,2.1875rem)] pt-[clamp(1.75rem,3.125vw,2.8125rem)] pb-[clamp(1.25rem,2.431vw,2.1875rem)] text-center text-ink animate-fade-up lg:max-h-[max(37.5rem,calc(100svh_-_6.125rem))]"
         >
-          <h1 id="hero-title" className="max-w-[590px] text-display font-extrabold">
+          <h1 id="hero-title" className="max-w-[36.875rem] text-display font-extrabold">
             Turning ideas into designs{" "}
             <Highlight tone="cream" animate>
               that get noticed
             </Highlight>
           </h1>
-          <p className="mt-5 max-w-[485px] text-body">
+          <p className="mt-5 max-w-[30.3125rem] text-body">
             Graphic &amp; web designer specializing in logo design, visual identity and website design. I create distinctive brands and digital experiences that
             combine thoughtful visuals, clear structure and personality.
           </p>
-          <div className="mt-[clamp(28px,3.333vw,48px)] flex h-[clamp(120px,14.236vw,205px)] min-h-0 shrink items-end gap-[clamp(8px,1.186vw,17.083px)]">
+          <div className="mt-[clamp(1.75rem,3.333vw,3rem)] flex h-[clamp(7.5rem,14.236vw,12.8125rem)] min-h-0 shrink items-end gap-[clamp(0.5rem,1.186vw,1.0677rem)]">
             <div className="relative aspect-square h-full overflow-hidden bg-mist">
               <Image
                 src="/images/lagi.webp"
@@ -51,24 +51,24 @@ export function Hero() {
               />
             </div>
           </div>
-          <div className="mt-auto w-full pt-[clamp(28px,3.333vw,48px)]">
+          <div className="mt-auto w-full pt-[clamp(1.75rem,3.333vw,3rem)]">
             <Button href="/#projects" variant="ink" className="w-full">
               Explore the portfolio
             </Button>
           </div>
         </div>
 
-        <div className="relative flex min-h-[clamp(420px,60vw,600px)] flex-col justify-end overflow-hidden bg-mist p-[clamp(20px,2.431vw,35px)] animate-fade-up [animation-delay:.1s] lg:min-h-0">
+        <div className="relative flex min-h-[clamp(26.25rem,60vw,37.5rem)] flex-col justify-end overflow-hidden bg-mist p-[clamp(1.25rem,2.431vw,2.1875rem)] animate-fade-up [animation-delay:.1s] lg:min-h-0">
           <Image
             src="/images/hero-panel.webp"
             {...blur("/images/hero-panel.webp")}
             alt="Rita — graphic and web designer"
             fill
             preload
-            sizes="(min-width: 1440px) 660px, (min-width: 1024px) 46vw, 100vw"
+            sizes="(min-width: 1440px) 45.83vw, (min-width: 1024px) 46vw, 100vw"
             className="object-cover object-[50%_93.21%] animate-hero-zoom"
           />
-          <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-[clamp(120px,14.167vw,204px)] bg-linear-to-t from-ink/70 to-transparent" />
+          <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-[clamp(7.5rem,14.167vw,12.75rem)] bg-linear-to-t from-ink/70 to-transparent" />
           <Button href="/#services" variant="cream" className="relative w-full">
             Explore the services
           </Button>

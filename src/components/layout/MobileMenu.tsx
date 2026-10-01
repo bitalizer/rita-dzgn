@@ -39,17 +39,17 @@ export function MobileMenu() {
           role="dialog"
           aria-modal="true"
           aria-label="Menu"
-          className="fixed inset-0 z-50 flex flex-col bg-ink px-gutter py-[30px] text-paper animate-fade-up"
+          className="fixed inset-0 z-50 flex flex-col bg-ink px-gutter py-[1.875rem] text-paper animate-fade-up"
         >
           <div className="flex items-center justify-between">
-            <span className="text-[20px] leading-[0.9] font-black">
+            <span className="text-[1.25rem] leading-[0.9] font-black">
               rita.d<em className="italic">z</em>gn
             </span>
             <button type="button" onClick={() => setOpen(false)} className="cursor-pointer border-0 bg-transparent p-0 text-label">
               (close)
             </button>
           </div>
-          <nav className="mt-16 flex flex-col items-start gap-[22px] text-[clamp(34px,10vw,56px)] leading-none font-extrabold">
+          <nav className="mt-16 flex flex-col items-start gap-[1.375rem] text-[clamp(2.125rem,10vw,3.5rem)] leading-none font-extrabold">
             {items.map((item) => (
               <AnchorLink
                 key={item.href}

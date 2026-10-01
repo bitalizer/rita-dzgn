@@ -43,7 +43,7 @@ export default function PrivacyPage() {
             <Display as="h1" label="(legal)">
               privacy policy
             </Display>
-            <div className="mt-[clamp(40px,4.583vw,66px)] flex max-w-[720px] flex-col gap-10 text-body lg:ml-[16.94%] [&_li]:ml-5 [&_li]:list-disc [&_ul]:flex [&_ul]:flex-col [&_ul]:gap-2">
+            <div className="mt-[clamp(2.5rem,4.583vw,4.125rem)] flex max-w-[45rem] flex-col gap-10 text-body lg:ml-[16.94%] [&_li]:ml-5 [&_li]:list-disc [&_ul]:flex [&_ul]:flex-col [&_ul]:gap-2">
               <p className="text-cream/60">Last updated: {updated}</p>
 
               <Section heading="Who is responsible">

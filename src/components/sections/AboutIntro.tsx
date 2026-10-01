@@ -17,12 +17,12 @@ export function AboutIntro() {
     <Container>
       <section id="about" aria-labelledby="about-title" className="pt-section">
         <Reveal as="h2" id="about-title" className="text-display font-extrabold">
-          <span className="float-left w-[max(120px,16.94%)] text-label font-normal">(about me)</span>
+          <span className="float-left w-[max(7.5rem,16.94%)] text-label font-normal">(about me)</span>
           Part designer, part thinker, part problem solver. I turn ideas into visual identities, digital experiences, and things{" "}
           <Highlight tone="glass">worth remembering.</Highlight>
         </Reveal>
 
-        <div className="mt-[clamp(56px,8.819vw,127px)] flex flex-col gap-6 lg:grid lg:grid-cols-[567fr_291fr_162fr_320fr] lg:items-start">
+        <div className="mt-[clamp(3.5rem,8.819vw,7.9375rem)] flex flex-col gap-6 lg:grid lg:grid-cols-[567fr_291fr_162fr_320fr] lg:items-start">
           <Reveal className="order-1 text-body lg:col-start-2 lg:order-none">
             <div className="flex flex-col gap-[1.3em]">
               {bio.map((p) => (
@@ -30,18 +30,18 @@ export function AboutIntro() {
               ))}
             </div>
           </Reveal>
-          <Reveal className="relative order-2 aspect-[320/322] w-full overflow-hidden bg-mist lg:col-start-4 lg:order-none lg:max-w-[320px]">
+          <Reveal className="relative order-2 aspect-[320/322] w-full overflow-hidden bg-mist lg:col-start-4 lg:order-none lg:max-w-[20rem]">
             <Image
               src="/images/about.webp"
               {...blur("/images/about.webp")}
               alt="Portrait of Rita"
               fill
-              sizes="(min-width: 1024px) 320px, 100vw"
+              sizes="(min-width: 1440px) 22.22vw, (min-width: 1024px) 320px, 100vw"
               className="object-cover object-[50%_16.736%]"
             />
           </Reveal>
           <Reveal className="order-3 lg:col-start-1 lg:row-start-1 lg:order-none lg:self-end">
-            <Button href="/#contact" variant="cream" className="w-full lg:w-auto lg:min-w-[227px]">
+            <Button href="/#contact" variant="cream" className="w-full lg:w-auto lg:min-w-[14.1875rem]">
               Contact me
             </Button>
           </Reveal>

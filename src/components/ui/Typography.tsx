@@ -25,7 +25,7 @@ type HeadingTag = "h1" | "h2" | "h3";
 export function Display({
   as: Tag = "h2",
   label,
-  labelWidth = "w-[max(120px,16.94%)]",
+  labelWidth = "w-[max(7.5rem,16.94%)]",
   className,
   children,
   ...rest
@@ -60,7 +60,7 @@ export function SectionHeading({
 }) {
   const Tag: ElementType = as;
   return (
-    <div className={cn("flex flex-col gap-[30px]", align === "center" && "items-center text-center", className)}>
+    <div className={cn("flex flex-col gap-[1.875rem]", align === "center" && "items-center text-center", className)}>
       <Label>{label}</Label>
       <Tag className="text-display font-extrabold">{title}</Tag>
     </div>

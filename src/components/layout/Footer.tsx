@@ -12,14 +12,14 @@ const footerNav = [...secondaryNav, ...primaryNav];
 export function Footer() {
   return (
     <footer>
-      <Container className="pt-[50px]">
+      <Container className="pt-[3.125rem]">
         <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
-          <p className="max-w-[476px] text-sub leading-[1.3] font-semibold">
+          <p className="max-w-[29.75rem] text-sub leading-[1.3] font-semibold">
             {site.role} creating visual identities and digital experiences for modern brands that care about aesthetics and detail.
           </p>
           <nav
             aria-label="Footer"
-            className="grid min-h-[78px] grid-cols-[repeat(3,max-content)] content-between gap-x-[clamp(24px,6.667vw,96px)] gap-y-7 text-label"
+            className="grid min-h-[4.875rem] grid-cols-[repeat(3,max-content)] content-between gap-x-[clamp(1.5rem,6.667vw,6rem)] gap-y-7 text-label"
           >
             {footerNav.map((i) => (
               <AnchorLink key={i.href} href={i.href} className={link}>
@@ -28,14 +28,14 @@ export function Footer() {
             ))}
           </nav>
         </div>
-        <div className="mt-10 flex flex-wrap gap-x-[clamp(24px,6.667vw,96px)] gap-y-3 text-label text-paper/60">
+        <div className="mt-10 flex flex-wrap gap-x-[clamp(1.5rem,6.667vw,6rem)] gap-y-3 text-label text-paper/60">
           <Link href={site.privacyPolicyUrl} className={link}>
             (privacy policy)
           </Link>
           <CookieSettings className={link} />
         </div>
         {/* Giant pink wordmark, cropped at the page bottom (1340 × 257 visible). */}
-        <Wordmark className="mt-[21px] block h-auto w-full text-pink" />
+        <Wordmark className="mt-[1.3125rem] block h-auto w-full text-pink" />
       </Container>
     </footer>
   );

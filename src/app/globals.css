@@ -2,8 +2,8 @@
 
 /* ------------------------------------------------------------------
    Design tokens.
-   Fluid values are `clamp(min, <px/1440*100>vw, px)` so the layout
-   is exact at 1440 and scales proportionally below it.
+   Fluid values are `clamp(min, <px/1440*100>vw, px-as-rem)`, exact at 1440 and scaling
+   proportionally below it; above it the root font-size scales everything (see html below).
    ------------------------------------------------------------------ */
 @theme {
   /* palette (only these five colors exist in the design) */
@@ -58,7 +58,7 @@
   @keyframes fade-up {
     from {
       opacity: 0;
-      transform: translateY(24px);
+      transform: translateY(1.5rem);
     }
     to {
       opacity: 1;
@@ -91,13 +91,20 @@
   html {
     scroll-behavior: smooth;
   }
+  /* Above the 1440px design width the whole layout scales proportionally: sizes are in rem and 1rem = 1/90 of the viewport
+     (16px at 1440, ~19px at 1728). Below it the root stays at the browser default, so fluid clamp() values behave as designed. */
+  @media (min-width: 90rem) {
+    html {
+      font-size: calc(100vw / 90);
+    }
+  }
   /* Sections carry their top spacing as padding (pt-section) — pull the anchor past it so a jump lands on the content, not the previous section's tail. */
   #about,
   #projects,
   #services,
   #faq,
   #contact {
-    scroll-margin-top: calc(-1 * var(--spacing-section) + 32px);
+    scroll-margin-top: calc(-1 * var(--spacing-section) + 2rem);
   }
   body {
     @apply bg-ink text-paper font-sans antialiased;
@@ -131,7 +138,7 @@
    ------------------------------------------------------------------ */
 html[data-js] [data-reveal] {
   opacity: 0;
-  transform: translateY(28px);
+  transform: translateY(1.75rem);
   transition:
     opacity 0.9s var(--ease-out-expo),
     transform 0.9s var(--ease-out-expo);
@@ -242,7 +249,7 @@ html[data-js][data-motion="off"] [data-reveal] [data-steps] > * {
 /* Copy blocks inside a revealing parent step in one after another. */
 html[data-js] [data-reveal] [data-steps] > * {
   opacity: 0;
-  transform: translateY(18px);
+  transform: translateY(1.125rem);
   transition:
     opacity 0.8s var(--ease-out-expo),
     transform 0.8s var(--ease-out-expo);
@@ -280,7 +287,7 @@ html[data-js] [data-reveal="in"] [data-steps] > *:nth-child(4) {
 @keyframes label-in {
   from {
     opacity: 0;
-    transform: translateY(40px);
+    transform: translateY(2.5rem);
   }
   to {
     opacity: 1;
@@ -290,7 +297,7 @@ html[data-js] [data-reveal="in"] [data-steps] > *:nth-child(4) {
 @keyframes label-out {
   to {
     opacity: 0;
-    transform: translateY(-40px);
+    transform: translateY(-2.5rem);
   }
 }
 [data-curtain="in"] {
@@ -339,10 +346,10 @@ html[data-js] [data-reveal="in"] [data-zoom] {
   transition: translate 0.35s var(--ease-out-expo);
 }
 [data-back]:hover [data-arrow] {
-  translate: -6px 0;
+  translate: -0.375rem 0;
 }
 [data-next]:hover [data-arrow] {
-  translate: 12px 0;
+  translate: 0.75rem 0;
 }
 @keyframes parallax {
   from {

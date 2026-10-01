@@ -52,13 +52,13 @@ export function ProjectsGrid({ projects }: { projects: Project[] }) {
   return (
     <>
       <div className="flex flex-col items-start gap-5 lg:flex-row lg:items-end lg:justify-between">
-        <div className="flex flex-col gap-[30px]">
+        <div className="flex flex-col gap-[1.875rem]">
           <Label>(my work)</Label>
           <h1 id="projects-index-title" className="text-display font-extrabold">
             projects
           </h1>
         </div>
-        <div role="group" aria-label="Filter projects" className="flex flex-wrap gap-[10px] pb-[0.25em]">
+        <div role="group" aria-label="Filter projects" className="flex flex-wrap gap-[0.625rem] pb-[0.25em]">
           {filters.map((f) => {
             const active = f.key === filter;
             return (
@@ -68,7 +68,7 @@ export function ProjectsGrid({ projects }: { projects: Project[] }) {
                 aria-pressed={active}
                 onClick={() => setFilter(f.key)}
                 className={cn(
-                  "cursor-pointer border-0 px-[10px] py-[5px] text-label transition-colors duration-250",
+                  "cursor-pointer border-0 px-[0.625rem] py-[0.3125rem] text-label transition-colors duration-250",
                   active ? "bg-cream text-ink" : "bg-transparent text-paper hover:bg-paper/30",
                 )}
               >
@@ -80,7 +80,7 @@ export function ProjectsGrid({ projects }: { projects: Project[] }) {
       </div>
 
       {/* < md: single column in DOM order; md+: the band placement via CSS variables (tracks scale with the width). */}
-      <div className="mt-[clamp(48px,6.944vw,100px)] grid grid-cols-1 gap-y-8 md:grid-cols-[265fr_17fr_265fr_246fr_265fr_17fr_265fr] md:gap-y-[clamp(40px,6.944vw,100px)]">
+      <div className="mt-[clamp(3rem,6.944vw,6.25rem)] grid grid-cols-1 gap-y-8 md:grid-cols-[265fr_17fr_265fr_246fr_265fr_17fr_265fr] md:gap-y-[clamp(2.5rem,6.944vw,6.25rem)]">
         {bands.flatMap((band, b) =>
           band.map((slot, i) => (
             <Reveal

@@ -15,22 +15,22 @@ export function Services() {
     <Container>
       <section id="services" aria-labelledby="services-title" className="pt-section">
         <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[320fr_244fr_776fr] lg:items-start">
-          <div className="flex flex-col gap-[clamp(56px,10.625vw,153px)] lg:col-start-1">
+          <div className="flex flex-col gap-[clamp(3.5rem,10.625vw,9.5625rem)] lg:col-start-1">
             <Reveal>
               <SectionHeading label="(my services)" title={<span id="services-title">services</span>} />
             </Reveal>
-            <Reveal className="flex flex-col gap-[30px]">
+            <Reveal className="flex flex-col gap-[1.875rem]">
               <div className="relative aspect-[320/249] overflow-hidden bg-mist">
                 <Image
                   src="/images/services.webp"
                   {...blur("/images/services.webp")}
                   alt="Poster campaign for a wellness brand"
                   fill
-                  sizes="(min-width: 1024px) 320px, 100vw"
+                  sizes="(min-width: 1440px) 22.22vw, (min-width: 1024px) 320px, 100vw"
                   className="origin-[71%_0] scale-[1.07] object-cover object-[71%_0]"
                 />
               </div>
-              <div className="flex flex-col gap-[15px]">
+              <div className="flex flex-col gap-[0.9375rem]">
                 <h3 className="text-sub font-semibold">Ideas deserve good design</h3>
                 <p className="text-body text-cream">
                   No templates. No unnecessary noise. Just thoughtful design built around your idea, your personality and what makes you different.
@@ -54,9 +54,9 @@ export function Services() {
                 >
                   <div className="flex flex-col items-start gap-5">
                     <Tag>{s.price}</Tag>
-                    <h3 className="max-w-[340px] text-title font-medium text-cream">{s.title}</h3>
+                    <h3 className="max-w-[21.25rem] text-title font-medium text-cream">{s.title}</h3>
                   </div>
-                  <p className="w-full text-body text-cream lg:w-[320px] lg:flex-none">{s.description}</p>
+                  <p className="w-full text-body text-cream lg:w-[20rem] lg:flex-none">{s.description}</p>
                 </Reveal>
               );
             })}

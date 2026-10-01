@@ -20,7 +20,7 @@ export function ProjectCard({
 }) {
   const { slug, title, category, year, cover } = project;
   return (
-    <article className={cn("flex flex-col gap-[15px]", className)}>
+    <article className={cn("flex flex-col gap-[0.9375rem]", className)}>
       <TransitionLink
         href={`/projects/${slug}/`}
         label={title}
@@ -38,14 +38,14 @@ export function ProjectCard({
           preload={preload}
           sizes={
             size === "sm"
-              ? "(min-width: 1440px) 265px, (min-width: 1024px) 19vw, (min-width: 768px) 50vw, 100vw"
-              : "(min-width: 1440px) 547px, (min-width: 1024px) 41vw, (min-width: 768px) 50vw, 100vw"
+              ? "(min-width: 1440px) 18.4vw, (min-width: 1024px) 19vw, (min-width: 768px) 50vw, 100vw"
+              : "(min-width: 1440px) 37.99vw, (min-width: 1024px) 41vw, (min-width: 768px) 50vw, 100vw"
           }
           className="object-cover transition-transform duration-800 ease-out-expo group-hover:scale-[1.04]"
         />
       </TransitionLink>
       <div className="flex items-start justify-between gap-3">
-        <div className="flex flex-col gap-[7px]">
+        <div className="flex flex-col gap-[0.4375rem]">
           <h3 className="text-sub font-semibold">{title}</h3>
           <span className="text-body">({category})</span>
         </div>

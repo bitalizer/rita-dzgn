@@ -8,11 +8,11 @@ import { stats } from "@/content/home";
 import { blur } from "@/lib/blur";
 import { cn } from "@/lib/cn";
 
-const card = "flex min-h-[clamp(320px,30.208vw,435px)] flex-col justify-between gap-[30px] bg-pink p-[clamp(20px,2.083vw,30px)]";
+const card = "flex min-h-[clamp(20rem,30.208vw,27.1875rem)] flex-col justify-between gap-[1.875rem] bg-pink p-[clamp(1.25rem,2.083vw,1.875rem)]";
 
 function Figure({ value, label, description }: (typeof stats)[number]) {
   return (
-    <div className="flex flex-col gap-[22px]">
+    <div className="flex flex-col gap-[1.375rem]">
       <div>
         <div className="text-display font-medium">{value}</div>
         <div className="text-sub font-semibold">{label}</div>
@@ -33,7 +33,7 @@ export function AboutStats() {
             <SectionHeading
               align="center"
               label="(about me)"
-              className="mx-auto max-w-[916px]"
+              className="mx-auto max-w-[57.25rem]"
               title={
                 <span id="stats-title">
                   A graphic &amp; web designer turning ideas into clear <Highlight tone="pink">visual experiences</Highlight>
@@ -42,10 +42,10 @@ export function AboutStats() {
             />
           </Reveal>
 
-          <div className="mt-[clamp(40px,4.861vw,70px)] grid grid-cols-1 gap-5 lg:grid-cols-3">
+          <div className="mt-[clamp(2.5rem,4.861vw,4.375rem)] grid grid-cols-1 gap-5 lg:grid-cols-3">
             <Reveal as="article" className={card}>
               <Figure {...years} />
-              <div className="relative aspect-square w-[clamp(80px,8.125vw,117px)] overflow-hidden bg-cream">
+              <div className="relative aspect-square w-[clamp(5rem,8.125vw,7.3125rem)] overflow-hidden bg-cream">
                 <Image
                   src="/images/lagi.webp"
                   {...blur("/images/lagi.webp")}
@@ -58,7 +58,7 @@ export function AboutStats() {
             </Reveal>
 
             <Reveal as="article" className={card}>
-              <div className="flex max-w-[360px] gap-[10px]">
+              <div className="flex max-w-[22.5rem] gap-[0.625rem]">
                 {[
                   { src: "/images/women-wellness-identity.webp", alt: "Women Wellness identity" },
                   { src: "/images/thumb-2.webp", alt: "Brand detail" },

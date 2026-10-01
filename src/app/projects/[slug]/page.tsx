@@ -55,7 +55,7 @@ function RisingHeading({ text }: { text: string }) {
 const tileAspect = (kind: GalleryRow["kind"]) => (kind === "pair" ? "aspect-[660.15/742.669]" : "aspect-[1340/753.75]");
 const rowGrid = (kind: GalleryRow["kind"]) => cn("grid gap-5", kind === "pair" ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1");
 const imgSizes = (kind: GalleryRow["kind"]) =>
-  kind === "pair" ? "(min-width: 1440px) 660px, (min-width: 768px) 50vw, 100vw" : "(min-width: 1440px) 1340px, 100vw";
+  kind === "pair" ? "(min-width: 1440px) 45.83vw, (min-width: 768px) 50vw, 100vw" : "(min-width: 1440px) 93.06vw, 100vw";
 
 export default async function CaseStudyPage({ params }: { params: Promise<Params> }) {
   const { slug } = await params;
@@ -71,7 +71,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
         {/* Reading progress — scroll-driven, only where supported. */}
         <div data-progress aria-hidden="true" className="fixed top-0 left-0 z-40 hidden h-[3px] w-full origin-left bg-pink" />
         <Container>
-          <article className="pt-[clamp(48px,5vw,72px)]">
+          <article className="pt-[clamp(3rem,5vw,4.5rem)]">
             {/* Label column 227 · heading column 1113 (no wrap under the label). */}
             <header className="flex flex-col gap-6 lg:grid lg:grid-cols-[227fr_1113fr] lg:items-start">
               <TransitionLink
@@ -92,26 +92,26 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
 
             {/* year · services (two 320 columns with hairlines) + the 433px intro, bottom-aligned. */}
             <div data-enter="3" className="mt-8 flex flex-col items-start gap-5 lg:flex-row lg:items-end lg:justify-between lg:gap-10">
-              <dl className="m-0 flex w-full max-w-[680px] gap-10">
+              <dl className="m-0 flex w-full max-w-[42.5rem] gap-10">
                 {[
                   { label: "industry", value: project.industry, delay: 0.85 },
                   { label: "services", value: project.services.join(", "), delay: 0.95 },
                 ].map((m) => (
-                  <div key={m.label} className="flex min-w-0 flex-1 flex-col gap-[7px]">
+                  <div key={m.label} className="flex min-w-0 flex-1 flex-col gap-[0.4375rem]">
                     <dt className="text-body">{m.label}</dt>
                     <span data-line aria-hidden="true" className="block h-[0.5px] origin-left bg-paper/30" style={{ animationDelay: `${m.delay}s` }} />
                     <dd className="m-0 text-sub font-semibold">{m.value}</dd>
                   </div>
                 ))}
               </dl>
-              <p data-cursor="text" className="w-full text-body lg:w-[433px] lg:flex-none">
+              <p data-cursor="text" className="w-full text-body lg:w-[27.0625rem] lg:flex-none">
                 {project.intro}
               </p>
             </div>
 
             {/* First row: tiles unveil top-to-bottom while the photo settles from a zoom, then drift with scroll. */}
             {firstRow && (
-              <div className={cn("mt-[clamp(48px,7.083vw,102px)]", rowGrid(firstRow.kind))}>
+              <div className={cn("mt-[clamp(3rem,7.083vw,6.375rem)]", rowGrid(firstRow.kind))}>
                 {firstRow.items.map((t, i) => (
                   <div
                     key={t.src}
@@ -129,12 +129,12 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
             )}
 
             {project.about.length > 0 && (
-              <section aria-labelledby="about-project" className="mt-[clamp(48px,7.083vw,102px)]">
+              <section aria-labelledby="about-project" className="mt-[clamp(3rem,7.083vw,6.375rem)]">
                 <Reveal as="h2" id="about-project" className="text-display font-extrabold">
                   About the project
                 </Reveal>
                 <div className="mt-7 flex justify-end">
-                  <Reveal data-steps data-cursor="text" className="flex w-full flex-col gap-[1.3em] text-body lg:w-[433px]">
+                  <Reveal data-steps data-cursor="text" className="flex w-full flex-col gap-[1.3em] text-body lg:w-[27.0625rem]">
                     {project.about.map((p) => (
                       <p key={p}>{p}</p>
                     ))}
@@ -143,7 +143,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
               </section>
             )}
 
-            <div className="mt-[clamp(48px,7.083vw,102px)] flex flex-col gap-5">
+            <div className="mt-[clamp(3rem,7.083vw,6.375rem)] flex flex-col gap-5">
               {rows.map((row, r) => (
                 <Reveal key={r} className={rowGrid(row.kind)}>
                   {row.items.map((t, i) => (

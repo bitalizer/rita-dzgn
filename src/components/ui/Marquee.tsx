@@ -24,7 +24,7 @@ export function Marquee({
     <div
       aria-hidden="true"
       data-cursor-tone="ink"
-      className={cn("flex overflow-hidden py-[clamp(14px,2.083vw,30px)] text-ink", tone === "pink" ? "bg-pink" : "bg-cream", className)}
+      className={cn("flex overflow-hidden py-[clamp(0.875rem,2.083vw,1.875rem)] text-ink", tone === "pink" ? "bg-pink" : "bg-cream", className)}
     >
       <div
         className={cn("flex flex-none will-change-transform", reverse ? "animate-marquee-reverse" : "animate-marquee")}
@@ -33,7 +33,7 @@ export function Marquee({
         {items.map((word, i) => (
           <span
             key={i}
-            className="flex items-center gap-[clamp(24px,3.472vw,50px)] pr-[clamp(24px,3.472vw,50px)] whitespace-nowrap text-display font-extrabold"
+            className="flex items-center gap-[clamp(1.5rem,3.472vw,3.125rem)] pr-[clamp(1.5rem,3.472vw,3.125rem)] whitespace-nowrap text-display font-extrabold"
           >
             {word}
             <Star />

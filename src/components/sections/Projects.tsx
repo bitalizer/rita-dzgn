@@ -27,7 +27,7 @@ export function Projects() {
   return (
     <Container>
       <section id="projects" aria-labelledby="projects-title" className="pt-section">
-        <div className="grid grid-cols-1 gap-y-8 md:grid-cols-2 md:gap-x-5 lg:grid-cols-[265fr_17fr_265fr_246fr_265fr_17fr_265fr] lg:gap-x-0 lg:gap-y-[clamp(40px,6.944vw,100px)]">
+        <div className="grid grid-cols-1 gap-y-8 md:grid-cols-2 md:gap-x-5 lg:grid-cols-[265fr_17fr_265fr_246fr_265fr_17fr_265fr] lg:gap-x-0 lg:gap-y-[clamp(2.5rem,6.944vw,6.25rem)]">
           <Reveal className="md:col-span-2 lg:col-start-1 lg:col-end-4 lg:row-start-1 lg:self-start">
             <SectionHeading label="(my work)" title={<span id="projects-title">projects</span>} />
           </Reveal>
@@ -41,7 +41,7 @@ export function Projects() {
             );
           })}
         </div>
-        <Reveal className="mt-[clamp(40px,5.556vw,80px)]">
+        <Reveal className="mt-[clamp(2.5rem,5.556vw,5rem)]">
           <Button href="/projects/" variant="pink" className="w-full">
             View all projects
           </Button>

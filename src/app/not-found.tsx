@@ -17,7 +17,7 @@ export default function NotFound() {
             <Display as="h1" label="(404)">
               This page doesn’t exist. The work does.
             </Display>
-            <div className="mt-[clamp(40px,4.583vw,66px)] flex flex-wrap gap-5 lg:ml-[16.94%]">
+            <div className="mt-[clamp(2.5rem,4.583vw,4.125rem)] flex flex-wrap gap-5 lg:ml-[16.94%]">
               <Button href="/" variant="cream">
                 Back home
               </Button>
