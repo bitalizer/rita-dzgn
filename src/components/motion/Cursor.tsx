@@ -19,7 +19,12 @@ export function Cursor({ ringSize = 40 }: { ringSize?: number }) {
   const [tone, setTone] = useState("");
 
   useEffect(() => {
-    if (!matchMedia("(pointer: fine)").matches) return;
+    const motion = document.documentElement.dataset.motion;
+    if (!matchMedia("(pointer: fine)").matches || motion === "off") return;
+    // Reduced motion: dot and ring sit exactly on the pointer instead of easing after it.
+    const reduced = motion === "reduced";
+    const follow = reduced ? 1 : 0.35;
+    const trailFollow = reduced ? 1 : 0.12;
     const target = { x: -100, y: -100 };
     const pos = { x: -100, y: -100 };
     const tr = { x: -100, y: -100 };
@@ -51,10 +56,10 @@ export function Cursor({ ringSize = 40 }: { ringSize?: number }) {
     let lastLabel = "";
     let lastTone = "";
     const loop = () => {
-      pos.x += (target.x - pos.x) * 0.35;
-      pos.y += (target.y - pos.y) * 0.35;
-      tr.x += (target.x - tr.x) * 0.12;
-      tr.y += (target.y - tr.y) * 0.12;
+      pos.x += (target.x - pos.x) * follow;
+      pos.y += (target.y - pos.y) * follow;
+      tr.x += (target.x - tr.x) * trailFollow;
+      tr.y += (target.y - tr.y) * trailFollow;
       if (ring.current) ring.current.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
       if (trail.current) trail.current.style.transform = `translate(${tr.x}px, ${tr.y}px)`;
       const m: Mode = down && hover.mode === "default" ? "down" : hover.mode;

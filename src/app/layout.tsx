@@ -48,11 +48,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang={site.locale} className={inter.variable} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         {/* Before first paint: mark JS availability (scroll-reveal styles are gated on it) and resolve the motion mode.
-            Visitors with the OS "Reduce motion" setting get a static site; append ?motion=always to review the animations anyway. */}
+            Visitors with the OS "Reduce motion" setting get a lighter version without zooms, parallax or marquees ("reduced"); ?motion=always / ?motion=off override it. */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "(function(d){d.dataset.js='';var q=new URLSearchParams(location.search).get('motion');var r=matchMedia('(prefers-reduced-motion: reduce)').matches;d.dataset.motion=q==='always'?'on':(q==='off'||r)?'off':'on';})(document.documentElement);",
+              "(function(d){d.dataset.js='';var q=new URLSearchParams(location.search).get('motion');var r=matchMedia('(prefers-reduced-motion: reduce)').matches;d.dataset.motion=q==='always'?'on':q==='off'?'off':r?'reduced':'on';})(document.documentElement);",
           }}
         />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([personSchema(), websiteSchema()]) }} />

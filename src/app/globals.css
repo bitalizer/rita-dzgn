@@ -156,34 +156,43 @@ html[data-js] .hl[data-hl="in"] {
   background-size: 100% 0.7875em;
 }
 
-/* Motion off — set by the head script when the OS asks for reduced motion (or ?motion=off). */
-html[data-js][data-motion="off"] [data-reveal],
+/* Motion modes, set before first paint in layout.tsx:
+   on      — full motion
+   reduced — the OS asks for reduced motion: short one-off entrances stay (shorter slides, highlight and line
+             draw-ins); anything that zooms, drifts with scroll or moves on its own is switched off
+   off     — ?motion=off: fully static (for reviewing) */
+
+/* reduced + off: no zooming, parallax, marquees or animated scroll jumps */
+html:is([data-motion="reduced"], [data-motion="off"]) {
+  scroll-behavior: auto;
+}
+html[data-js]:is([data-motion="reduced"], [data-motion="off"]) [data-reveal] [data-zoom] {
+  scale: 1;
+  transition: none;
+}
+html:is([data-motion="reduced"], [data-motion="off"]) :is(.animate-marquee, .animate-marquee-reverse, .animate-hero-zoom),
+html:is([data-motion="reduced"], [data-motion="off"]) :is([data-parallax], [data-parallax] > *, [data-curtain], [data-curtain-label]) {
+  animation: none;
+}
+
+/* reduced: entrances travel a shorter distance */
+html[data-js][data-motion="reduced"] [data-reveal]:not([data-reveal="in"]) {
+  transform: translateY(0.75rem);
+}
+html[data-js][data-motion="reduced"] [data-reveal]:not([data-reveal="in"]) [data-steps] > * {
+  transform: translateY(0.5rem);
+}
+
+/* off: everything visible and still */
+html[data-js][data-motion="off"] :is([data-reveal], [data-reveal] .hl[data-hl], [data-reveal] [data-steps] > *),
 html[data-js][data-motion="off"] .hl[data-hl] {
   opacity: 1;
   transform: none;
   transition: none;
   background-size: 100% 0.7875em;
 }
-html[data-motion="off"] .animate-marquee,
-html[data-motion="off"] .animate-marquee-reverse,
-html[data-motion="off"] .animate-fade-up,
-html[data-motion="off"] .animate-hero-zoom,
-html[data-motion="off"] .animate-hl-in,
-html[data-motion="off"] [data-parallax] > *,
-html[data-motion="off"] [data-enter],
-html[data-motion="off"] [data-word],
-html[data-motion="off"] [data-line],
-html[data-motion="off"] [data-progress],
-html[data-motion="off"] [data-curtain],
-html[data-motion="off"] [data-curtain-label] {
+html[data-motion="off"] :is(.animate-fade-up, .animate-hl-in, [data-enter], [data-word], [data-line], [data-progress]) {
   animation: none;
-}
-html[data-js][data-motion="off"] [data-reveal] [data-zoom],
-html[data-js][data-motion="off"] [data-reveal] [data-steps] > * {
-  scale: 1;
-  opacity: 1;
-  transform: none;
-  transition: none;
 }
 
 /* Case-study cover: zoom/fade in on mount, then a gentle scroll parallax where scroll-driven
@@ -382,18 +391,12 @@ html[data-js] [data-reveal="in"] [data-zoom] {
 }
 
 /* ------------------------------------------------------------------
-   Custom cursor (components/motion/Cursor.tsx) — mouse only, hidden when motion is off.
+   Custom cursor (components/motion/Cursor.tsx) — mouse only; with reduced motion dot and ring sit on the pointer without easing, hidden when motion is off.
    Dot 12px + lagging 40px ring · link → 56px cream pill + verb · view → 96px pink disc
    · text → 2×28 caret · hide · down (dot shrinks). Tag targets with data-cursor / data-cursor-label.
    ------------------------------------------------------------------ */
 @media (pointer: fine) {
-  html[data-motion="on"] body,
-  html[data-motion="on"] a,
-  html[data-motion="on"] button,
-  html[data-motion="on"] input,
-  html[data-motion="on"] textarea,
-  html[data-motion="on"] select,
-  html[data-motion="on"] label {
+  html:is([data-motion="on"], [data-motion="reduced"]) :is(body, a, button, input, textarea, select, label) {
     cursor: none;
   }
 }

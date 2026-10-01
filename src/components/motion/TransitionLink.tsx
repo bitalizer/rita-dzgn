@@ -20,7 +20,7 @@ export function TransitionLink({ href, label, onClick, children, ...rest }: Comp
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     const to = typeof href === "string" ? href : (href.pathname ?? "");
     if (!to.startsWith("/") || to.includes("#")) return;
-    if (document.documentElement.dataset.motion === "off") return;
+    if (document.documentElement.dataset.motion !== "on") return;
     e.preventDefault();
     const text = label ?? (e.currentTarget.textContent ?? "").replace(/[()→←]/g, "").trim();
     window.dispatchEvent(new CustomEvent(CURTAIN_EVENT, { detail: { label: text } }));

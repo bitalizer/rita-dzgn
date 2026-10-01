@@ -59,7 +59,7 @@ Favicons, app icons and the Open Graph images (site-wide and one per case study,
 
 ## Motion
 
-Animation is CSS-driven and switched by `html[data-motion]`, set before first paint in `layout.tsx`. Visitors with *Reduce motion* enabled get a static site; `?motion=always` / `?motion=off` override it.
+Animation is CSS-driven and switched by `html[data-motion]`, set before first paint in `layout.tsx`: `on` (full motion), `reduced` for visitors with *Reduce motion* enabled (short entrances and draw-ins stay; zooms, scroll parallax, marquees and smooth-scroll jumps are off; the cursor follows without lag) and `off` (fully static). `?motion=always` / `?motion=off` override the OS setting.
 
 The custom cursor (`components/motion/Cursor.tsx`) is mouse-only and reads `data-cursor` / `data-cursor-label` from the hovered element: `view` (pink disc), `text` (caret), `link` with a custom verb. Plain links and buttons show "open".
 
