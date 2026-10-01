@@ -88,7 +88,7 @@ export function ProjectsGrid({ projects }: { projects: Project[] }) {
               className="md:[align-self:var(--align)] md:[grid-column:var(--col)] md:[grid-row:var(--row)]"
               style={{ "--col": slot.col, "--row": String(b + 1), "--align": slot.align } as CSSProperties}
             >
-              <ProjectCard project={slot.project} size={slot.size} priority={b === 0 && i < 3} />
+              <ProjectCard project={slot.project} size={slot.size} preload={b === 0 && i < 3} />
             </Reveal>
           )),
         )}

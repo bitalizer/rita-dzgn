@@ -10,12 +10,12 @@ import { cn } from "@/lib/cn";
 export function ProjectCard({
   project,
   size = "lg",
-  priority = false,
+  preload = false,
   className,
 }: {
   project: Project;
   size?: "lg" | "sm";
-  priority?: boolean;
+  preload?: boolean;
   className?: string;
 }) {
   const { slug, title, category, year, cover } = project;
@@ -33,7 +33,7 @@ export function ProjectCard({
           src={cover.src}
           alt={cover.alt}
           fill
-          priority={priority}
+          preload={preload}
           sizes={
             size === "sm"
               ? "(min-width: 1440px) 265px, (min-width: 1024px) 19vw, (min-width: 768px) 50vw, 100vw"

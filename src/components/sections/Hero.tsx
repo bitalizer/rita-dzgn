@@ -45,7 +45,7 @@ export function Hero() {
             src="/images/hero-panel.webp"
             alt="Rita — graphic and web designer"
             fill
-            priority
+            preload
             sizes="(min-width: 1440px) 660px, (min-width: 1024px) 46vw, 100vw"
             className="object-cover object-[50%_93.21%] animate-hero-zoom"
           />

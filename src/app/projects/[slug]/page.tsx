@@ -117,7 +117,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
                     style={{ animationDelay: `${(0.5 + i * 0.15).toFixed(2)}s` }}
                   >
                     <div className="absolute inset-0">
-                      <Image src={t.src} alt={t.alt} fill priority sizes={imgSizes(firstRow.kind)} className="object-cover" />
+                      <Image src={t.src} alt={t.alt} fill preload sizes={imgSizes(firstRow.kind)} className="object-cover" />
                     </div>
                   </div>
                 ))}
