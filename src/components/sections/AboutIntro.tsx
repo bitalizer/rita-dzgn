@@ -30,18 +30,18 @@ export function AboutIntro() {
               ))}
             </div>
           </Reveal>
-          <Reveal className="relative order-2 aspect-[320/322] max-w-[320px] overflow-hidden bg-mist lg:col-start-4 lg:order-none">
+          <Reveal className="relative order-2 aspect-[320/322] w-full overflow-hidden bg-mist lg:col-start-4 lg:order-none lg:max-w-[320px]">
             <Image
               src="/images/about.webp"
               {...blur("/images/about.webp")}
               alt="Portrait of Rita"
               fill
-              sizes="320px"
+              sizes="(min-width: 1024px) 320px, 100vw"
               className="object-cover object-[50%_16.736%]"
             />
           </Reveal>
           <Reveal className="order-3 lg:col-start-1 lg:row-start-1 lg:order-none lg:self-end">
-            <Button href="/#contact" variant="cream" className="min-w-[227px]">
+            <Button href="/#contact" variant="cream" className="w-full lg:w-auto lg:min-w-[227px]">
               Contact me
             </Button>
           </Reveal>
