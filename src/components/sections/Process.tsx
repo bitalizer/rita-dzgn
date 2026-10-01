@@ -16,7 +16,15 @@ export function Process() {
 
         <Reveal className="mt-[clamp(48px,6.944vw,100px)] grid grid-cols-1 gap-[30px] text-cream md:grid-cols-2 lg:grid-cols-4">
           {steps.map((step, i) => (
-            <div key={step.index} className={cn("flex flex-col gap-[42px]", i < steps.length - 1 && "lg:border-r-[0.5px] lg:border-paper/30 lg:pr-[10px]")}>
+            <div
+              key={step.index}
+              className={cn(
+                "flex flex-col gap-[42px] border-paper/30",
+                // Hairlines: between stacked steps on phones, under the first row of the 2-column tablet grid, between columns on desktop.
+                i < steps.length - 1 && "border-b-[0.5px] pb-[30px] lg:border-b-0 lg:border-r-[0.5px] lg:pb-0 lg:pr-[10px]",
+                i >= 2 && "md:border-b-0 md:pb-0",
+              )}
+            >
               <div className="flex flex-col gap-5">
                 <span className="text-right text-body">{step.index}</span>
                 <h3 className="text-title font-medium">{step.title}</h3>
