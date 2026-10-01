@@ -10,6 +10,7 @@ export function personSchema() {
     jobTitle: site.role,
     url: site.url,
     email: site.contact.email,
+    address: { "@type": "PostalAddress", addressLocality: site.location.city, addressCountry: site.location.countryCode },
     sameAs: [site.contact.instagram, site.contact.telegram],
     knowsAbout: ["Logo design", "Visual identity", "Website design", "Website development", "Graphic design"],
   };

@@ -5,9 +5,11 @@ export const site = {
   role: "Graphic & web designer",
   title: "rita.dzgn — graphic & web designer",
   description:
-    "Graphic & web designer specializing in logo design, visual identity and website design. Distinctive brands and digital experiences that combine thoughtful visuals, clear structure and personality.",
+    "Graphic & web designer based in Estonia, specializing in logo design, visual identity and website design. Distinctive brands and digital experiences that combine thoughtful visuals, clear structure and personality.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://ritadzgn.com",
   locale: "en",
+  /** Where Rita works from. The page text says "Estonia"; the city only goes into the structured data for search engines. */
+  location: { city: "Tartu", countryCode: "EE" },
   contact: {
     email: "ritasobrak@gmail.com",
     whatsapp: "https://wa.me/37258062145",

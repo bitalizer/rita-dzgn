@@ -29,8 +29,8 @@ export function Hero() {
             </Highlight>
           </h1>
           <p className="mt-5 max-w-121.25 text-body">
-            Graphic &amp; web designer specializing in logo design, visual identity and website design. I create distinctive brands and digital experiences that
-            combine thoughtful visuals, clear structure and personality.
+            Graphic &amp; web designer based in Estonia, specializing in logo design, visual identity and website design. I create distinctive brands and
+            digital experiences that combine thoughtful visuals, clear structure and personality.
           </p>
           {/* --collage is the row's size. The flex-basis is what sizes the row (it grows and shrinks with the card); the
               height is for Safari up to 26.2, which only turns the tiles' height into a square's width when the row has
