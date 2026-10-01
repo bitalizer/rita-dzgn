@@ -477,13 +477,6 @@ html[data-motion="off"] [data-trail] {
   transform: none;
   transform-origin: left;
 }
-/* An empty select shows only its label; the "—" of its empty option appears once it has focus. */
-[data-field] > select {
-  transition: color 0.3s;
-}
-[data-field] > select:not(:focus, [data-filled]) {
-  color: transparent;
-}
 /* The message box scrolls once it holds more than a line: keep that text from running up under the label. */
 [data-field] > textarea {
   mask-image: linear-gradient(to bottom, transparent 1.25rem, #000 1.25rem);
@@ -494,6 +487,6 @@ html[data-motion="off"] [data-trail] {
   caret-color: var(--color-cream);
   transition: background-color 600000s 0s;
 }
-html[data-motion="off"] [data-field] > :is(label, [data-underline], select) {
+html[data-motion="off"] [data-field] > :is(label, [data-underline]) {
   transition: none;
 }

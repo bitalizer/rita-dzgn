@@ -109,7 +109,8 @@ export function ContactForm() {
             onChange={(e) => pick("type", e.currentTarget.value)}
             className={cn(field, "cursor-pointer appearance-none pr-7.5")}
           >
-            <option value="">—</option>
+            {/* The "nothing chosen yet" state: selected at first, never offered in the list. */}
+            <option value="" disabled hidden />
             {projectTypes.map((o) => (
               <option key={o.value} value={o.value}>
                 {o.label}
@@ -127,7 +128,8 @@ export function ContactForm() {
             onChange={(e) => pick("budget", e.currentTarget.value)}
             className={cn(field, "cursor-pointer appearance-none pr-7.5")}
           >
-            <option value="">—</option>
+            {/* The "nothing chosen yet" state: selected at first, never offered in the list. */}
+            <option value="" disabled hidden />
             {budgets.map((o) => (
               <option key={o.value} value={o.value}>
                 {o.label}
