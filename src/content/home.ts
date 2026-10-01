@@ -2,25 +2,25 @@ export type Service = { price: string; title: string; description: string };
 
 export const services: Service[] = [
   {
-    price: "from 500€",
+    price: "from 650€",
     title: "Logo design & Visual identity",
     description:
       "I create cohesive visual identities that bring a brand to life — from the logo and typography to colors, graphic elements and the details that make it recognizable.",
   },
   {
-    price: "from 500€",
+    price: "from 600€",
     title: "Website design",
     description:
       "I design websites that balance visual impact, clear structure and usability — turning ideas into digital experiences that are easy and enjoyable to navigate.",
   },
   {
-    price: "from 800€",
+    price: "from 1200€",
     title: "Website development",
     description:
       "I bring the design to life as a responsive, functional website. Design is included in the process, so the final result stays true to the original concept.",
   },
   {
-    price: "from 100€",
+    price: "from 150€",
     title: "Other services",
     description:
       "Presentations, business cards, print materials, social media graphics and other design needs — keeping every touchpoint consistent with your visual identity.",
