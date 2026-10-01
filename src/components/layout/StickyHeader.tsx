@@ -44,7 +44,7 @@ export function StickyHeader({ children }: { children: ReactNode }) {
     <header ref={ref} className="group sticky top-0 z-40 transition-[top] duration-500 ease-out-expo data-hidden:not-focus-within:-top-19.5">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 border-b-[0.5px] border-paper/10 bg-ink/70 opacity-0 backdrop-blur-xl transition-opacity duration-300 group-data-scrolled:opacity-100"
+        className="pointer-events-none absolute inset-0 -z-10 border-b-[0.5px] border-paper/10 bg-ink/85 opacity-0 backdrop-blur-sm transition-opacity duration-300 group-data-scrolled:opacity-100"
       />
       {children}
     </header>
