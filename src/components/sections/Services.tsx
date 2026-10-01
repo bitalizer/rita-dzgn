@@ -4,6 +4,7 @@ import { Container, Tag } from "@/components/ui/Layout";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/Typography";
 import { services } from "@/content/home";
+import { blur } from "@/lib/blur";
 import { cn } from "@/lib/cn";
 
 const gap = "clamp(28px,4.028vw,58px)";
@@ -22,6 +23,7 @@ export function Services() {
               <div className="relative aspect-[320/249] overflow-hidden bg-mist">
                 <Image
                   src="/images/services.webp"
+                  {...blur("/images/services.webp")}
                   alt="Poster campaign for a wellness brand"
                   fill
                   sizes="(min-width: 1024px) 320px, 100vw"

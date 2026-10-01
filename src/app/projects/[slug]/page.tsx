@@ -9,6 +9,7 @@ import { CtaMarquee } from "@/components/sections/Marquees";
 import { Container } from "@/components/ui/Layout";
 import { Reveal } from "@/components/ui/Reveal";
 import { type GalleryRow, galleryRows, getProject, projects } from "@/content/projects";
+import { blur } from "@/lib/blur";
 import { cn } from "@/lib/cn";
 import { projectSchema } from "@/lib/schema";
 
@@ -117,7 +118,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
                     style={{ animationDelay: `${(0.5 + i * 0.15).toFixed(2)}s` }}
                   >
                     <div className="absolute inset-0">
-                      <Image src={t.src} alt={t.alt} fill preload sizes={imgSizes(firstRow.kind)} className="object-cover" />
+                      <Image src={t.src} {...blur(t.src)} alt={t.alt} fill preload sizes={imgSizes(firstRow.kind)} className="object-cover" />
                     </div>
                   </div>
                 ))}
@@ -151,7 +152,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
                       className={cn("relative overflow-hidden bg-[#1c1c1c]", tileAspect(row.kind))}
                     >
                       <div data-zoom className="absolute inset-0" style={i === 1 ? { transitionDelay: "0.15s" } : undefined}>
-                        <Image src={t.src} alt={t.alt} fill sizes={imgSizes(row.kind)} className="object-cover" />
+                        <Image src={t.src} {...blur(t.src)} alt={t.alt} fill sizes={imgSizes(row.kind)} className="object-cover" />
                       </div>
                     </div>
                   ))}

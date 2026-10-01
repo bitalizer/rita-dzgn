@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { Highlight } from "@/components/ui/Highlight";
 import { Container } from "@/components/ui/Layout";
+import { blur } from "@/lib/blur";
 
 /**
  * Two 660×762 cards: pink copy card · full-bleed portrait with a bottom gradient.
@@ -27,10 +28,24 @@ export function Hero() {
           </p>
           <div className="mt-[clamp(28px,3.333vw,48px)] flex h-[clamp(120px,14.236vw,205px)] min-h-0 shrink items-end gap-[clamp(8px,1.186vw,17.083px)]">
             <div className="relative aspect-square h-full overflow-hidden bg-mist">
-              <Image src="/images/lagi.webp" alt="Lagi business cards on concrete" fill sizes="205px" className="scale-[1.264] object-cover" />
+              <Image
+                src="/images/lagi.webp"
+                {...blur("/images/lagi.webp")}
+                alt="Lagi business cards on concrete"
+                fill
+                sizes="205px"
+                className="scale-[1.264] object-cover"
+              />
             </div>
             <div className="relative aspect-square h-[52.63%] overflow-hidden bg-mist">
-              <Image src="/images/women-wellness-web.webp" alt="Women Wellness website on a laptop" fill sizes="108px" className="object-cover" />
+              <Image
+                src="/images/women-wellness-web.webp"
+                {...blur("/images/women-wellness-web.webp")}
+                alt="Women Wellness website on a laptop"
+                fill
+                sizes="108px"
+                className="object-cover"
+              />
             </div>
           </div>
           <div className="mt-auto w-full pt-[clamp(28px,3.333vw,48px)]">
@@ -43,6 +58,7 @@ export function Hero() {
         <div className="relative flex min-h-[clamp(420px,60vw,600px)] flex-col justify-end overflow-hidden bg-mist p-[clamp(20px,2.431vw,35px)] animate-fade-up [animation-delay:.1s] lg:min-h-0">
           <Image
             src="/images/hero-panel.webp"
+            {...blur("/images/hero-panel.webp")}
             alt="Rita — graphic and web designer"
             fill
             preload

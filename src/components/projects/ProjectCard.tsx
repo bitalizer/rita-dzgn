@@ -31,6 +31,8 @@ export function ProjectCard({
       >
         <Image
           src={cover.src}
+          placeholder={cover.blurDataURL ? "blur" : "empty"}
+          blurDataURL={cover.blurDataURL}
           alt={cover.alt}
           fill
           preload={preload}

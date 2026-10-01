@@ -7,7 +7,9 @@
 // next/image + src/lib/image-loader.ts turn those three files into a real srcset (700w / 1400w / 2800w),
 // so the browser downloads the smallest file that is still sharp for its viewport × devicePixelRatio.
 // Only files newer than their outputs are (re)processed; drop a new export into images-src/ and run `npm run images`.
-import { mkdir, readdir, stat } from "node:fs/promises";
+//
+// Every master also gets a 16px blurred preview in src/lib/blur-data.json (committed), shown by next/image while the real file loads.
+import { mkdir, readdir, readFile, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 
@@ -15,6 +17,8 @@ const SRC = "images-src";
 const OUT = "public/images";
 const MASTER = 2800;
 const VARIANTS = [1400, 700];
+const BLUR_FILE = "src/lib/blur-data.json";
+const BLUR_WIDTH = 16;
 const WEBP = { quality: 90, effort: 6, smartSubsample: true }; // smartSubsample keeps chroma crisp around UI text
 const SHARPEN = { sigma: 0.5 }; // light sharpening after downsampling, as Behance's own pipeline does
 
@@ -55,6 +59,24 @@ for (const f of await readdir(OUT)) {
     console.log("variant", out);
     made++;
   }
+}
+
+const blur = (await exists(BLUR_FILE)) ? JSON.parse(await readFile(BLUR_FILE, "utf8")) : {};
+const blurTime = (await exists(BLUR_FILE)) ? (await stat(BLUR_FILE)).mtimeMs : 0;
+const masters = (await readdir(OUT)).filter((f) => f.endsWith(".webp") && !isVariant(f)).sort();
+let blurred = 0;
+for (const f of masters) {
+  const key = `/images/${f}`;
+  const master = path.join(OUT, f);
+  if (blur[key] && (await stat(master)).mtimeMs <= blurTime) continue;
+  const data = await sharp(master).resize({ width: BLUR_WIDTH }).webp({ quality: 40 }).toBuffer();
+  blur[key] = `data:image/webp;base64,${data.toString("base64")}`;
+  blurred++;
+}
+const live = Object.fromEntries(masters.map((f) => [`/images/${f}`, blur[`/images/${f}`]]));
+if (blurred || Object.keys(live).length !== Object.keys(blur).length) {
+  await writeFile(BLUR_FILE, `${JSON.stringify(live, null, 2)}\n`);
+  console.log(`blur   ${blurred} preview(s) → ${BLUR_FILE}`);
 }
 
 console.log(made ? `images: ${made} file(s) generated` : "images: up to date");

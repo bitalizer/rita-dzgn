@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/Button";
 import { Highlight } from "@/components/ui/Highlight";
 import { Container } from "@/components/ui/Layout";
 import { Reveal } from "@/components/ui/Reveal";
+import { blur } from "@/lib/blur";
 
 const bio = [
   "I’ve loved drawing ever since I was a child, and I always knew I wanted to build my career around something creative. Today, I genuinely love what I do and feel lucky to be working in a field that truly feels like mine.",
@@ -30,7 +31,14 @@ export function AboutIntro() {
             </div>
           </Reveal>
           <Reveal className="relative order-2 aspect-[320/322] max-w-[320px] overflow-hidden bg-mist lg:col-start-4 lg:order-none">
-            <Image src="/images/about.webp" alt="Portrait of Rita" fill sizes="320px" className="object-cover object-[50%_16.736%]" />
+            <Image
+              src="/images/about.webp"
+              {...blur("/images/about.webp")}
+              alt="Portrait of Rita"
+              fill
+              sizes="320px"
+              className="object-cover object-[50%_16.736%]"
+            />
           </Reveal>
           <Reveal className="order-3 lg:col-start-1 lg:row-start-1 lg:order-none lg:self-end">
             <Button href="/#contact" variant="cream" className="min-w-[227px]">

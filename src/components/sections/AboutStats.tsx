@@ -5,6 +5,7 @@ import { Container, Panel } from "@/components/ui/Layout";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/Typography";
 import { stats } from "@/content/home";
+import { blur } from "@/lib/blur";
 import { cn } from "@/lib/cn";
 
 const card = "flex min-h-[clamp(320px,30.208vw,435px)] flex-col justify-between gap-[30px] bg-pink p-[clamp(20px,2.083vw,30px)]";
@@ -45,7 +46,14 @@ export function AboutStats() {
             <Reveal as="article" className={card}>
               <Figure {...years} />
               <div className="relative aspect-square w-[clamp(80px,8.125vw,117px)] overflow-hidden bg-cream">
-                <Image src="/images/lagi.webp" alt="Lagi business cards" fill sizes="117px" className="scale-[1.325] object-cover" />
+                <Image
+                  src="/images/lagi.webp"
+                  {...blur("/images/lagi.webp")}
+                  alt="Lagi business cards"
+                  fill
+                  sizes="117px"
+                  className="scale-[1.325] object-cover"
+                />
               </div>
             </Reveal>
 
@@ -57,7 +65,7 @@ export function AboutStats() {
                   { src: "/images/thumb-3.webp", alt: "Brand detail" },
                 ].map((img) => (
                   <div key={img.src} className="relative aspect-[111/117] flex-1 overflow-hidden bg-cream">
-                    <Image src={img.src} alt={img.alt} fill sizes="120px" className="object-cover" />
+                    <Image src={img.src} {...blur(img.src)} alt={img.alt} fill sizes="120px" className="object-cover" />
                   </div>
                 ))}
               </div>

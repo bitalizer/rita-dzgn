@@ -1,4 +1,4 @@
-export type Img = { src: string; width: number; height: number; alt: string };
+export type Img = { src: string; width: number; height: number; alt: string; blurDataURL?: string };
 /** half = one of a 660×743 pair · full = a 1340×754 (16:9) tile. Consecutive halves pair up; a lone half renders full. */
 export type GalleryImage = Img & { span: "half" | "full" };
 export type Kind = "identity" | "web";

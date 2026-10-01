@@ -3,6 +3,7 @@ import { ContactForm } from "@/components/sections/ContactForm";
 import { Container } from "@/components/ui/Layout";
 import { Reveal } from "@/components/ui/Reveal";
 import { contactLinks } from "@/content/site";
+import { blur } from "@/lib/blur";
 
 /** "(let’s work together)" heading + photo/links on the left (773 col), form on the right (547 col). */
 export function Contact() {
@@ -17,7 +18,7 @@ export function Contact() {
             </Reveal>
             <Reveal className="mt-[clamp(40px,4.583vw,66px)] flex w-full flex-col items-center gap-[30px] text-center lg:ml-[31.177%] lg:w-[37.645%]">
               <div className="relative aspect-[208/279] w-[71.478%] max-w-[208px] overflow-hidden bg-mist">
-                <Image src="/images/deco.webp" alt="Lagi outdoor posters" fill sizes="208px" className="object-cover" />
+                <Image src="/images/deco.webp" {...blur("/images/deco.webp")} alt="Lagi outdoor posters" fill sizes="208px" className="object-cover" />
               </div>
               <p className="text-label">
                 {contactLinks.map((l, i) => (

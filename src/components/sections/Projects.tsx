@@ -4,6 +4,7 @@ import { Container } from "@/components/ui/Layout";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/Typography";
 import { getProject } from "@/content/projects";
+import { withBlur } from "@/lib/blur";
 
 /**
  * Staggered grid on a 7-track template (265 · 17 · 265 · 246 · 265 · 17 · 265):
@@ -35,7 +36,7 @@ export function Projects() {
             if (!project) return null;
             return (
               <Reveal key={slug} className={className}>
-                <ProjectCard project={project} size={size} />
+                <ProjectCard project={withBlur(project)} size={size} />
               </Reveal>
             );
           })}

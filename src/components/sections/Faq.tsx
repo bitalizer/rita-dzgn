@@ -5,6 +5,7 @@ import { Container, Panel } from "@/components/ui/Layout";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/Typography";
 import { faqs } from "@/content/home";
+import { blur } from "@/lib/blur";
 
 /** Cream panel: centered heading, 700px accordion, two decorative photos flanking it (lg+). */
 export function Faq() {
@@ -28,10 +29,10 @@ export function Faq() {
           <div className="mt-[clamp(40px,4.861vw,70px)] flex justify-center">
             <div className="relative w-full max-w-[700px]">
               <div aria-hidden="true" className="absolute top-0 left-[-20.139vw] hidden aspect-[183/189] w-[min(12.708vw,183px)] lg:block">
-                <Image src="/images/deco.webp" alt="" fill sizes="183px" className="object-cover" />
+                <Image src="/images/deco.webp" {...blur("/images/deco.webp")} alt="" fill sizes="183px" className="object-cover" />
               </div>
               <div aria-hidden="true" className="absolute top-[206px] right-[-20.139vw] hidden aspect-[183/189] w-[min(12.708vw,183px)] lg:block">
-                <Image src="/images/pihaspa.webp" alt="" fill sizes="183px" className="object-cover" />
+                <Image src="/images/pihaspa.webp" {...blur("/images/pihaspa.webp")} alt="" fill sizes="183px" className="object-cover" />
               </div>
               <Reveal>
                 <FaqList items={faqs} />
