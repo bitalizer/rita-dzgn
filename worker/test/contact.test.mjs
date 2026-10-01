@@ -91,3 +91,60 @@ test("still delivers the lead when the rate limiter itself fails", async () => {
   assert.equal(res.status, 200);
   assert.equal(telegram.calls.length, 1);
 });
+
+// --- long messages (Telegram accepts at most 4096 characters per message, counted after its HTML is parsed) ---
+
+const decode = (html) =>
+  html
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&amp;/g, "&");
+/** What Telegram counts: the text left once tags are removed and entities decoded. */
+const visible = (html) => decode(html.replace(/<[^>]+>/g, ""));
+/** The visitor's words in one Telegram message — the contents of its quote block. */
+const quoted = (html) => decode(html.match(/<blockquote expandable>([\s\S]*)<\/blockquote>/)[1]);
+
+/** Exactly 4000 characters (the form's cap) of distinct words, so lost or reordered text shows up. */
+const longMessage = `${Array.from({ length: 700 }, (_, i) => `word${i}`)
+  .join(" ")
+  .slice(0, 3999)}.`;
+const fullLead = {
+  ...lead,
+  type: "Website design + development",
+  budget: "1 000 – 2 500€",
+  page: `${ORIGIN}/projects/women-wellness-identity/`,
+  campaign: "google / cpc / autumn-launch",
+  referrer: "google.com",
+  landed: "/projects/",
+};
+
+test("sends a short lead as one Telegram message", async () => {
+  await worker.fetch(post(lead), makeEnv());
+  assert.equal(telegram.calls.length, 1);
+  assert.equal(quoted(telegram.calls[0].body.text), "Hello");
+});
+
+test("keeps every Telegram message within the 4096-character limit when the lead is long", async () => {
+  await worker.fetch(post({ ...fullLead, message: longMessage }), makeEnv());
+  assert.ok(telegram.calls.length > 1, "a 4000-character message plus the template cannot fit in one message");
+  for (const call of telegram.calls) assert.ok(visible(call.body.text).length <= 4096, `${visible(call.body.text).length} characters`);
+});
+
+test("delivers every character of a long message, in order", async () => {
+  await worker.fetch(post({ ...fullLead, message: longMessage }), makeEnv());
+  assert.equal(telegram.calls.map((call) => quoted(call.body.text)).join(""), longMessage);
+});
+
+test("stays within the limit and loses nothing when the text needs HTML escaping", async () => {
+  const message = '<b>&"</b> '.repeat(400).trim(); // 3999 characters, most of them escaped on the way to Telegram
+  await worker.fetch(post({ ...fullLead, message }), makeEnv());
+  for (const call of telegram.calls) assert.ok(visible(call.body.text).length <= 4096, `${visible(call.body.text).length} characters`);
+  assert.equal(telegram.calls.map((call) => quoted(call.body.text)).join(""), message);
+});
+
+test("threads the continuation under the first message", async () => {
+  telegram.replies.push(delivered(555));
+  await worker.fetch(post({ ...fullLead, message: longMessage }), makeEnv());
+  assert.equal(telegram.calls[1].body.reply_parameters.message_id, 555);
+});

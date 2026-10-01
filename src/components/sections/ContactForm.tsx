@@ -60,6 +60,7 @@ export function ContactForm() {
           placeholder="Tell me about your project"
           rows={1}
           required
+          maxLength={4000}
           className={cn(field, "block min-h-15.5 resize-none")}
           aria-label="Tell me about your project"
         />

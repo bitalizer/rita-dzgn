@@ -62,8 +62,41 @@ const REPLY_SUBJECT = "Re: your inquiry — rita.dzgn";
 
 type CleanLead = Record<keyof typeof MAX, string>;
 
-/** Telegram HTML: bold labels, the message in a collapsible quote, the lead source as a quiet footer. */
-function format(lead: CleanLead): string {
+/**
+ * Telegram refuses a message longer than 4096 characters, counted after its HTML is parsed. The form allows 4000 for
+ * the visitor's text alone and the template adds name, e-mail, project, budget and the lead source on top, so a long
+ * lead is sent as several messages rather than cut short. 4000 leaves slack for any difference in how Telegram counts.
+ */
+const PART_LIMIT = 4000;
+
+/** Length as Telegram counts it: tags gone, each entity one character. */
+const visibleLength = (html: string) => html.replace(/<[^>]+>/g, "").replace(/&(?:amp|lt|gt|quot);/g, "&").length;
+
+/**
+ * Cuts `text` into pieces of at most `first`, then `rest`, characters. Breaks after a space or line break where one is
+ * near, and never inside an emoji. Joined back together the pieces are exactly `text`.
+ */
+function split(text: string, first: number, rest: number): string[] {
+  const parts: string[] = [];
+  let from = 0;
+  for (let room = first; from < text.length; room = rest) {
+    let to = Math.min(text.length, from + room);
+    if (to < text.length) {
+      const gap = text.slice(Math.max(from, to - 200), to).search(/\s\S*$/);
+      if (gap >= 0) to = Math.max(from, to - 200) + gap + 1;
+      else if ((text.charCodeAt(to - 1) & 0xfc00) === 0xd800) to--; // first half of a surrogate pair stays with its second
+    }
+    parts.push(text.slice(from, to));
+    from = to;
+  }
+  return parts;
+}
+
+/** Follow-up for the part of a long message that didn't fit in the first one. */
+const continuation = (part: string, n: number, total: number) => `<b>💌 … continued (${n}/${total})</b>\n<blockquote expandable>${esc(part)}</blockquote>`;
+
+/** Telegram HTML: bold labels, the message (or its first part) in a collapsible quote, the lead source as a quiet footer. */
+function format(lead: CleanLead, message: string): string {
   let path = lead.page;
   try {
     path = new URL(lead.page).pathname;
@@ -85,7 +118,7 @@ function format(lead: CleanLead): string {
     `${esc(lead.name)} · ${esc(lead.email)}`,
     "",
     "<b>Message</b>",
-    `<blockquote expandable>${esc(lead.message)}</blockquote>`,
+    `<blockquote expandable>${esc(message)}</blockquote>`,
     footer.length ? `┈┈┈┈┈┈┈┈┈┈\n<i>${footer.join(" · ")}</i>` : null,
   ];
   return lines.filter((line) => line !== null).join("\n");
@@ -97,6 +130,18 @@ function buttons(lead: CleanLead, origin: string) {
   if (origin.startsWith("https://")) row.push({ text: "✉️ Reply", url: `${origin}/api/reply?to=${encodeURIComponent(lead.email)}` });
   if (lead.page.startsWith("https://")) row.push({ text: "🔗 Open page", url: lead.page });
   return row.length ? { inline_keyboard: [row] } : undefined;
+}
+
+/** Posts one message to the chat. Returns its id, or null if Telegram didn't take it. */
+async function send(env: Env, message: Record<string, unknown>): Promise<number | null> {
+  const res = await fetch(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ chat_id: env.TELEGRAM_CHAT_ID, parse_mode: "HTML", link_preview_options: { is_disabled: true }, ...message }),
+  });
+  if (!res.ok) return null;
+  const data = (await res.json().catch(() => null)) as { result?: { message_id?: number } } | null;
+  return data?.result?.message_id ?? 0;
 }
 
 export default {
@@ -139,21 +184,15 @@ export default {
       return reply({ ok: false, error: "Please fill in name, a valid e-mail and a message." }, 422);
     }
 
-    const text = format(lead);
+    // Whatever the template leaves free is the room for the visitor's text; the rest follows as replies to the first message.
+    const room = PART_LIMIT - visibleLength(format(lead, ""));
+    const parts = lead.message.length <= room ? [lead.message] : split(lead.message, room, PART_LIMIT - visibleLength(continuation("", 9, 9)));
 
-    const tg = await fetch(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        chat_id: env.TELEGRAM_CHAT_ID,
-        text,
-        parse_mode: "HTML",
-        link_preview_options: { is_disabled: true },
-        reply_markup: buttons(lead, url.origin),
-      }),
-    });
-
-    if (!tg.ok) return reply({ ok: false, error: "Could not deliver the message." }, 502);
+    const first = await send(env, { text: format(lead, parts[0]), reply_markup: buttons(lead, url.origin) });
+    if (first === null) return reply({ ok: false, error: "Could not deliver the message." }, 502);
+    for (let i = 1; i < parts.length; i++) {
+      await send(env, { text: continuation(parts[i], i + 1, parts.length), reply_parameters: { message_id: first } });
+    }
     return reply({ ok: true });
   },
 };
