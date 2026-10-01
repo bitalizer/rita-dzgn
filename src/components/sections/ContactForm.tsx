@@ -7,6 +7,7 @@ import { budgets, projectTypes } from "@/content/home";
 import { site } from "@/content/site";
 import { cn } from "@/lib/cn";
 import { type Lead, sendLead } from "@/lib/contact";
+import { track } from "@/lib/zaraz";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -36,6 +37,7 @@ export function ContactForm() {
     const result = await sendLead(lead);
     if (result.ok) {
       setStatus("sent");
+      track("lead", { type: lead.type, budget: lead.budget });
       form.reset();
     } else {
       setStatus("error");
