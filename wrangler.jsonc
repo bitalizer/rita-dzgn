@@ -11,10 +11,10 @@
     "not_found_handling": "404-page",
     "run_worker_first": ["/api/*"]
   },
-  "routes": [
-    { "pattern": "ritadzgn.com", "custom_domain": true },
-    { "pattern": "www.ritadzgn.com", "custom_domain": true }
-  ],
+  "routes": [{ "pattern": "ritadzgn.com", "custom_domain": true }, { "pattern": "www.ritadzgn.com", "custom_domain": true }],
+  // Site only on the custom domain; branch builds still get preview URLs.
+  "workers_dev": false,
+  "preview_urls": true,
   "observability": { "enabled": true }
   // Secrets (never commit): npx wrangler secret put TELEGRAM_BOT_TOKEN · npx wrangler secret put TELEGRAM_CHAT_ID
 }
