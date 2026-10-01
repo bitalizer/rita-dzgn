@@ -32,10 +32,8 @@ export function Cursor({ ringSize = 40 }: { ringSize?: number }) {
     let hover: { mode: Mode; label: string; tone: string } = { mode: "default", label: "", tone: "" };
     let raf = 0;
 
-    const onMove = (e: MouseEvent) => {
-      target.x = e.clientX;
-      target.y = e.clientY;
-      const t = e.target as HTMLElement | null;
+    let inside = false;
+    const resolve = (t: HTMLElement | null) => {
       const el = t?.closest?.("[data-cursor]") as HTMLElement | null;
       // Tone comes from the nearest tagged ancestor — a button, or a light section like the cream panels — so the cursor stays visible on light surfaces.
       const tone = (t?.closest?.("[data-cursor-tone]") as HTMLElement | null)?.dataset.cursorTone || "";
@@ -44,10 +42,24 @@ export function Cursor({ ringSize = 40 }: { ringSize?: number }) {
       else if (t?.closest?.("a,button,summary,label")) hover = { mode: "link", label: "open", tone };
       else hover = { mode: "default", label: "", tone };
     };
+    const onMove = (e: MouseEvent) => {
+      inside = true;
+      target.x = e.clientX;
+      target.y = e.clientY;
+      resolve(e.target as HTMLElement | null);
+    };
+    // Scrolling (wheel, or a section link jumping) changes what's under a still pointer — re-check it.
+    const onScroll = () => {
+      if (inside) resolve(document.elementFromPoint(target.x, target.y) as HTMLElement | null);
+    };
     const onDown = () => (down = true);
     const onUp = () => (down = false);
-    const onLeave = () => (hover = { mode: "hide", label: "", tone: "" });
+    const onLeave = () => {
+      inside = false;
+      hover = { mode: "hide", label: "", tone: "" };
+    };
     addEventListener("mousemove", onMove, { passive: true });
+    addEventListener("scroll", onScroll, { passive: true });
     addEventListener("mousedown", onDown);
     addEventListener("mouseup", onUp);
     document.documentElement.addEventListener("mouseleave", onLeave);
@@ -81,6 +93,7 @@ export function Cursor({ ringSize = 40 }: { ringSize?: number }) {
     return () => {
       cancelAnimationFrame(raf);
       removeEventListener("mousemove", onMove);
+      removeEventListener("scroll", onScroll);
       removeEventListener("mousedown", onDown);
       removeEventListener("mouseup", onUp);
       document.documentElement.removeEventListener("mouseleave", onLeave);
