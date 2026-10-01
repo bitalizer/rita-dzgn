@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { Cursor } from "@/components/motion/Cursor";
 import { site } from "@/content/site";
 import { personSchema, websiteSchema } from "@/lib/schema";
+import { ogBase } from "@/lib/seo";
 import "./globals.css";
 
 /**
@@ -26,10 +27,8 @@ export const metadata: Metadata = {
   keywords: ["graphic designer", "web designer", "logo design", "visual identity", "website design", "brand identity", "portfolio"],
   alternates: { canonical: "/" },
   openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: site.url,
-    siteName: site.name,
+    ...ogBase,
+    url: "/",
     title: site.title,
     description: site.description,
   },
