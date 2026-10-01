@@ -21,7 +21,7 @@ export function Plus({ className }: { className?: string }) {
 /** Select caret (10×5 triangle). */
 export function Caret({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 10 5" aria-hidden="true" className={cn("h-[0.3125rem] w-[0.625rem] fill-[#FDFDFD]", className)}>
+    <svg viewBox="0 0 10 5" aria-hidden="true" className={cn("h-1.25 w-2.5 fill-[#FDFDFD]", className)}>
       <path d="M5 5 10 0H0Z" />
     </svg>
   );

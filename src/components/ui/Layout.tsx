@@ -21,5 +21,5 @@ export function Panel({ className, children }: { className?: string; children: R
 
 /** "from 500€" chip. */
 export function Tag({ children, className }: { children: ReactNode; className?: string }) {
-  return <span className={cn("inline-block bg-paper/30 px-[0.625rem] py-[0.3125rem] text-sub font-semibold", className)}>{children}</span>;
+  return <span className={cn("inline-block bg-paper/30 px-2.5 py-1.25 text-sub font-semibold", className)}>{children}</span>;
 }

@@ -39,7 +39,7 @@ export function MobileMenu() {
           role="dialog"
           aria-modal="true"
           aria-label="Menu"
-          className="fixed inset-0 z-50 flex flex-col bg-ink px-gutter py-[1.875rem] text-paper animate-fade-up"
+          className="fixed inset-0 z-50 flex flex-col bg-ink px-gutter py-7.5 text-paper animate-fade-up"
         >
           <div className="flex items-center justify-between">
             <span className="text-[1.25rem] leading-[0.9] font-black">
@@ -49,7 +49,7 @@ export function MobileMenu() {
               (close)
             </button>
           </div>
-          <nav className="mt-16 flex flex-col items-start gap-[1.375rem] text-[clamp(2.125rem,10vw,3.5rem)] leading-none font-extrabold">
+          <nav className="mt-16 flex flex-col items-start gap-5.5 text-[clamp(2.125rem,10vw,3.5rem)] leading-none font-extrabold">
             {items.map((item) => (
               <AnchorLink
                 key={item.href}

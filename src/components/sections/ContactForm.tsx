@@ -15,7 +15,7 @@ const labelOf = (options: { value: string; label: string }[], value: string) => 
 
 /** Underlined fields: 62px tall, 1px white rule, cream placeholder. */
 const field =
-  "w-full border-0 border-b border-paper bg-transparent px-[0.625rem] py-5 text-body text-cream outline-none transition-colors duration-200 placeholder:text-cream focus:border-pink";
+  "w-full border-0 border-b border-paper bg-transparent px-2.5 py-5 text-body text-cream outline-none transition-colors duration-200 placeholder:text-cream focus:border-pink";
 
 export function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
@@ -60,11 +60,11 @@ export function ContactForm() {
           placeholder="Tell me about your project"
           rows={1}
           required
-          className={cn(field, "block min-h-[3.875rem] resize-none")}
+          className={cn(field, "block min-h-15.5 resize-none")}
           aria-label="Tell me about your project"
         />
         <div className="relative">
-          <select name="type" defaultValue="" className={cn(field, "cursor-pointer appearance-none pr-[1.875rem]")} aria-label="Project type">
+          <select name="type" defaultValue="" className={cn(field, "cursor-pointer appearance-none pr-7.5")} aria-label="Project type">
             <option value="">Project type</option>
             {projectTypes.map((o) => (
               <option key={o.value} value={o.value}>
@@ -72,10 +72,10 @@ export function ContactForm() {
               </option>
             ))}
           </select>
-          <Caret className="pointer-events-none absolute top-1/2 right-[0.9375rem] -translate-y-1/2" />
+          <Caret className="pointer-events-none absolute top-1/2 right-3.75 -translate-y-1/2" />
         </div>
         <div className="relative">
-          <select name="budget" defaultValue="" className={cn(field, "cursor-pointer appearance-none pr-[1.875rem]")} aria-label="Budget">
+          <select name="budget" defaultValue="" className={cn(field, "cursor-pointer appearance-none pr-7.5")} aria-label="Budget">
             <option value="">Budget</option>
             {budgets.map((o) => (
               <option key={o.value} value={o.value}>
@@ -83,10 +83,10 @@ export function ContactForm() {
               </option>
             ))}
           </select>
-          <Caret className="pointer-events-none absolute top-1/2 right-[0.9375rem] -translate-y-1/2" />
+          <Caret className="pointer-events-none absolute top-1/2 right-3.75 -translate-y-1/2" />
         </div>
         {/* Honeypot: hidden from people, irresistible to bots. */}
-        <input type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 opacity-0" />
+        <input type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden="true" className="absolute left-[-9999px] h-0 w-0 opacity-0" />
       </div>
 
       <p id="contact-note" className="text-body text-cream/50">

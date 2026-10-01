@@ -90,7 +90,7 @@ export function Cursor({ ringSize = 40 }: { ringSize?: number }) {
         aria-hidden="true"
         data-trail={mode}
         data-tone={tone || undefined}
-        className="pointer-events-none fixed top-0 left-0 z-[9998] hidden rounded-full border border-paper/50 -translate-x-1/2 -translate-y-1/2 transition-[width,height,opacity] duration-300 [@media(pointer:fine)]:block"
+        className="pointer-events-none fixed top-0 left-0 z-9998 hidden rounded-full border border-paper/50 -translate-x-1/2 -translate-y-1/2 transition-[width,height,opacity] duration-300 pointer-fine:block"
         style={{ width: hideRing ? 0 : ringSize, height: hideRing ? 0 : ringSize, opacity: hideRing || mode === "text" || mode === "hide" ? 0 : 1 }}
       />
       <div
@@ -98,7 +98,7 @@ export function Cursor({ ringSize = 40 }: { ringSize?: number }) {
         aria-hidden="true"
         data-ring={mode}
         data-tone={tone || undefined}
-        className="pointer-events-none fixed top-0 left-0 z-[9999] hidden -translate-x-1/2 -translate-y-1/2 place-items-center [@media(pointer:fine)]:grid"
+        className="pointer-events-none fixed top-0 left-0 z-9999 hidden -translate-x-1/2 -translate-y-1/2 place-items-center pointer-fine:grid"
       >
         <span
           data-disc

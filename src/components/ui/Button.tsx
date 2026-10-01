@@ -7,7 +7,7 @@ import { cn } from "@/lib/cn";
 export type ButtonVariant = "ink" | "cream" | "pink";
 
 const base =
-  "inline-flex items-center justify-center px-[0.625rem] py-5 text-sub font-bold transition-colors duration-250 ease-out-expo focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink";
+  "inline-flex items-center justify-center px-2.5 py-5 text-sub font-bold transition-colors duration-250 ease-out-expo focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink";
 
 /** Flat rectangles; hover swaps to the neighbouring surface color. Over buttons the custom cursor inverts to ink (data-cursor-tone="ink") so it stays readable on the light hover surface. */
 const variants: Record<ButtonVariant, string> = {

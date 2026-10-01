@@ -8,11 +8,11 @@ import { stats } from "@/content/home";
 import { blur } from "@/lib/blur";
 import { cn } from "@/lib/cn";
 
-const card = "flex min-h-[clamp(20rem,30.208vw,27.1875rem)] flex-col justify-between gap-[1.875rem] bg-pink p-[clamp(1.25rem,2.083vw,1.875rem)]";
+const card = "flex min-h-[clamp(20rem,30.208vw,27.1875rem)] flex-col justify-between gap-7.5 bg-pink p-[clamp(1.25rem,2.083vw,1.875rem)]";
 
 function Figure({ value, label, description }: (typeof stats)[number]) {
   return (
-    <div className="flex flex-col gap-[1.375rem]">
+    <div className="flex flex-col gap-5.5">
       <div>
         <div className="text-display font-extrabold">{value}</div>
         <div className="text-sub font-semibold">{label}</div>
@@ -33,7 +33,7 @@ export function AboutStats() {
             <SectionHeading
               align="center"
               label="(experience)"
-              className="mx-auto max-w-[57.25rem]"
+              className="mx-auto max-w-229"
               title={
                 <span id="stats-title">
                   A graphic &amp; web designer turning ideas into clear <Highlight tone="pink">visual experiences</Highlight>
@@ -58,13 +58,13 @@ export function AboutStats() {
             </Reveal>
 
             <Reveal as="article" className={card}>
-              <div className="flex max-w-[22.5rem] gap-[0.625rem]">
+              <div className="flex max-w-90 gap-2.5">
                 {[
                   { src: "/images/women-wellness-identity.webp", alt: "Women Wellness identity" },
                   { src: "/images/thumb-2.webp", alt: "Brand detail" },
                   { src: "/images/thumb-3.webp", alt: "Brand detail" },
                 ].map((img) => (
-                  <div key={img.src} className="relative aspect-[111/117] flex-1 overflow-hidden bg-cream">
+                  <div key={img.src} className="relative aspect-111/117 flex-1 overflow-hidden bg-cream">
                     <Image src={img.src} {...blur(img.src)} alt={img.alt} fill sizes="120px" className="object-cover" />
                   </div>
                 ))}

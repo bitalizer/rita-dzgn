@@ -92,7 +92,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
 
             {/* year · services (two 320 columns with hairlines) + the 433px intro, bottom-aligned. */}
             <div data-enter="3" className="mt-8 flex flex-col items-start gap-5 lg:flex-row lg:items-end lg:justify-between lg:gap-10">
-              <dl className="m-0 flex w-full max-w-[42.5rem] gap-10">
+              <dl className="m-0 flex w-full max-w-170 gap-10">
                 {[
                   { label: "industry", value: project.industry, delay: 0.85 },
                   { label: "services", value: project.services.join(", "), delay: 0.95 },
@@ -104,7 +104,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
                   </div>
                 ))}
               </dl>
-              <p data-cursor="text" className="w-full text-body lg:w-[27.0625rem] lg:flex-none">
+              <p data-cursor="text" className="w-full text-body lg:w-108.25 lg:flex-none">
                 {project.intro}
               </p>
             </div>
@@ -134,7 +134,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
                   About the project
                 </Reveal>
                 <div className="mt-7 flex justify-end">
-                  <Reveal data-steps data-cursor="text" className="flex w-full flex-col gap-[1.3em] text-body lg:w-[27.0625rem]">
+                  <Reveal data-steps data-cursor="text" className="flex w-full flex-col gap-[1.3em] text-body lg:w-108.25">
                     {project.about.map((p) => (
                       <p key={p}>{p}</p>
                     ))}

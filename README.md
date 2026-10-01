@@ -8,8 +8,8 @@ npm run dev        # http://localhost:3000
 npm run build      # static site → ./out
 npm run preview    # build + run the Worker locally (site + contact form) on http://localhost:8787
 npm run deploy     # build + deploy to Cloudflare
-npm run lint       # Biome
-npm run format     # Biome, with fixes
+npm run lint       # Biome + Tailwind canonical classes
+npm run format     # same, with fixes
 npm run typecheck
 ```
 

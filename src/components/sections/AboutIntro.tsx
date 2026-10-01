@@ -23,14 +23,14 @@ export function AboutIntro() {
         </Reveal>
 
         <div className="mt-[clamp(3.5rem,8.819vw,7.9375rem)] flex flex-col gap-6 lg:grid lg:grid-cols-[567fr_291fr_162fr_320fr] lg:items-start">
-          <Reveal className="order-1 text-body lg:col-start-2 lg:order-none">
+          <Reveal className="order-1 text-body lg:col-start-2 lg:order-0">
             <div className="flex flex-col gap-[1.3em]">
               {bio.map((p) => (
                 <p key={p}>{p}</p>
               ))}
             </div>
           </Reveal>
-          <Reveal className="relative order-2 aspect-[320/322] w-full overflow-hidden bg-mist lg:col-start-4 lg:order-none lg:max-w-[20rem]">
+          <Reveal className="relative order-2 aspect-320/322 w-full overflow-hidden bg-mist lg:col-start-4 lg:order-0 lg:max-w-[20rem]">
             <Image
               src="/images/about.webp"
               {...blur("/images/about.webp")}
@@ -40,8 +40,8 @@ export function AboutIntro() {
               className="object-cover object-[50%_16.736%]"
             />
           </Reveal>
-          <Reveal className="order-3 lg:col-start-1 lg:row-start-1 lg:order-none lg:self-end">
-            <Button href="/#contact" variant="cream" className="w-full lg:w-auto lg:min-w-[14.1875rem]">
+          <Reveal className="order-3 lg:col-start-1 lg:row-start-1 lg:order-0 lg:self-end">
+            <Button href="/#contact" variant="cream" className="w-full lg:w-auto lg:min-w-56.75">
               Contact me
             </Button>
           </Reveal>

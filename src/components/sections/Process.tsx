@@ -14,14 +14,14 @@ export function Process() {
           Turning ideas into design through a clear process built around <Highlight tone="glass">creativity, clarity and collaboration.</Highlight>
         </Reveal>
 
-        <Reveal className="mt-[clamp(3rem,6.944vw,6.25rem)] grid grid-cols-1 gap-[1.875rem] text-cream md:grid-cols-2 lg:grid-cols-4">
+        <Reveal className="mt-panel grid grid-cols-1 gap-7.5 text-cream md:grid-cols-2 lg:grid-cols-4">
           {steps.map((step, i) => (
             <div
               key={step.index}
               className={cn(
-                "flex flex-col gap-[2.625rem] border-paper/30",
+                "flex flex-col gap-10.5 border-paper/30",
                 // Hairlines: between stacked steps on phones, under the first row of the 2-column tablet grid, between columns on desktop.
-                i < steps.length - 1 && "border-b-[0.5px] pb-[1.875rem] lg:border-b-0 lg:border-r-[0.5px] lg:pb-0 lg:pr-[0.625rem]",
+                i < steps.length - 1 && "border-b-[0.5px] pb-7.5 lg:border-b-0 lg:border-r-[0.5px] lg:pb-0 lg:pr-2.5",
                 i >= 2 && "md:border-b-0 md:pb-0",
               )}
             >

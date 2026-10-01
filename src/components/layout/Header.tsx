@@ -22,7 +22,7 @@ export function Logo({ className }: { className?: string }) {
 export function Header() {
   return (
     <header className="relative z-10">
-      <Container className="grid h-[4.875rem] grid-cols-[1fr_auto_1fr] items-center py-[1.875rem]">
+      <Container className="grid h-19.5 grid-cols-[1fr_auto_1fr] items-center py-7.5">
         <nav aria-label="Primary" className="hidden justify-self-start gap-[clamp(1.5rem,6.667vw,6rem)] text-label lg:flex">
           {primaryNav.map((item) => (
             <AnchorLink key={item.href} href={item.href} className={link}>

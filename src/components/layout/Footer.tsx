@@ -12,14 +12,14 @@ const footerNav = [...secondaryNav, ...primaryNav];
 export function Footer() {
   return (
     <footer>
-      <Container className="pt-[3.125rem]">
+      <Container className="pt-12.5">
         <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
-          <p className="max-w-[29.75rem] text-sub leading-[1.3] font-semibold">
+          <p className="max-w-119 text-sub leading-[1.3] font-semibold">
             {site.role} creating visual identities and digital experiences for modern brands that care about aesthetics and detail.
           </p>
           <nav
             aria-label="Footer"
-            className="grid min-h-[4.875rem] grid-cols-[repeat(3,max-content)] content-between gap-x-[clamp(1.5rem,6.667vw,6rem)] gap-y-7 text-label"
+            className="grid min-h-19.5 grid-cols-[repeat(3,max-content)] content-between gap-x-[clamp(1.5rem,6.667vw,6rem)] gap-y-7 text-label"
           >
             {footerNav.map((i) => (
               <AnchorLink key={i.href} href={i.href} className={link}>
@@ -35,7 +35,7 @@ export function Footer() {
           <CookieSettings className={link} />
         </div>
         {/* Giant pink wordmark, cropped at the page bottom (1340 × 257 visible). */}
-        <Wordmark className="mt-[1.3125rem] block h-auto w-full text-pink" />
+        <Wordmark className="mt-5.25 block h-auto w-full text-pink" />
       </Container>
     </footer>
   );

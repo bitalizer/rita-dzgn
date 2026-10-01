@@ -60,7 +60,7 @@ export function SectionHeading({
 }) {
   const Tag: ElementType = as;
   return (
-    <div className={cn("flex flex-col gap-[1.875rem]", align === "center" && "items-center text-center", className)}>
+    <div className={cn("flex flex-col gap-7.5", align === "center" && "items-center text-center", className)}>
       <Label>{label}</Label>
       <Tag className="text-display font-extrabold">{title}</Tag>
     </div>

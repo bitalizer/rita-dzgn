@@ -26,10 +26,10 @@ export function FaqList({ items }: { items: Faq[] }) {
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 onClick={() => setOpen(isOpen ? -1 : i)}
-                className="flex w-full cursor-pointer items-center gap-[1.625rem] border-0 bg-transparent p-0 text-left text-ink"
+                className="flex w-full cursor-pointer items-center gap-6.5 border-0 bg-transparent p-0 text-left text-ink"
               >
                 <span className="flex-1 text-sub leading-none font-semibold">{item.q}</span>
-                <span className="flex size-[2.625rem] flex-none items-center justify-center">
+                <span className="flex size-10.5 flex-none items-center justify-center">
                   <Plus className={cn("transition-transform duration-450 ease-out-expo", isOpen && "rotate-45")} />
                 </span>
               </button>
@@ -40,7 +40,7 @@ export function FaqList({ items }: { items: Faq[] }) {
               className={cn("grid transition-[grid-template-rows] duration-450 ease-out-expo", isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]")}
             >
               <div className="min-h-0 overflow-hidden">
-                <p className="max-w-[37.5rem] pt-4 pr-[4.25rem] pb-1 text-body">{item.a}</p>
+                <p className="max-w-150 pt-4 pr-17 pb-1 text-body">{item.a}</p>
               </div>
             </div>
           </div>

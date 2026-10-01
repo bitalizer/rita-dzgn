@@ -20,14 +20,14 @@ export function ProjectCard({
 }) {
   const { slug, title, category, year, cover } = project;
   return (
-    <article className={cn("flex flex-col gap-[0.9375rem]", className)}>
+    <article className={cn("flex flex-col gap-3.75", className)}>
       <TransitionLink
         href={`/projects/${slug}/`}
         label={title}
         aria-label={`${title} — ${category}`}
         data-cursor="view"
         data-cursor-label="view"
-        className={cn("group relative block overflow-hidden bg-mist", size === "sm" ? "aspect-square md:aspect-[265/273]" : "aspect-square")}
+        className={cn("group relative block overflow-hidden bg-mist", size === "sm" ? "aspect-square md:aspect-265/273" : "aspect-square")}
       >
         <Image
           src={cover.src}
@@ -45,7 +45,7 @@ export function ProjectCard({
         />
       </TransitionLink>
       <div className="flex items-start justify-between gap-3">
-        <div className="flex flex-col gap-[0.4375rem]">
+        <div className="flex flex-col gap-1.75">
           <h3 className="text-sub font-semibold">{title}</h3>
           <span className="text-body">({category})</span>
         </div>

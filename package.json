@@ -11,8 +11,8 @@
     "build": "next build",
     "preview": "npm run build && wrangler dev",
     "typecheck": "tsc --noEmit && tsc --noEmit -p worker",
-    "lint": "biome check .",
-    "format": "biome check --write .",
+    "lint": "biome check . && node scripts/tailwind-canonical.mjs",
+    "format": "biome check --write . && node scripts/tailwind-canonical.mjs --write",
     "deploy": "npm run build && wrangler deploy",
     "icons": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/icons.mjs"
   },

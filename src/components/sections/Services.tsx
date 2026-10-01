@@ -23,8 +23,8 @@ export function Services() {
             <Reveal>
               <SectionHeading label="(my services)" title={<span id="services-title">services</span>} />
             </Reveal>
-            <Reveal className="flex flex-col gap-[1.875rem]">
-              <div className="relative aspect-[320/249] overflow-hidden bg-mist">
+            <Reveal className="flex flex-col gap-7.5">
+              <div className="relative aspect-320/249 overflow-hidden bg-mist">
                 <Image
                   src="/images/services.webp"
                   {...blur("/images/services.webp")}
@@ -34,7 +34,7 @@ export function Services() {
                   className="origin-[71%_0] scale-[1.07] object-cover object-[71%_0]"
                 />
               </div>
-              <div className="flex flex-col gap-[0.9375rem]">
+              <div className="flex flex-col gap-3.75">
                 <h3 className="text-sub font-semibold">Ideas deserve good design</h3>
                 <p className="text-body text-cream">
                   No templates. No unnecessary noise. Just thoughtful design built around your idea, your personality and what makes you different.
@@ -58,7 +58,7 @@ export function Services() {
                 >
                   <div className="flex flex-col items-start gap-5">
                     <Tag>{s.price}</Tag>
-                    <h3 className="max-w-[21.25rem] text-title font-medium text-cream">{s.title}</h3>
+                    <h3 className="max-w-85 text-title font-medium text-cream">{s.title}</h3>
                   </div>
                   <p className="w-full text-body text-cream lg:w-[20rem] lg:flex-none">{s.description}</p>
                 </Reveal>
