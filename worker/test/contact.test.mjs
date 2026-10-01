@@ -187,3 +187,22 @@ test("reports success once the lead has arrived, even if a continuation could no
   const res = await worker.fetch(post({ ...fullLead, message: longMessage }), makeEnv());
   assert.equal(res.status, 200);
 });
+
+// --- what ends up in the chat ---
+
+test("does not link to a page on another site", async () => {
+  await worker.fetch(post({ ...lead, page: "https://evil.example/login" }), makeEnv());
+  assert.ok(!JSON.stringify(telegram.calls[0].body).includes("evil.example"));
+});
+
+test("links back to the page the form was sent from", async () => {
+  await worker.fetch(post({ ...lead, page: `${ORIGIN}/projects/lagi/` }), makeEnv());
+  const urls = telegram.calls[0].body.reply_markup.inline_keyboard.flat().map((button) => button.url);
+  assert.ok(urls.includes(`${ORIGIN}/projects/lagi/`));
+});
+
+test("marks API replies as not to be cached or sniffed", async () => {
+  const res = await worker.fetch(post(lead), makeEnv());
+  assert.equal(res.headers.get("cache-control"), "no-store");
+  assert.equal(res.headers.get("x-content-type-options"), "nosniff");
+});

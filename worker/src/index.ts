@@ -40,7 +40,8 @@ const MAX = { name: 120, email: 200, message: 4000, type: 60, budget: 60, page: 
 const str = (v: unknown, max: number) => (typeof v === "string" ? v.trim().slice(0, max) : "");
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
-const reply = (body: unknown, status = 200, headers?: HeadersInit) => Response.json(body, { status, headers });
+const reply = (body: unknown, status = 200, headers?: Record<string, string>) =>
+  Response.json(body, { status, headers: { "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff", ...headers } });
 
 /**
  * Spam brake without a captcha: a few submissions per minute per visitor, plus a ceiling for the whole site so a
@@ -190,7 +191,8 @@ export default {
       message: str(raw.message, MAX.message),
       type: str(raw.type, MAX.type),
       budget: str(raw.budget, MAX.budget),
-      page: str(raw.page, MAX.page),
+      // Becomes a link and a button in the chat, so only this site's own pages are accepted.
+      page: str(raw.page, MAX.page).startsWith(`${url.origin}/`) ? str(raw.page, MAX.page) : "",
       campaign: str(raw.campaign, MAX.campaign),
       referrer: str(raw.referrer, MAX.referrer),
       landed: str(raw.landed, MAX.landed),
