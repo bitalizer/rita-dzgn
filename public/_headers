@@ -1,0 +1,15 @@
+# Response headers for the static site, applied by Cloudflare (Workers static assets).
+# Responses from the worker itself (/api/*) set their own headers in worker/src/index.ts.
+#
+# The CSP has no script-src: the inline scripts Next.js emits and the tools Cloudflare injects (Zaraz, Web Analytics)
+# would need 'unsafe-inline', which protects nothing. Its directives block framing, <base> hijacking, plugins and
+# form posts to other sites.
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Strict-Transport-Security: max-age=31536000
+  Cross-Origin-Opener-Policy: same-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+  Content-Security-Policy: frame-ancestors 'none'; base-uri 'self'; object-src 'none'; form-action 'self'
