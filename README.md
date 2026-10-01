@@ -78,4 +78,4 @@ For local testing, copy `.dev.vars.example` to `.dev.vars` and fill in the same 
 One Worker (`wrangler.jsonc`) serves the static files from `./out` and runs code only for `/api/*`.
 
 - **Auto-deploy:** Cloudflare → Workers & Pages → Import a repository. Build command `npm run build`, deploy command `npx wrangler deploy`.
-- **Custom domain:** uncomment `routes` in `wrangler.jsonc` and set `NEXT_PUBLIC_SITE_URL` (in `.env` and in the Cloudflare build variables).
+- **Domain:** `routes` in `wrangler.jsonc`; the site URL defaults to `https://ritadzgn.com` (`src/content/site.ts`, override with `NEXT_PUBLIC_SITE_URL`).
