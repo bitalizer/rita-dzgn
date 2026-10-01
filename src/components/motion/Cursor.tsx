@@ -42,21 +42,40 @@ export function Cursor({ ringSize = 40 }: { ringSize?: number }) {
       else if (t?.closest?.("a,button,summary,label")) hover = { mode: "link", label: "open", tone };
       else hover = { mode: "default", label: "", tone };
     };
+    // The frame loop sleeps once the cursor has settled and wakes on any input, so an idle page costs nothing.
+    const wake = () => {
+      if (!raf) raf = requestAnimationFrame(loop);
+    };
     const onMove = (e: MouseEvent) => {
       inside = true;
       target.x = e.clientX;
       target.y = e.clientY;
       resolve(e.target as HTMLElement | null);
+      wake();
     };
-    // Scrolling (wheel, or a section link jumping) changes what's under a still pointer — re-check it.
+    // Scrolling (wheel, or a section link jumping) changes what's under a still pointer — re-check it, once per frame.
+    let scrollQueued = false;
     const onScroll = () => {
-      if (inside) resolve(document.elementFromPoint(target.x, target.y) as HTMLElement | null);
+      if (!inside || scrollQueued) return;
+      scrollQueued = true;
+      requestAnimationFrame(() => {
+        scrollQueued = false;
+        resolve(document.elementFromPoint(target.x, target.y) as HTMLElement | null);
+        wake();
+      });
     };
-    const onDown = () => (down = true);
-    const onUp = () => (down = false);
+    const onDown = () => {
+      down = true;
+      wake();
+    };
+    const onUp = () => {
+      down = false;
+      wake();
+    };
     const onLeave = () => {
       inside = false;
       hover = { mode: "hide", label: "", tone: "" };
+      wake();
     };
     addEventListener("mousemove", onMove, { passive: true });
     addEventListener("scroll", onScroll, { passive: true });
@@ -87,9 +106,10 @@ export function Cursor({ ringSize = 40 }: { ringSize?: number }) {
         lastTone = hover.tone;
         setTone(hover.tone);
       }
-      raf = requestAnimationFrame(loop);
+      const settled =
+        Math.abs(target.x - tr.x) < 0.1 && Math.abs(target.y - tr.y) < 0.1 && Math.abs(target.x - pos.x) < 0.1 && Math.abs(target.y - pos.y) < 0.1;
+      raf = settled ? 0 : requestAnimationFrame(loop);
     };
-    raf = requestAnimationFrame(loop);
     return () => {
       cancelAnimationFrame(raf);
       removeEventListener("mousemove", onMove);
