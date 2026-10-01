@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Layout";
 import { Display } from "@/components/ui/Typography";
 
-export const metadata: Metadata = { title: "Page not found", robots: { index: false } };
+export const metadata: Metadata = { title: "Page not found", robots: { index: false }, alternates: { canonical: null } };
 
 export default function NotFound() {
   return (
