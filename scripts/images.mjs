@@ -4,10 +4,10 @@
 //                                                                         Committed, never served to pages — it is the
 //                                                                         source every size below is made from.
 //  public/images/<name>.webp         →  public/images/<name>-<w>.webp    one file per width in src/lib/image-widths.json
-//                                                                         (480 · 700 · 1200 · 1400 · 2000 · 2800), git-ignored
+//                                                                         (240 · 320 · 480 · 700 · 1200 · 1400 · 2000 · 2800), git-ignored
 //
 // next/image + src/lib/image-loader.ts turn those files into a real srcset, so the browser downloads the smallest file
-// that is still sharp for its viewport × devicePixelRatio: 480 for thumbnails, 700/1200 for cards and phones, 1400 for a
+// that is still sharp for its viewport × devicePixelRatio: 240–480 for thumbnails, 700/1200 for cards and phones, 1400 for a
 // full-width tile at 1×, 2000/2800 for large and high-density screens.
 //
 // Quality: sizes shown at one image pixel per screen pixel (below 2000px) are encoded at q84; the big sizes only reach

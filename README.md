@@ -52,8 +52,8 @@ Breakpoints: `lg` (1024) switches to the desktop layout, `md` (768) gives two-co
 `scripts/images.mjs` runs before `dev` and `build` (or `npm run images`):
 
 1. Raw exports (PNG/JPG) go into `images-src/` and become `public/images/<name>.webp` (≤2800px, WebP q90, sRGB). This master is committed and is the source for every served size; pages never load it.
-2. Each master gets one file per width in `src/lib/image-widths.json`: `-480`, `-700`, `-1200`, `-1400`, `-2000` and `-2800` (git-ignored). Sizes below 2000px are encoded at q84, the two large ones at q82 — both indistinguishable from the master at 100%.
-3. `src/lib/image-loader.ts` maps `next/image` widths onto those files, so every `<Image>` ships a six-entry `srcset` and the browser takes the smallest file that is still sharp.
+2. Each master gets one file per width in `src/lib/image-widths.json`: from `-240` and `-320` for thumbnails up to `-2000` and `-2800` (git-ignored). Sizes below 2000px are encoded at q84, the two large ones at q82 — both indistinguishable from the master at 100%.
+3. `src/lib/image-loader.ts` maps `next/image` widths onto those files, so every `<Image>` ships an eight-entry `srcset` and the browser takes the smallest file that is still sharp.
 
 Reference images in content as `/images/<name>.webp`. An image on the first screen takes `loading="eager"`, and the one that is the page's largest paint `fetchPriority="high"`.
 
