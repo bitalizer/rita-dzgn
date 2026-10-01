@@ -148,3 +148,42 @@ test("threads the continuation under the first message", async () => {
   await worker.fetch(post({ ...fullLead, message: longMessage }), makeEnv());
   assert.equal(telegram.calls[1].body.reply_parameters.message_id, 555);
 });
+
+// --- delivery retries ---
+
+const unavailable = () => new Response("Bad Gateway", { status: 502 });
+
+test("retries when Telegram is briefly unavailable, and the visitor never sees an error", async () => {
+  telegram.replies.push(unavailable(), unavailable());
+  const res = await worker.fetch(post(lead), makeEnv());
+  assert.equal(res.status, 200);
+  assert.equal(telegram.calls.length, 3);
+});
+
+test("retries after a network failure", async () => {
+  telegram.replies.push(new TypeError("fetch failed"));
+  const res = await worker.fetch(post(lead), makeEnv());
+  assert.equal(res.status, 200);
+  assert.equal(telegram.calls.length, 2);
+});
+
+test("gives up after three attempts and reports the failure as JSON", async () => {
+  telegram.replies.push(unavailable(), new TypeError("fetch failed"), unavailable(), unavailable());
+  const res = await worker.fetch(post(lead), makeEnv());
+  assert.equal(res.status, 502);
+  assert.equal((await res.json()).ok, false);
+  assert.equal(telegram.calls.length, 3);
+});
+
+test("does not retry a message Telegram rejects outright", async () => {
+  telegram.replies.push(new Response('{"ok":false,"description":"Bad Request: chat not found"}', { status: 400 }));
+  const res = await worker.fetch(post(lead), makeEnv());
+  assert.equal(res.status, 502);
+  assert.equal(telegram.calls.length, 1);
+});
+
+test("reports success once the lead has arrived, even if a continuation could not be sent", async () => {
+  telegram.replies.push(delivered(1), unavailable(), unavailable(), unavailable());
+  const res = await worker.fetch(post({ ...fullLead, message: longMessage }), makeEnv());
+  assert.equal(res.status, 200);
+});

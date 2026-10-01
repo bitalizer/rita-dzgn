@@ -132,16 +132,31 @@ function buttons(lead: CleanLead, origin: string) {
   return row.length ? { inline_keyboard: [row] } : undefined;
 }
 
-/** Posts one message to the chat. Returns its id, or null if Telegram didn't take it. */
+/** Pauses before the second and third attempt at a send, so a blip at Telegram never reaches the visitor. */
+const RETRY_AFTER_MS = [300, 900];
+
+/**
+ * Posts one message to the chat. Returns its id, or null if Telegram didn't take it after three attempts.
+ * Network errors, 5xx and 429 are tried again; any other 4xx (bad token, unknown chat, malformed text) would fail the
+ * same way every time, so it gives up at once.
+ */
 async function send(env: Env, message: Record<string, unknown>): Promise<number | null> {
-  const res = await fetch(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({ chat_id: env.TELEGRAM_CHAT_ID, parse_mode: "HTML", link_preview_options: { is_disabled: true }, ...message }),
-  });
-  if (!res.ok) return null;
-  const data = (await res.json().catch(() => null)) as { result?: { message_id?: number } } | null;
-  return data?.result?.message_id ?? 0;
+  for (let attempt = 0; ; attempt++) {
+    try {
+      const res = await fetch(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ chat_id: env.TELEGRAM_CHAT_ID, parse_mode: "HTML", link_preview_options: { is_disabled: true }, ...message }),
+      });
+      if (res.ok) {
+        const data = (await res.json().catch(() => null)) as { result?: { message_id?: number } } | null;
+        return data?.result?.message_id ?? 0;
+      }
+      if (res.status < 500 && res.status !== 429) return null;
+    } catch {}
+    if (attempt === RETRY_AFTER_MS.length) return null;
+    await new Promise((resolve) => setTimeout(resolve, RETRY_AFTER_MS[attempt]));
+  }
 }
 
 export default {
@@ -184,6 +199,7 @@ export default {
       return reply({ ok: false, error: "Please fill in name, a valid e-mail and a message." }, 422);
     }
 
+    // A lead counts as delivered once its first message (who, what, how to reply) is in the chat.
     // Whatever the template leaves free is the room for the visitor's text; the rest follows as replies to the first message.
     const room = PART_LIMIT - visibleLength(format(lead, ""));
     const parts = lead.message.length <= room ? [lead.message] : split(lead.message, room, PART_LIMIT - visibleLength(continuation("", 9, 9)));
