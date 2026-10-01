@@ -92,4 +92,5 @@ One Worker (`wrangler.jsonc`) serves the static files from `./out` and runs code
 
 - **Auto-deploy:** Cloudflare → Workers & Pages → Import a repository. Build command `npm run build`, deploy command `npx wrangler deploy`.
 - **Headers:** `public/_headers` sets the security headers for every static response and how long browsers keep build files and images. `wrangler dev` reads it at startup.
+- **Statistics:** Cloudflare Web Analytics is set to "Enable with JS snippet installation" in the dashboard. The site adds the beacon itself after the page has loaded (`src/lib/analytics.ts`, token in `src/content/site.ts`), only on the live domain. Switching the dashboard back to automatic setup is safe: the loader then steps aside.
 - **Domain:** `routes` in `wrangler.jsonc`; the site URL defaults to `https://ritadzgn.com` (`src/content/site.ts`, override with `NEXT_PUBLIC_SITE_URL`).

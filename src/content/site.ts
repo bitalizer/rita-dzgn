@@ -15,6 +15,8 @@ export const site = {
     instagram: "https://instagram.com/rita.dzgn",
   },
   privacyPolicyUrl: "/privacy/",
+  /** Cloudflare Web Analytics site token (public: it is part of the snippet the dashboard shows). */
+  webAnalyticsToken: "ea79f5530e6445f7bb1e885fa6c7e8f6",
 } as const;
 
 export type NavItem = { label: string; href: string };

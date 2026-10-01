@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { Attribution } from "@/components/Attribution";
 import { WordmarkSprite } from "@/components/layout/WordmarkSprite";
 import { Cursor } from "@/components/motion/Cursor";
+import { WebAnalytics } from "@/components/WebAnalytics";
 import { site } from "@/content/site";
 import { personSchema, websiteSchema } from "@/lib/schema";
 import { ogBase } from "@/lib/seo";
@@ -61,6 +62,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <Cursor ringSize={40} />
         <Attribution />
+        <WebAnalytics />
       </body>
     </html>
   );
