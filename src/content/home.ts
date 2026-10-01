@@ -70,7 +70,7 @@ export const stats: Stat[] = [
     description: "Working across graphic design, branding and digital experiences — from the first idea to the final detail.",
   },
   {
-    value: "20+",
+    value: "25+",
     label: "brands brought to life",
     description: "Creating visual identities that give brands a clear voice, recognizable character and a strong visual system.",
   },

@@ -14,7 +14,7 @@ function Figure({ value, label, description }: (typeof stats)[number]) {
   return (
     <div className="flex flex-col gap-[1.375rem]">
       <div>
-        <div className="text-display font-medium">{value}</div>
+        <div className="text-display font-extrabold">{value}</div>
         <div className="text-sub font-semibold">{label}</div>
       </div>
       <p className="text-body">{description}</p>
@@ -22,7 +22,7 @@ function Figure({ value, label, description }: (typeof stats)[number]) {
   );
 }
 
-/** Cream panel: centered heading + three pink stat cards (420×435 each). */
+/** "(experience)" cream panel: centered heading + three pink stat cards (420×435 each). */
 export function AboutStats() {
   const [years, brands, sites] = stats;
   return (
@@ -32,7 +32,7 @@ export function AboutStats() {
           <Reveal>
             <SectionHeading
               align="center"
-              label="(about me)"
+              label="(experience)"
               className="mx-auto max-w-[57.25rem]"
               title={
                 <span id="stats-title">
