@@ -30,7 +30,9 @@ export function Reveal<T extends Tags = "div">({
           io.disconnect();
         }
       },
-      { threshold: 0.2, rootMargin: "0px 0px -10% 0px" },
+      // Fire as soon as the top edge passes ~88% of the viewport height. A percentage threshold made tall blocks
+      // (or a small card at the bottom of a tall grid row) stay invisible long after they were on screen.
+      { threshold: 0, rootMargin: "0px 0px -12% 0px" },
     );
     io.observe(el);
     return () => io.disconnect();
