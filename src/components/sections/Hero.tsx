@@ -15,7 +15,10 @@ export function Hero() {
   return (
     <Container>
       <section id="top" aria-labelledby="hero-title" className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,420px),1fr))] items-stretch gap-5">
-        <div className="flex flex-col items-center bg-pink px-[clamp(20px,2.431vw,35px)] pt-[clamp(28px,3.125vw,45px)] pb-[clamp(20px,2.431vw,35px)] text-center text-ink animate-fade-up lg:max-h-[max(600px,calc(100svh_-_98px))]">
+        <div
+          data-cursor-tone="ink"
+          className="flex flex-col items-center bg-pink px-[clamp(20px,2.431vw,35px)] pt-[clamp(28px,3.125vw,45px)] pb-[clamp(20px,2.431vw,35px)] text-center text-ink animate-fade-up lg:max-h-[max(600px,calc(100svh_-_98px))]"
+        >
           <h1 id="hero-title" className="max-w-[590px] text-display font-extrabold">
             Turning ideas into designs{" "}
             <Highlight tone="cream" animate>

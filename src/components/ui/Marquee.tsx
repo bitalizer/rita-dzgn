@@ -21,7 +21,11 @@ export function Marquee({
 }) {
   const items = [...words, ...words];
   return (
-    <div aria-hidden="true" className={cn("flex overflow-hidden py-[clamp(14px,2.083vw,30px)] text-ink", tone === "pink" ? "bg-pink" : "bg-cream", className)}>
+    <div
+      aria-hidden="true"
+      data-cursor-tone="ink"
+      className={cn("flex overflow-hidden py-[clamp(14px,2.083vw,30px)] text-ink", tone === "pink" ? "bg-pink" : "bg-cream", className)}
+    >
       <div
         className={cn("flex flex-none will-change-transform", reverse ? "animate-marquee-reverse" : "animate-marquee")}
         style={{ animationDuration: `${duration}s` }}

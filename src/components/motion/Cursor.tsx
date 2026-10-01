@@ -32,10 +32,12 @@ export function Cursor({ ringSize = 40 }: { ringSize?: number }) {
       target.y = e.clientY;
       const t = e.target as HTMLElement | null;
       const el = t?.closest?.("[data-cursor]") as HTMLElement | null;
-      if (el) hover = { mode: (el.dataset.cursor as Mode) || "default", label: el.dataset.cursorLabel || "", tone: el.dataset.cursorTone || "" };
-      else if (t?.closest?.("input,textarea,select")) hover = { mode: "text", label: "", tone: "" };
-      else if (t?.closest?.("a,button,summary,label")) hover = { mode: "link", label: "open", tone: "" };
-      else hover = { mode: "default", label: "", tone: "" };
+      // Tone comes from the nearest tagged ancestor — a button, or a light section like the cream panels — so the cursor stays visible on light surfaces.
+      const tone = (t?.closest?.("[data-cursor-tone]") as HTMLElement | null)?.dataset.cursorTone || "";
+      if (el) hover = { mode: (el.dataset.cursor as Mode) || "default", label: el.dataset.cursorLabel || "", tone };
+      else if (t?.closest?.("input,textarea,select")) hover = { mode: "text", label: "", tone };
+      else if (t?.closest?.("a,button,summary,label")) hover = { mode: "link", label: "open", tone };
+      else hover = { mode: "default", label: "", tone };
     };
     const onDown = () => (down = true);
     const onUp = () => (down = false);

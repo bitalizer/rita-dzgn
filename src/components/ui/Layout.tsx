@@ -12,7 +12,11 @@ export function Container({ className, children, ...rest }: { className?: string
 
 /** Full-width cream surface used by the "about" and "FAQ" blocks. */
 export function Panel({ className, children }: { className?: string; children: ReactNode }) {
-  return <div className={cn("bg-cream px-panel-x pt-panel text-ink", className)}>{children}</div>;
+  return (
+    <div data-cursor-tone="ink" className={cn("bg-cream px-panel-x pt-panel text-ink", className)}>
+      {children}
+    </div>
+  );
 }
 
 /** "from 500€" chip. */
