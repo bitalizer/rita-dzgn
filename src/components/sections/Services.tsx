@@ -7,15 +7,19 @@ import { services } from "@/content/home";
 import { blur } from "@/lib/blur";
 import { cn } from "@/lib/cn";
 
-const gap = "clamp(28px,4.028vw,58px)";
+const gap = "clamp(1.75rem,4.028vw,3.625rem)";
 
-/** Left: heading + image + CTA (320 col). Right: four price rows separated by 0.5px lines (776 col). */
+/**
+ * Left: heading + image + CTA (320 col). Right: price rows separated by 0.5px lines (776 col).
+ * On desktop both columns share the row height: the heading stays at the top and the image block sits on the
+ * bottom edge, level with the last service — adding services or changing their spacing moves it down with them.
+ */
 export function Services() {
   return (
     <Container>
       <section id="services" aria-labelledby="services-title" className="pt-section">
-        <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[320fr_244fr_776fr] lg:items-start">
-          <div className="flex flex-col gap-[clamp(3.5rem,10.625vw,9.5625rem)] lg:col-start-1">
+        <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[320fr_244fr_776fr]">
+          <div className="flex flex-col gap-[clamp(3.5rem,10.625vw,9.5625rem)] lg:col-start-1 lg:justify-between">
             <Reveal>
               <SectionHeading label="(my services)" title={<span id="services-title">services</span>} />
             </Reveal>
@@ -42,7 +46,7 @@ export function Services() {
             </Reveal>
           </div>
 
-          <div className="flex flex-col lg:col-start-3">
+          <div className="flex flex-col lg:col-start-3 lg:self-start">
             {services.map((s, i) => {
               const first = i === 0;
               const last = i === services.length - 1;
