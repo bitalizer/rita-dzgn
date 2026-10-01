@@ -11,11 +11,13 @@ export type Project = {
   kinds: Kind[];
   /** Shown on cards. */
   year: string;
-  /** Meta row, left column (from the designer's case-study PDFs). */
+  /** Meta row, left column. */
   industry: string;
   /** Meta row, right column. */
   services: string[];
   cover: Img;
+  /** Card image on the /projects grid only, when it should differ from `cover`. */
+  indexCover?: Img;
   /** The 433px paragraph next to industry/services — also the meta description. */
   intro: string;
   /** "About the project" paragraphs. Empty array hides the block. */
@@ -37,7 +39,7 @@ const tall = (src: string, alt: string, width = 1600): GalleryImage => ({ ...img
 const half = (src: string, width: number, height: number, alt: string): GalleryImage => ({ ...img(src, width, height, alt), span: "half" });
 const full = (src: string, width: number, height: number, alt: string): GalleryImage => ({ ...img(src, width, height, alt), span: "full" });
 
-/** Order = fill order of the /projects checkerboard. Home picks its cards by slug. */
+/** Canonical order (sitemap, static pages). Home picks its cards by slug; /projects uses `indexOrder`. */
 export const projects: Project[] = [
   {
     slug: "betonipinnat",
@@ -48,6 +50,7 @@ export const projects: Project[] = [
     industry: "concrete floor services",
     services: ["logo design", "visual identity"],
     cover: img("betonipinnat-09", 1778, 2000, "Betonipinnat logo stickers on orange"),
+    indexCover: img("betonipinnat-05", 2800, 1575, "Betonipinnat business cards"),
     intro:
       "Betonipinnat is a Finnish company specializing in the creation, leveling and restoration of concrete floors, combining advanced technology with a focus on quality and efficiency.",
     about: [
@@ -175,6 +178,7 @@ export const projects: Project[] = [
     industry: "women’s spiritual mentorship",
     services: ["logo design", "visual identity"],
     cover: img("found-faithful-04", 2000, 1125, "Found Faithful business cards"),
+    indexCover: img("found-faithful-05", 2800, 1575, "Found Faithful poster series"),
     intro:
       "Create a logo for Found Faithful that visually reflects the brand’s core: a woman’s journey from spiritual uncertainty and inner instability to rootedness, peace, and confidence in God.",
     about: [
@@ -301,6 +305,25 @@ export const projects: Project[] = [
 ];
 
 export const getProject = (slug: string) => projects.find((p) => p.slug === slug);
+
+/** Fill order of the /projects checkerboard (the slot shapes stay fixed; this decides which project sits in each). */
+export const indexOrder = [
+  "found-faithful",
+  "marketing-sharks",
+  "women-wellness-identity",
+  "lagi",
+  "betonipinnat",
+  "women-wellness-website",
+  "heliosync",
+  "pihaspa",
+];
+
+/** Projects as shown on /projects: `indexOrder`, with `indexCover` swapped in where set. */
+export const indexProjects = (): Project[] =>
+  indexOrder.flatMap((slug) => {
+    const p = getProject(slug);
+    return p ? [{ ...p, cover: p.indexCover ?? p.cover }] : [];
+  });
 
 export type GalleryRow = { kind: "pair" | "full"; items: GalleryImage[] };
 

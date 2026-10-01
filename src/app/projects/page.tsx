@@ -4,7 +4,7 @@ import { Header } from "@/components/layout/Header";
 import { ProjectsGrid } from "@/components/projects/ProjectsGrid";
 import { CtaMarquee } from "@/components/sections/Marquees";
 import { Container } from "@/components/ui/Layout";
-import { projects } from "@/content/projects";
+import { indexProjects } from "@/content/projects";
 import { site } from "@/content/site";
 import { withBlur } from "@/lib/blur";
 import { ogBase, ogImage } from "@/lib/seo";
@@ -27,7 +27,7 @@ export default function ProjectsPage() {
       <main>
         <Container>
           <section aria-labelledby="projects-index-title" className="pt-section">
-            <ProjectsGrid projects={projects.map(withBlur)} />
+            <ProjectsGrid projects={indexProjects().map(withBlur)} />
           </section>
         </Container>
         <CtaMarquee />
