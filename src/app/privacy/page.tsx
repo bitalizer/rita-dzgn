@@ -16,6 +16,7 @@ export const metadata: Metadata = {
   description,
   alternates: { canonical: "/privacy/" },
   openGraph: { ...ogBase, url: "/privacy/", title: `${title} — ${site.name}`, description, images: [ogImage] },
+  twitter: { card: "summary_large_image", title: `${title} — ${site.name}`, description, images: [ogImage] },
 };
 
 function Section({ heading, children }: { heading: string; children: ReactNode }) {

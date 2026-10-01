@@ -25,7 +25,6 @@ export const metadata: Metadata = {
   applicationName: site.name,
   authors: [{ name: site.author, url: site.url }],
   creator: site.author,
-  keywords: ["graphic designer", "web designer", "logo design", "visual identity", "website design", "brand identity", "portfolio"],
   alternates: { canonical: "/" },
   openGraph: {
     ...ogBase,

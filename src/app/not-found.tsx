@@ -9,9 +9,22 @@ import { Container } from "@/components/ui/Layout";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/Typography";
 import { getProject } from "@/content/projects";
+import { site } from "@/content/site";
 import { withBlur } from "@/lib/blur";
+import { ogBase, ogImage } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Page not found", robots: { index: false }, alternates: { canonical: null } };
+const title = "Page not found";
+
+// `robots: null` drops the layout's "index, follow"; Next.js adds noindex to 404 pages itself, so setting it here too
+// would print the tag twice. No canonical or og:url: this page answers for every address that doesn't exist, and the
+// layout's would point previews at the home page.
+export const metadata: Metadata = {
+  title,
+  robots: null,
+  alternates: { canonical: null },
+  openGraph: { ...ogBase, title: `${title} — ${site.name}`, description: site.description, images: [ogImage] },
+  twitter: { card: "summary_large_image", title: `${title} — ${site.name}`, description: site.description, images: [ogImage] },
+};
 
 /** Recovery paths: the work a lost visitor most likely came for. */
 const suggestions = ["women-wellness-identity", "women-wellness-website", "lagi"];
