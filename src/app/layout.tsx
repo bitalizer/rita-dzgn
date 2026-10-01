@@ -10,11 +10,10 @@ import "./globals.css";
 
 /**
  * Inter with the `wght` axis only — no `opsz`, so large sizes keep the same (Text) metrics as the
- * design. Italic is needed for the "z" in the wordmark.
+ * design. Upright only: the one italic letter the site has, the "z" of the wordmark, is artwork (components/layout/Wordmark.tsx).
  */
 const inter = Inter({
   subsets: ["latin"],
-  style: ["normal", "italic"],
   display: "swap",
   variable: "--font-inter",
 });
