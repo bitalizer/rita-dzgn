@@ -1,0 +1,44 @@
+import Image from "next/image";
+import { Button } from "@/components/ui/Button";
+import { Highlight } from "@/components/ui/Highlight";
+import { Container } from "@/components/ui/Layout";
+import { Reveal } from "@/components/ui/Reveal";
+
+const bio = [
+  "I’ve loved drawing ever since I was a child, and I always knew I wanted to build my career around something creative. Today, I genuinely love what I do and feel lucky to be working in a field that truly feels like mine.",
+  "I have a background in both web and graphic design, giving me a well-rounded approach to visual and digital projects.",
+  "I’m always exploring new trends and expanding my visual perspective to keep my work fresh, contemporary and relevant.",
+];
+
+/** Big statement + bio / portrait / "Contact me" row (columns 567 · 291 · 162 · 320). */
+export function AboutIntro() {
+  return (
+    <Container>
+      <section id="about" aria-labelledby="about-title" className="pt-section">
+        <Reveal as="h2" id="about-title" className="text-display font-extrabold">
+          <span className="float-left w-[max(120px,16.94%)] text-label font-normal">(about me)</span>
+          Part designer, part thinker, part problem solver. I turn ideas into visual identities, digital experiences, and things{" "}
+          <Highlight tone="glass">worth remembering.</Highlight>
+        </Reveal>
+
+        <div className="mt-[clamp(56px,8.819vw,127px)] flex flex-col gap-6 lg:grid lg:grid-cols-[567fr_291fr_162fr_320fr] lg:items-start">
+          <Reveal className="order-1 text-body lg:col-start-2 lg:order-none">
+            <div className="flex flex-col gap-[1.3em]">
+              {bio.map((p) => (
+                <p key={p}>{p}</p>
+              ))}
+            </div>
+          </Reveal>
+          <Reveal className="relative order-2 aspect-[320/322] max-w-[320px] overflow-hidden bg-mist lg:col-start-4 lg:order-none">
+            <Image src="/images/about.webp" alt="Portrait of Rita" fill sizes="320px" className="object-cover object-[50%_16.736%]" />
+          </Reveal>
+          <Reveal className="order-3 lg:col-start-1 lg:row-start-1 lg:order-none lg:self-end">
+            <Button href="/#contact" variant="cream" className="min-w-[227px]">
+              Contact me
+            </Button>
+          </Reveal>
+        </div>
+      </section>
+    </Container>
+  );
+}

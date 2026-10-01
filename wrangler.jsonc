@@ -1,0 +1,21 @@
+// One Worker serves the whole site: the static Next export from ./out plus POST /api/contact.
+// Static files never run worker code (free, unlimited); only /api/* does (free tier: 100k requests/day).
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "rita-dzgn",
+  "main": "worker/src/index.ts",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./out",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
+  },
+  // Uncomment once the domain is active in Cloudflare:
+  // "routes": [
+  //   { "pattern": "example.com", "custom_domain": true },
+  //   { "pattern": "www.example.com", "custom_domain": true }
+  // ],
+  "observability": { "enabled": true }
+  // Secrets (never commit): npx wrangler secret put TELEGRAM_BOT_TOKEN · npx wrangler secret put TELEGRAM_CHAT_ID
+}

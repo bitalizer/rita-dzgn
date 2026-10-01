@@ -1,0 +1,35 @@
+{
+  "name": "rita-dzgn",
+  "version": "1.0.0",
+  "private": true,
+  "description": "rita.dzgn — portfolio of a graphic & web designer. Next.js static export + Tailwind v4, served by one Cloudflare Worker.",
+  "scripts": {
+    "images": "node scripts/images.mjs",
+    "predev": "npm run images",
+    "dev": "next dev",
+    "prebuild": "npm run images",
+    "build": "next build",
+    "preview": "npm run build && wrangler dev",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p worker",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "deploy": "npm run build && wrangler deploy"
+  },
+  "dependencies": {
+    "next": "^16.3.8",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.15",
+    "@cloudflare/workers-types": "^5.20261001.1",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^22.20.4",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "sharp": "^0.35.5",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.145.0"
+  }
+}

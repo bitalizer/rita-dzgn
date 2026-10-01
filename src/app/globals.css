@@ -1,0 +1,417 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Design tokens.
+   Fluid values are `clamp(min, <px/1440*100>vw, px)` so the layout
+   is exact at 1440 and scales proportionally below it.
+   ------------------------------------------------------------------ */
+@theme {
+  /* palette (only these five colors exist in the design) */
+  --color-ink: #000000;
+  --color-paper: #ffffff;
+  --color-cream: #f1ede6;
+  --color-pink: #fecccd;
+  --color-mist: #d9d9d9;
+
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* type scale — Inter, letter-spacing -5% everywhere (set globally below) */
+  --text-display: clamp(2.5rem, 5.556vw, 5rem); /* 80px */
+  --text-display--line-height: 1;
+  --text-title: clamp(1.625rem, 2.778vw, 2.5rem); /* 40px */
+  --text-title--line-height: 1;
+  --text-sub: clamp(1.0625rem, 1.389vw, 1.25rem); /* 20px */
+  --text-sub--line-height: 0.9;
+  --text-label: 1rem; /* 16px, (bracketed labels) */
+  --text-label--line-height: 0.9;
+  --text-body: 1rem; /* 16px */
+  --text-body--line-height: 1.3;
+
+  /* rhythm */
+  --spacing-section: clamp(4.5rem, 9.375vw, 8.4375rem); /* 135px between sections */
+  --spacing-gutter: clamp(1.25rem, 3.472vw, 3.125rem); /* 50px page gutter */
+  --spacing-panel: clamp(3rem, 6.944vw, 6.25rem); /* 100px inside cream panels */
+  --spacing-panel-x: clamp(1rem, 2.083vw, 1.875rem); /* 30px */
+  --container-site: 90rem; /* 1440px */
+
+  /* motion */
+  --ease-out-expo: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --animate-marquee: marquee 42s linear infinite;
+  --animate-marquee-reverse: marquee-reverse 50s linear infinite;
+  --animate-fade-up: fade-up 0.9s var(--ease-out-expo) both;
+  --animate-hero-zoom: hero-zoom 1.8s var(--ease-out-expo) both;
+  --animate-hl-in: hl-in 0.9s 0.5s var(--ease-out-expo) both;
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes marquee-reverse {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: none;
+    }
+  }
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes hero-zoom {
+    from {
+      transform: scale(1.06);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+  @keyframes hl-in {
+    from {
+      background-size: 0% 0.7875em;
+    }
+    to {
+      background-size: 100% 0.7875em;
+    }
+  }
+}
+
+@layer base {
+  /* Every text style uses -5% tracking. Set per element so `em` resolves against each font-size. */
+  * {
+    letter-spacing: -0.05em;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  /* Sections carry their top spacing as padding (pt-section) — pull the anchor past it so a jump lands on the content, not the previous section's tail. */
+  #about,
+  #projects,
+  #services,
+  #faq,
+  #contact {
+    scroll-margin-top: calc(-1 * var(--spacing-section) + 32px);
+  }
+  body {
+    @apply bg-ink text-paper font-sans antialiased;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  ::placeholder {
+    @apply text-cream opacity-100;
+  }
+  select option {
+    @apply bg-paper text-ink;
+  }
+}
+
+@layer components {
+  /* Highlight bar behind a phrase: 63px tall, ending on the baseline (bar geometry at 80px type). */
+  .hl {
+    background-image: linear-gradient(var(--hl), var(--hl));
+    background-repeat: no-repeat;
+    background-position: 0 0.1815em;
+    background-size: 100% 0.7875em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Motion — only when JS is available (html[data-js] is set in <head>),
+   so the static HTML stays fully visible for crawlers and no-JS users.
+   ------------------------------------------------------------------ */
+html[data-js] [data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.9s var(--ease-out-expo),
+    transform 0.9s var(--ease-out-expo);
+}
+html[data-js] [data-reveal="in"] {
+  opacity: 1;
+  transform: none;
+}
+html[data-js] [data-reveal] .hl {
+  background-size: 0% 0.7875em;
+  transition: background-size 0.9s 0.35s var(--ease-out-expo);
+}
+html[data-js] [data-reveal="in"] .hl {
+  background-size: 100% 0.7875em;
+}
+
+/* Motion off — set by the head script when the OS asks for reduced motion (or ?motion=off). */
+html[data-js][data-motion="off"] [data-reveal],
+html[data-js][data-motion="off"] [data-reveal] .hl {
+  opacity: 1;
+  transform: none;
+  transition: none;
+  background-size: 100% 0.7875em;
+}
+html[data-motion="off"] .animate-marquee,
+html[data-motion="off"] .animate-marquee-reverse,
+html[data-motion="off"] .animate-fade-up,
+html[data-motion="off"] .animate-hero-zoom,
+html[data-motion="off"] .animate-hl-in,
+html[data-motion="off"] [data-parallax] > *,
+html[data-motion="off"] [data-enter],
+html[data-motion="off"] [data-word],
+html[data-motion="off"] [data-line],
+html[data-motion="off"] [data-progress],
+html[data-motion="off"] [data-curtain],
+html[data-motion="off"] [data-curtain-label] {
+  animation: none;
+}
+html[data-js][data-motion="off"] [data-reveal] [data-zoom],
+html[data-js][data-motion="off"] [data-reveal] [data-steps] > * {
+  scale: 1;
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+/* Case-study cover: zoom/fade in on mount, then a gentle scroll parallax where scroll-driven
+   animations are supported (Chromium, Safari 26+). The image fills the tile 1:1 and is never cropped; the scroll drift moves the whole tile (pairs move in opposite directions). */
+@keyframes cover-in {
+  from {
+    scale: 1.18;
+  }
+  to {
+    scale: 1;
+  }
+}
+@keyframes rise {
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes unveil {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+/* Case-study entrance choreography (delays leave room for the curtain to lift):
+   back link → title letters rise out of a mask → category → meta + hairlines draw → cover unveils. */
+[data-enter] {
+  animation: fade-up 0.9s 0.45s var(--ease-out-expo) both;
+}
+[data-enter="1"] {
+  animation-delay: 0.55s;
+}
+[data-enter="2"] {
+  animation-delay: 0.65s;
+}
+[data-enter="3"] {
+  animation-delay: 0.75s;
+}
+[data-enter="unveil"] {
+  animation-name: unveil;
+  animation-duration: 1.2s;
+  animation-delay: 0.5s;
+}
+[data-word] {
+  display: inline-block;
+  margin-right: 0.22em;
+  animation: rise 1s var(--ease-out-expo) both; /* per-word delay set inline */
+}
+@keyframes line-in {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: none;
+  }
+}
+[data-line] {
+  animation: line-in 1s var(--ease-out-expo) both; /* delay set inline */
+}
+/* Copy blocks inside a revealing parent step in one after another. */
+html[data-js] [data-reveal] [data-steps] > * {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.8s var(--ease-out-expo),
+    transform 0.8s var(--ease-out-expo);
+}
+html[data-js] [data-reveal="in"] [data-steps] > * {
+  opacity: 1;
+  transform: none;
+}
+html[data-js] [data-reveal="in"] [data-steps] > *:nth-child(2) {
+  transition-delay: 0.12s;
+}
+html[data-js] [data-reveal="in"] [data-steps] > *:nth-child(3) {
+  transition-delay: 0.24s;
+}
+html[data-js] [data-reveal="in"] [data-steps] > *:nth-child(4) {
+  transition-delay: 0.36s;
+}
+/* Page-transition curtain (components/motion/Curtain.tsx). */
+@keyframes curtain-in {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes curtain-out {
+  from {
+    transform: none;
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}
+@keyframes label-in {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes label-out {
+  to {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+}
+[data-curtain="in"] {
+  animation: curtain-in 0.6s cubic-bezier(0.76, 0, 0.24, 1) both;
+}
+[data-curtain="in"] [data-curtain-label] {
+  animation: label-in 0.5s 0.2s var(--ease-out-expo) both;
+}
+[data-curtain="out"] {
+  animation: curtain-out 0.7s cubic-bezier(0.76, 0, 0.24, 1) both;
+}
+[data-curtain="out"] [data-curtain-label] {
+  animation: label-out 0.35s var(--ease-out-expo) both;
+}
+/* Reading progress bar — scroll-driven where supported, otherwise stays hidden. */
+@keyframes grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: none;
+  }
+}
+@supports (animation-timeline: scroll()) {
+  [data-progress] {
+    display: block;
+    animation: grow linear both;
+    animation-timeline: scroll();
+  }
+}
+/* Images inside a revealing block settle from a slight zoom; hover nudges them again. */
+html[data-js] [data-reveal] [data-zoom] {
+  scale: 1.08;
+  transition: scale 1.4s var(--ease-out-expo);
+}
+html[data-js] [data-reveal="in"] [data-zoom] {
+  scale: 1;
+}
+[data-reveal="in"] [data-hover-zoom]:hover [data-zoom],
+[data-next]:hover [data-zoom] {
+  scale: 1.05;
+}
+
+[data-arrow] {
+  display: inline-block;
+  transition: translate 0.35s var(--ease-out-expo);
+}
+[data-back]:hover [data-arrow] {
+  translate: -6px 0;
+}
+[data-next]:hover [data-arrow] {
+  translate: 12px 0;
+}
+@keyframes parallax {
+  from {
+    translate: 0 6%;
+  }
+  to {
+    translate: 0 -6%;
+  }
+}
+[data-parallax] > * {
+  animation: cover-in 1.6s var(--ease-out-expo) both;
+  animation-delay: inherit; /* the tile carries the stagger inline */
+}
+@supports (animation-timeline: view()) {
+  /* The tile itself drifts with scroll (unveil keeps its own mount timing); pairs move in opposite directions. */
+  [data-parallax] {
+    animation:
+      unveil 1.2s var(--ease-out-expo) both,
+      parallax linear both;
+    animation-delay: inherit, 0s;
+    animation-timeline: auto, view();
+    animation-range:
+      normal,
+      entry 0% exit 100%;
+  }
+  .grid > [data-parallax]:nth-child(2) {
+    animation-direction: normal, reverse;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Custom cursor (components/motion/Cursor.tsx) — mouse only, hidden when motion is off.
+   Dot 12px + lagging 40px ring · link → 56px cream pill + verb · view → 96px pink disc
+   · text → 2×28 caret · hide · down (dot shrinks). Tag targets with data-cursor / data-cursor-label.
+   ------------------------------------------------------------------ */
+@media (pointer: fine) {
+  html[data-motion="on"] body,
+  html[data-motion="on"] a,
+  html[data-motion="on"] button,
+  html[data-motion="on"] input,
+  html[data-motion="on"] textarea,
+  html[data-motion="on"] select,
+  html[data-motion="on"] label {
+    cursor: none;
+  }
+}
+html[data-motion="off"] [data-ring],
+html[data-motion="off"] [data-trail] {
+  display: none;
+}
+[data-ring] [data-disc] {
+  background: #f1ede6;
+  transition:
+    width 0.35s var(--ease-out-expo),
+    height 0.35s var(--ease-out-expo),
+    background-color 0.3s,
+    opacity 0.3s,
+    border-radius 0.3s;
+}
+[data-ring] [data-label] {
+  color: #000;
+}
+/* Ink tone (data-cursor-tone="ink" on light surfaces, e.g. buttons): black disc, cream word, dark ring. */
+[data-ring][data-tone="ink"] [data-disc] {
+  background: #000;
+}
+[data-ring][data-tone="ink"] [data-label] {
+  color: #f1ede6;
+}
+[data-trail][data-tone="ink"] {
+  border-color: rgb(0 0 0 / 0.5);
+}
