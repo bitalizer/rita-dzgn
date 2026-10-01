@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { Cursor } from "@/components/motion/Cursor";
-import { Curtain } from "@/components/motion/Curtain";
 import { site } from "@/content/site";
 import { personSchema, websiteSchema } from "@/lib/schema";
 import "./globals.css";
@@ -46,7 +45,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang={site.locale} className={inter.variable} data-scroll-behavior="smooth">
+    <html lang={site.locale} className={inter.variable} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         {/* Before first paint: mark JS availability (scroll-reveal styles are gated on it) and resolve the motion mode.
             Visitors with the OS "Reduce motion" setting get a static site; append ?motion=always to review the animations anyway. */}
@@ -60,7 +59,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-dvh">
         {children}
-        <Curtain />
         <Cursor ringSize={40} />
       </body>
     </html>

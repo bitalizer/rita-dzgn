@@ -204,7 +204,7 @@ html[data-js][data-motion="off"] [data-reveal] [data-steps] > * {
     clip-path: inset(0 0 0 0);
   }
 }
-/* Case-study entrance choreography (delays leave room for the curtain to lift):
+/* Case-study entrance choreography:
    back link → title letters rise out of a mask → category → meta + hairlines draw → cover unveils. */
 [data-enter] {
   animation: fade-up 0.9s 0.45s var(--ease-out-expo) both;
@@ -260,7 +260,7 @@ html[data-js] [data-reveal="in"] [data-steps] > *:nth-child(3) {
 html[data-js] [data-reveal="in"] [data-steps] > *:nth-child(4) {
   transition-delay: 0.36s;
 }
-/* Page-transition curtain (components/motion/Curtain.tsx). */
+/* Page-transition curtain (triggered by components/motion/TransitionLink.tsx). */
 @keyframes curtain-in {
   from {
     transform: translateY(100%);
