@@ -55,8 +55,8 @@ export default function PrivacyPage() {
 
               <Section heading="What this website does not do">
                 <p>
-                  No cookies, no analytics, no advertising or tracking scripts, and nothing is stored in your browser. Fonts are served from this website, so no
-                  request is made to Google or other font services.
+                  No cookies, no advertising or tracking pixels, no cross-site tracking, and nothing is stored in your browser. Fonts are served from this
+                  website, so no request is made to Google or other font services.
                 </p>
               </Section>
 
@@ -65,7 +65,11 @@ export default function PrivacyPage() {
                 <ul>
                   <li>your name and e-mail address;</li>
                   <li>the project type, budget and message you enter;</li>
-                  <li>the address of the page the form was sent from.</li>
+                  <li>the address of the page the form was sent from;</li>
+                  <li>
+                    how you found the website: campaign tags in the link you followed (for example from an ad), the website that referred you and the first page
+                    you opened. This is held in memory for the visit only and sent solely with the form.
+                  </li>
                 </ul>
                 <p>
                   The data is used only to reply to your inquiry and, if we decide to work together, to prepare and carry out the project. The legal basis is
@@ -75,6 +79,14 @@ export default function PrivacyPage() {
                 <p>
                   The form is delivered as a private message to {site.author} via Telegram. It is not sold, shared for marketing or used for automated
                   decision-making.
+                </p>
+              </Section>
+
+              <Section heading="Visitor statistics">
+                <p>
+                  To see how many people visit and which pages they read, this website uses Cloudflare Web Analytics. It sets no cookies, stores nothing on your
+                  device and does not identify or track you across websites; it records aggregated data such as pages viewed, referring website, country,
+                  browser and device type. The legal basis is the legitimate interest in understanding how the website is used (Art. 6(1)(f) GDPR).
                 </p>
               </Section>
 
