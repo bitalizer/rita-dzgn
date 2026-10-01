@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
+import { AnchorLink } from "@/components/ui/AnchorLink";
 import { contactLinks, primaryNav, secondaryNav } from "@/content/site";
 
 const items = [...primaryNav, ...secondaryNav].map((i) => ({ ...i, label: i.label.replace(/[()]/g, "") }));
@@ -51,14 +51,14 @@ export function MobileMenu() {
           </div>
           <nav className="mt-16 flex flex-col items-start gap-[22px] text-[clamp(34px,10vw,56px)] leading-none font-extrabold">
             {items.map((item) => (
-              <Link
+              <AnchorLink
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
                 className="inline-block pr-[0.2em] transition-[color,translate] duration-400 ease-out-expo hover:translate-x-[0.15em] hover:text-pink"
               >
                 {item.label}
-              </Link>
+              </AnchorLink>
             ))}
           </nav>
           <p className="mt-auto text-label text-cream">

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CookieSettings } from "@/components/layout/CookieSettings";
 import { Wordmark } from "@/components/layout/Wordmark";
+import { AnchorLink } from "@/components/ui/AnchorLink";
 import { Container } from "@/components/ui/Layout";
 import { primaryNav, secondaryNav, site } from "@/content/site";
 
@@ -21,9 +22,9 @@ export function Footer() {
             className="grid min-h-[78px] grid-cols-[repeat(3,max-content)] content-between gap-x-[clamp(24px,6.667vw,96px)] gap-y-7 text-label"
           >
             {footerNav.map((i) => (
-              <Link key={i.href} href={i.href} className={link}>
+              <AnchorLink key={i.href} href={i.href} className={link}>
                 {i.label}
-              </Link>
+              </AnchorLink>
             ))}
           </nav>
         </div>

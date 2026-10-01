@@ -1,6 +1,7 @@
-import Link from "next/link";
+import type Link from "next/link";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import { TransitionLink } from "@/components/motion/TransitionLink";
+import { AnchorLink } from "@/components/ui/AnchorLink";
 import { cn } from "@/lib/cn";
 
 export type ButtonVariant = "ink" | "cream" | "pink";
@@ -25,8 +26,8 @@ export function Button(props: AsLink | AsButton) {
 
   if (props.href !== undefined) {
     const { href, variant: _v, className: _c, children: _ch, ...rest } = props;
-    // Route changes play the curtain transition; in-page anchors ("/#contact") scroll as usual.
-    const Tag = href.includes("#") ? Link : TransitionLink;
+    // Route changes play the curtain transition; section links ("/#contact") scroll within the page.
+    const Tag = href.includes("#") ? AnchorLink : TransitionLink;
     return (
       <Tag href={href} className={classes} data-cursor="link" data-cursor-label="open" data-cursor-tone="ink" {...rest}>
         {children}
