@@ -53,10 +53,11 @@ export default function PrivacyPage() {
                 </p>
               </Section>
 
-              <Section heading="What this website does not do">
+              <Section heading="Cookies and tracking">
                 <p>
-                  No cookies, no advertising or tracking pixels, no cross-site tracking, and nothing is stored in your browser. Fonts are served from this
-                  website, so no request is made to Google or other font services.
+                  Without your consent this website sets no cookies, stores nothing on your device and loads no advertising or tracking tools. Fonts are served
+                  from this website, so no request is made to Google or other font services. Advertising tools are only used if you allow them (see “Advertising
+                  and conversion measurement” below).
                 </p>
               </Section>
 
@@ -90,6 +91,23 @@ export default function PrivacyPage() {
                 </p>
               </Section>
 
+              <Section heading="Advertising and conversion measurement">
+                <p>
+                  This website may advertise on Google and Meta (Facebook, Instagram). To measure whether those ads lead to inquiries, the website can use
+                  Google Ads conversion tracking (Google Ireland Ltd.) and the Meta Pixel (Meta Platforms Ireland Ltd.). These tools are loaded through
+                  Cloudflare Zaraz and <strong>only after you consent</strong> in the cookie banner; until then nothing is sent to Google or Meta.
+                </p>
+                <p>
+                  With your consent, these providers may set cookies or similar identifiers and receive information such as the pages you visit, the ad you came
+                  from, your IP address and browser details, and the fact that a contact form was sent. Your name, e-mail address and message are never shared
+                  with them. The legal basis is your consent (Art. 6(1)(a) GDPR and the ePrivacy rules on storing information on your device).
+                </p>
+                <p>
+                  You can change or withdraw your consent at any time via “cookie settings” at the bottom of every page; withdrawing does not affect processing
+                  that took place before. Google and Meta process this data under their own privacy policies and may transfer it outside the EU (see below).
+                </p>
+              </Section>
+
               <Section heading="Hosting">
                 <p>
                   The website is served by Cloudflare, Inc. To deliver pages and protect the site against abuse, Cloudflare processes technical data such as
@@ -100,8 +118,9 @@ export default function PrivacyPage() {
 
               <Section heading="Transfers outside the EU">
                 <p>
-                  Cloudflare (USA) and Telegram (outside the EU) may process data outside the European Economic Area. Cloudflare is certified under the EU–US
-                  Data Privacy Framework and both providers rely on the European Commission’s Standard Contractual Clauses for such transfers.
+                  Cloudflare (USA), Telegram (outside the EU) and, if you consent to advertising tools, Google and Meta (USA) may process data outside the
+                  European Economic Area. Cloudflare, Google and Meta are certified under the EU–US Data Privacy Framework, and the providers rely on the
+                  European Commission’s Standard Contractual Clauses for such transfers.
                 </p>
               </Section>
 
@@ -125,7 +144,8 @@ export default function PrivacyPage() {
                   <li>ask which data about you is held and receive a copy;</li>
                   <li>have incorrect data corrected or your data deleted;</li>
                   <li>restrict or object to its processing;</li>
-                  <li>receive your data in a portable format.</li>
+                  <li>receive your data in a portable format;</li>
+                  <li>withdraw any consent you have given, with effect for the future.</li>
                 </ul>
                 <p>Send requests to {mail}. You also have the right to lodge a complaint with the data protection authority in your country of residence.</p>
               </Section>
