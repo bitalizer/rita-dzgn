@@ -55,7 +55,7 @@ function RisingHeading({ text }: { text: string }) {
 const tileAspect = (kind: GalleryRow["kind"]) => (kind === "pair" ? "aspect-[660.15/742.669]" : "aspect-1340/753.75");
 const rowGrid = (kind: GalleryRow["kind"]) => cn("grid gap-5", kind === "pair" ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1");
 const imgSizes = (kind: GalleryRow["kind"]) =>
-  kind === "pair" ? "(min-width: 1440px) 45.83vw, (min-width: 768px) 50vw, 100vw" : "(min-width: 1440px) 93.06vw, 100vw";
+  kind === "pair" ? "(min-width: 1440px) 45.83vw, (min-width: 768px) 50vw, calc(100vw - 2.5rem)" : "(min-width: 1440px) 93.06vw, calc(100vw - 2.5rem)";
 
 export default async function CaseStudyPage({ params }: { params: Promise<Params> }) {
   const { slug } = await params;

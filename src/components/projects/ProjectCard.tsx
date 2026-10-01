@@ -11,6 +11,7 @@ export function ProjectCard({
   project,
   size = "lg",
   priority,
+  sizes,
   heading: Title = "h3",
   className,
 }: {
@@ -18,6 +19,8 @@ export function ProjectCard({
   size?: "lg" | "sm";
   /** For cards on screen at load: "eager" skips lazy-loading, "high" also marks the image as the page's most important one. */
   priority?: "eager" | "high";
+  /** The image's width per breakpoint, where it differs from the home grid's (two columns from md, the bands from lg). */
+  sizes?: string;
   /** Level of the title: h3 under a section heading (home, 404), h2 where the cards sit directly under the page title (/projects). Looks the same either way. */
   heading?: "h2" | "h3";
   className?: string;
@@ -42,9 +45,10 @@ export function ProjectCard({
           loading={priority ? "eager" : "lazy"}
           fetchPriority={priority === "high" ? "high" : undefined}
           sizes={
-            size === "sm"
-              ? "(min-width: 1440px) 18.4vw, (min-width: 1024px) 19vw, (min-width: 768px) 50vw, 100vw"
-              : "(min-width: 1440px) 37.99vw, (min-width: 1024px) 41vw, (min-width: 768px) 50vw, 100vw"
+            sizes ??
+            (size === "sm"
+              ? "(min-width: 1440px) 18.4vw, (min-width: 1024px) 19vw, (min-width: 768px) 50vw, calc(100vw - 2.5rem)"
+              : "(min-width: 1440px) 37.99vw, (min-width: 1024px) 41vw, (min-width: 768px) 50vw, calc(100vw - 2.5rem)")
           }
           className="object-cover transition-transform duration-800 ease-out-expo group-hover:scale-[1.04]"
         />

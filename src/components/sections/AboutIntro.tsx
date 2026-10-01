@@ -36,7 +36,7 @@ export function AboutIntro() {
               {...blur("/images/about.webp")}
               alt="Portrait of Rita"
               fill
-              sizes="(min-width: 1440px) 22.22vw, (min-width: 1024px) 320px, 100vw"
+              sizes="(min-width: 1440px) 22.22vw, (min-width: 1024px) 320px, calc(100vw - 2.5rem)"
               className="object-cover object-[50%_16.736%]"
             />
           </Reveal>

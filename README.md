@@ -55,7 +55,7 @@ Breakpoints: `lg` (1024) switches to the desktop layout, `md` (768) gives two-co
 2. Each master gets one file per width in `src/lib/image-widths.json`: from `-240` and `-320` for thumbnails up to `-2000` and `-2800` (git-ignored). Sizes below 2000px are encoded at q84, the two large ones at q82 — both indistinguishable from the master at 100%.
 3. `src/lib/image-loader.ts` maps `next/image` widths onto those files, so every `<Image>` ships an eight-entry `srcset` and the browser takes the smallest file that is still sharp.
 
-Reference images in content as `/images/<name>.webp`. An image on the first screen takes `loading="eager"`, and the one that is the page's largest paint `fetchPriority="high"`.
+Reference images in content as `/images/<name>.webp`. An image on the first screen takes `loading="eager"`, and the one that is the page's largest paint `fetchPriority="high"`. `sizes` decides which file a browser downloads, so it states the width the image is really drawn at per breakpoint (on phones the column is `calc(100vw - 2.5rem)`, not `100vw`), including any CSS `scale`.
 
 The wordmark in the header, mobile menu and footer is `assets/brand/wordmark.svg`; its outlines live in `components/layout/WordmarkSprite.tsx`.
 

@@ -11,7 +11,8 @@ import { blur } from "@/lib/blur";
  * short laptops, growing up to ~35% on tall screens — so both "Explore …" buttons always sit on the first screen.
  *
  * Everything here is on the first screen, so nothing is lazy-loaded and the cards slide in without a fade (see `settle`
- * in globals.css). The portrait is the largest paint on desktop and gets the high fetch priority; on phones it is the headline.
+ * in globals.css). The portrait is the largest paint on desktop and on phones tall enough to show its top (otherwise the
+ * headline is), so it gets the high fetch priority.
  */
 export function Hero() {
   return (
@@ -42,7 +43,7 @@ export function Hero() {
                 alt="Lagi business cards on concrete"
                 fill
                 loading="eager"
-                sizes="205px"
+                sizes="(min-width: 1024px) 350px, (min-width: 900px) 185px, 152px"
                 className="scale-[1.264] object-cover"
               />
             </div>
@@ -53,7 +54,7 @@ export function Hero() {
                 alt="Women Wellness website on a laptop"
                 fill
                 loading="eager"
-                sizes="108px"
+                sizes="(min-width: 1024px) 146px, (min-width: 900px) 77px, 64px"
                 className="object-cover"
               />
             </div>
@@ -73,7 +74,7 @@ export function Hero() {
             fill
             loading="eager"
             fetchPriority="high"
-            sizes="(min-width: 1440px) 45.83vw, (min-width: 1024px) 46vw, 100vw"
+            sizes="(min-width: 1440px) 45.83vw, (min-width: 925px) 46vw, calc(100vw - 2.5rem)"
             className="object-cover object-[50%_93.21%] animate-hero-zoom"
           />
           <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-[clamp(7.5rem,14.167vw,12.75rem)] bg-linear-to-t from-ink/70 to-transparent" />

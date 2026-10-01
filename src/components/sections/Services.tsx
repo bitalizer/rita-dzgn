@@ -30,7 +30,7 @@ export function Services() {
                   {...blur("/images/services.webp")}
                   alt="Poster campaign for a wellness brand"
                   fill
-                  sizes="(min-width: 1440px) 22.22vw, (min-width: 1024px) 320px, 100vw"
+                  sizes="(min-width: 1440px) 22.22vw, (min-width: 1024px) 320px, calc(107vw - 2.7rem)"
                   className="origin-[71%_0] scale-[1.07] object-cover object-[71%_0]"
                 />
               </div>

@@ -51,7 +51,7 @@ export function AboutStats() {
                   {...blur("/images/lagi.webp")}
                   alt="Lagi business cards"
                   fill
-                  sizes="117px"
+                  sizes="(min-width: 1024px) 10.8vw, 106px"
                   className="scale-[1.325] object-cover"
                 />
               </div>
@@ -65,7 +65,14 @@ export function AboutStats() {
                   { src: "/images/wwid-10.webp", alt: "Women Wellness posters on a billboard" },
                 ].map((img) => (
                   <div key={img.src} className="relative aspect-111/117 flex-1 overflow-hidden bg-cream">
-                    <Image src={img.src} {...blur(img.src)} alt={img.alt} fill sizes="120px" className="object-cover" />
+                    <Image
+                      src={img.src}
+                      {...blur(img.src)}
+                      alt={img.alt}
+                      fill
+                      sizes="(min-width: 1024px) 7.7vw, (min-width: 472px) 114px, calc((100vw - 8.25rem) / 3)"
+                      className="object-cover"
+                    />
                   </div>
                 ))}
               </div>

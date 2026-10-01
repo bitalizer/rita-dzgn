@@ -10,6 +10,9 @@ import { cn } from "@/lib/cn";
 type Slot = { project: Project; size: "lg" | "sm"; col: string; align: "start" | "end" };
 type Band = Slot[];
 
+/** Here the bands start at md, not lg as on the home page, so the covers are already band-sized on tablets. */
+const SIZES = { lg: "(min-width: 768px) 38vw, calc(100vw - 2.5rem)", sm: "(min-width: 768px) 18.4vw, calc(100vw - 2.5rem)" };
+
 /**
  * Checkerboard bands on the home page's 7-track grid (265 · 17 · 265 · 246 · 265 · 17 · 265):
  *
@@ -94,13 +97,13 @@ export function ProjectsGrid({ projects }: { projects: Project[] }) {
               const priority = i === 0 ? "high" : slot.size === "lg" ? "eager" : undefined;
               return (
                 <div key={slot.project.slug} {...place} className={cn(place.className, "animate-settle")}>
-                  <ProjectCard project={slot.project} size={slot.size} priority={priority} heading="h2" />
+                  <ProjectCard project={slot.project} size={slot.size} sizes={SIZES[slot.size]} priority={priority} heading="h2" />
                 </div>
               );
             }
             return (
               <Reveal key={slot.project.slug} {...place}>
-                <ProjectCard project={slot.project} size={slot.size} heading="h2" />
+                <ProjectCard project={slot.project} size={slot.size} sizes={SIZES[slot.size]} heading="h2" />
               </Reveal>
             );
           }),
