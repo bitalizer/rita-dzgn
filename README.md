@@ -11,6 +11,7 @@ npm run deploy     # build + deploy to Cloudflare
 npm run lint       # Biome + Tailwind canonical classes
 npm run format     # same, with fixes
 npm run typecheck
+npm test           # contact endpoint (worker/test)
 ```
 
 ## Structure
@@ -21,8 +22,9 @@ src/
   components/   ui · layout · sections · projects · motion
   content/      site.ts (name, links, nav) · projects.ts (case studies) · home.ts (services, steps, stats, FAQ)
   lib/          contact form client · JSON-LD · image loader
+public/         images · _headers (security and cache headers for the static site)
 worker/         Cloudflare Worker: serves ./out and handles POST /api/contact → Telegram
-assets/brand/   logo mark + Open Graph image (sources for icons and link previews)
+assets/brand/   logo mark, wordmark + Open Graph image (sources for icons, the header/footer logo and link previews)
 scripts/        image + icon pipelines
 ```
 
@@ -49,11 +51,13 @@ Breakpoints: `lg` (1024) switches to the desktop layout, `md` (768) gives two-co
 
 `scripts/images.mjs` runs before `dev` and `build` (or `npm run images`):
 
-1. Raw exports (PNG/JPG) go into `images-src/` and become `public/images/<name>.webp` (≤2800px, WebP q90, sRGB).
-2. Each master gets `-1400` and `-700` variants (git-ignored).
-3. `src/lib/image-loader.ts` maps `next/image` widths onto those files, so every `<Image>` ships a 700w / 1400w / 2800w `srcset`.
+1. Raw exports (PNG/JPG) go into `images-src/` and become `public/images/<name>.webp` (≤2800px, WebP q90, sRGB). This master is committed and is the source for every served size; pages never load it.
+2. Each master gets one file per width in `src/lib/image-widths.json`: `-480`, `-700`, `-1200`, `-1400`, `-2000` and `-2800` (git-ignored). Sizes below 2000px are encoded at q84, the two large ones at q82 — both indistinguishable from the master at 100%.
+3. `src/lib/image-loader.ts` maps `next/image` widths onto those files, so every `<Image>` ships a six-entry `srcset` and the browser takes the smallest file that is still sharp.
 
-Reference images in content as `/images/<name>.webp`.
+Reference images in content as `/images/<name>.webp`. An image on the first screen takes `loading="eager"`, and the one that is the page's largest paint `fetchPriority="high"`.
+
+The wordmark in the header, mobile menu and footer is `assets/brand/wordmark.svg`; its outlines live in `components/layout/WordmarkSprite.tsx`.
 
 Favicons, app icons and the Open Graph images (site-wide and one per case study, from its cover) are generated from `assets/brand/` with `npm run icons` — rerun it after changing the logo, `og-image.png` (must be 1200×630) or a cover. Output is committed.
 
@@ -61,11 +65,17 @@ Favicons, app icons and the Open Graph images (site-wide and one per case study,
 
 Animation is CSS-driven and switched by `html[data-motion]`, set before first paint in `layout.tsx`: `on` (full motion), `reduced` for visitors with *Reduce motion* enabled (short entrances and draw-ins stay; zooms, scroll parallax, marquees and smooth-scroll jumps are off; the cursor follows without lag) and `off` (fully static). `?motion=always` / `?motion=off` override the OS setting.
 
+What is on the first screen at load (the hero, the first band of `/projects`) slides in without a fade: Chrome does not count content first painted at opacity 0 as the Largest Contentful Paint.
+
 The custom cursor (`components/motion/Cursor.tsx`) is mouse-only and reads `data-cursor` / `data-cursor-label` from the hovered element: `view` (pink disc), `text` (caret), `link` with a custom verb. Plain links and buttons show "open".
 
 ## Contact form
 
 The form POSTs to `/api/contact`, handled by `worker/src/index.ts`, which validates the submission and forwards it to Telegram. A honeypot field filters bots; cross-site posts are rejected.
+
+- **Rate limit:** 5 submissions a minute per visitor and 30 a minute site-wide, through the `ratelimits` bindings in `wrangler.jsonc`. No captcha.
+- **Long messages:** Telegram accepts 4096 characters per message, so a long inquiry arrives as several messages threaded under the first. Nothing is cut.
+- **Retries:** the worker tries Telegram three times before giving up; the form retries once if the connection drops or the server fails, then shows the error with the e-mail address.
 
 Secrets (never committed):
 
@@ -81,4 +91,5 @@ For local testing, copy `.dev.vars.example` to `.dev.vars` and fill in the same 
 One Worker (`wrangler.jsonc`) serves the static files from `./out` and runs code only for `/api/*`.
 
 - **Auto-deploy:** Cloudflare → Workers & Pages → Import a repository. Build command `npm run build`, deploy command `npx wrangler deploy`.
+- **Headers:** `public/_headers` sets the security headers for every static response and how long browsers keep build files and images. `wrangler dev` reads it at startup.
 - **Domain:** `routes` in `wrangler.jsonc`; the site URL defaults to `https://ritadzgn.com` (`src/content/site.ts`, override with `NEXT_PUBLIC_SITE_URL`).
