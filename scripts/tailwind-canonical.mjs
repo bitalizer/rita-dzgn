@@ -13,8 +13,9 @@ const write = process.argv.includes("--write");
 const css = await readFile("src/app/globals.css", "utf8");
 const design = await __unstable__loadDesignSystem(css, { base: path.resolve("src/app") });
 
-// Class-like tokens inside string literals ("…", '…', `…`); template expressions are left alone.
-const STRING = /(["'`])((?:(?!\1)[^\\$]|\\.)*?)\1/g;
+// Every token between whitespace, quotes, backticks and braces is a candidate; Tailwind itself decides what is a class,
+// so anything that isn't (identifiers, prose) is left alone. No string parsing — JSX text can't throw it off.
+const TOKEN = /[^\s"'`{}]+/g;
 const cache = new Map();
 const canonical = (token) => {
   if (!cache.has(token)) {
@@ -29,17 +30,13 @@ const canonical = (token) => {
 let found = 0;
 for await (const file of glob("src/**/*.tsx")) {
   const source = await readFile(file, "utf8");
-  const lines = source.split("\n");
-  const next = source.replace(STRING, (_literal, quote, body) => {
-    const fixed = body.replace(/[^\s]+/g, (token) => {
-      const out = /[-[]/.test(token) ? canonical(token) : null;
-      if (!out) return token;
-      found++;
-      const line = lines.findIndex((l) => l.includes(token)) + 1;
-      console.log(`${file}:${line}  ${token} → ${out}`);
-      return out;
-    });
-    return quote + fixed + quote;
+  const next = source.replace(TOKEN, (token, offset) => {
+    const out = /[-[]/.test(token) ? canonical(token) : null;
+    if (!out) return token;
+    found++;
+    const line = source.slice(0, offset).split("\n").length;
+    console.log(`${file}:${line}  ${token} → ${out}`);
+    return out;
   });
   if (write && next !== source) await writeFile(file, next);
 }

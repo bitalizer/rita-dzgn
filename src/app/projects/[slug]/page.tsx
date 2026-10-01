@@ -42,7 +42,7 @@ const CTA_WORDS = ["logo design", "visual identity", "website design", "let’s 
 /** Heading split into words so each rises out of the mask with its own delay (one 80px heading, title + category). */
 function RisingHeading({ text }: { text: string }) {
   return (
-    <h1 aria-label={text} className="text-display font-extrabold -mr-[0.22em]">
+    <h1 aria-label={text} className="text-display font-extrabold mr-[-0.22em]">
       {text.split(" ").map((word, i) => (
         <span key={i} data-word aria-hidden="true" style={{ animationDelay: `${(0.5 + i * 0.07).toFixed(2)}s` }}>
           {word}
@@ -52,7 +52,7 @@ function RisingHeading({ text }: { text: string }) {
   );
 }
 
-const tileAspect = (kind: GalleryRow["kind"]) => (kind === "pair" ? "aspect-[660.15/742.669]" : "aspect-[1340/753.75]");
+const tileAspect = (kind: GalleryRow["kind"]) => (kind === "pair" ? "aspect-[660.15/742.669]" : "aspect-1340/753.75");
 const rowGrid = (kind: GalleryRow["kind"]) => cn("grid gap-5", kind === "pair" ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1");
 const imgSizes = (kind: GalleryRow["kind"]) =>
   kind === "pair" ? "(min-width: 1440px) 45.83vw, (min-width: 768px) 50vw, 100vw" : "(min-width: 1440px) 93.06vw, 100vw";
@@ -85,7 +85,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
               >
                 (back to projects)
               </TransitionLink>
-              <div className="overflow-hidden text-display pb-[0.15em] -mb-[0.15em]">
+              <div className="overflow-hidden text-display pb-[0.15em] mb-[-0.15em]">
                 <RisingHeading text={`${project.title} ${project.category}`} />
               </div>
             </header>
@@ -97,7 +97,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
                   { label: "industry", value: project.industry, delay: 0.85 },
                   { label: "services", value: project.services.join(", "), delay: 0.95 },
                 ].map((m) => (
-                  <div key={m.label} className="flex min-w-0 flex-1 flex-col gap-[0.4375rem]">
+                  <div key={m.label} className="flex min-w-0 flex-1 flex-col gap-1.75">
                     <dt className="text-body">{m.label}</dt>
                     <span data-line aria-hidden="true" className="block h-[0.5px] origin-left bg-paper/30" style={{ animationDelay: `${m.delay}s` }} />
                     <dd className="m-0 text-sub font-semibold">{m.value}</dd>
