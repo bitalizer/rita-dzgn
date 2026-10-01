@@ -62,7 +62,7 @@ export function AboutStats() {
                 {[
                   { src: "/images/women-wellness-identity.webp", alt: "Women Wellness identity" },
                   { src: "/images/thumb-2.webp", alt: "Brand detail" },
-                  { src: "/images/thumb-3.webp", alt: "Brand detail" },
+                  { src: "/images/wwid-10.webp", alt: "Women Wellness posters on a billboard" },
                 ].map((img) => (
                   <div key={img.src} className="relative aspect-111/117 flex-1 overflow-hidden bg-cream">
                     <Image src={img.src} {...blur(img.src)} alt={img.alt} fill sizes="120px" className="object-cover" />
