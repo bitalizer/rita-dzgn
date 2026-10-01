@@ -82,15 +82,28 @@ export function ProjectsGrid({ projects }: { projects: Project[] }) {
       {/* < md: single column in DOM order; md+: the band placement via CSS variables (tracks scale with the width). */}
       <div className="mt-panel grid grid-cols-1 gap-y-8 md:grid-cols-[265fr_17fr_265fr_246fr_265fr_17fr_265fr] md:gap-y-[clamp(2.5rem,6.944vw,6.25rem)]">
         {bands.flatMap((band, b) =>
-          band.map((slot, i) => (
-            <Reveal
-              key={slot.project.slug}
-              className="md:[align-self:var(--align)] md:col-(--col) md:row-(--row)"
-              style={{ "--col": slot.col, "--row": String(b + 1), "--align": slot.align } as CSSProperties}
-            >
-              <ProjectCard project={slot.project} size={slot.size} preload={b === 0 && i < 3} />
-            </Reveal>
-          )),
+          band.map((slot, i) => {
+            const place = {
+              className: "md:[align-self:var(--align)] md:col-(--col) md:row-(--row)",
+              style: { "--col": slot.col, "--row": String(b + 1), "--align": slot.align } as CSSProperties,
+            };
+            // The first band is on screen at load. It settles in with CSS alone, visible from the first paint, instead of
+            // waiting for JS to reveal it. The first card is the largest paint on phones and the big one on desktop, so
+            // those two load at once (the first ahead of everything); a second small card can wait its turn.
+            if (b === 0) {
+              const priority = i === 0 ? "high" : slot.size === "lg" ? "eager" : undefined;
+              return (
+                <div key={slot.project.slug} {...place} className={cn(place.className, "animate-settle")}>
+                  <ProjectCard project={slot.project} size={slot.size} priority={priority} />
+                </div>
+              );
+            }
+            return (
+              <Reveal key={slot.project.slug} {...place}>
+                <ProjectCard project={slot.project} size={slot.size} />
+              </Reveal>
+            );
+          }),
         )}
       </div>
     </>

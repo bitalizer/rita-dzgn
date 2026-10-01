@@ -10,12 +10,13 @@ import { cn } from "@/lib/cn";
 export function ProjectCard({
   project,
   size = "lg",
-  preload = false,
+  priority,
   className,
 }: {
   project: Project;
   size?: "lg" | "sm";
-  preload?: boolean;
+  /** For cards on screen at load: "eager" skips lazy-loading, "high" also marks the image as the page's most important one. */
+  priority?: "eager" | "high";
   className?: string;
 }) {
   const { slug, title, category, year, cover } = project;
@@ -35,7 +36,8 @@ export function ProjectCard({
           blurDataURL={cover.blurDataURL}
           alt={cover.alt}
           fill
-          preload={preload}
+          loading={priority ? "eager" : "lazy"}
+          fetchPriority={priority === "high" ? "high" : undefined}
           sizes={
             size === "sm"
               ? "(min-width: 1440px) 18.4vw, (min-width: 1024px) 19vw, (min-width: 768px) 50vw, 100vw"
