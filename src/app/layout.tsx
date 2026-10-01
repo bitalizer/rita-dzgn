@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { Attribution } from "@/components/Attribution";
+import { WordmarkSprite } from "@/components/layout/WordmarkSprite";
 import { Cursor } from "@/components/motion/Cursor";
 import { site } from "@/content/site";
 import { personSchema, websiteSchema } from "@/lib/schema";
@@ -58,6 +59,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([personSchema(), websiteSchema()]) }} />
       </head>
       <body className="min-h-dvh">
+        <WordmarkSprite />
         {children}
         <Cursor ringSize={40} />
         <Attribution />

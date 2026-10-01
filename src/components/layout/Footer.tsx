@@ -34,8 +34,8 @@ export function Footer() {
           </Link>
           <CookieSettings className={link} />
         </div>
-        {/* Giant pink wordmark, cropped at the page bottom (1340 × 257 visible). */}
-        <Wordmark className="mt-5.25 block h-auto w-full text-pink" />
+        {/* Giant pink wordmark, cropped at the page bottom (1340 × 258 visible). */}
+        <Wordmark cropped label="rita.dzgn" className="mt-5.25 block h-auto w-full text-pink" />
       </Container>
     </footer>
   );

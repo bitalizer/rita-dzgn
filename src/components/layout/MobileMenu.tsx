@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { WordmarkInline } from "@/components/layout/Wordmark";
 import { AnchorLink } from "@/components/ui/AnchorLink";
 import { contactLinks, primaryNav, secondaryNav } from "@/content/site";
 
@@ -42,9 +43,7 @@ export function MobileMenu() {
           className="fixed inset-0 z-50 flex flex-col bg-ink px-gutter py-7.5 text-paper animate-fade-up"
         >
           <div className="flex items-center justify-between">
-            <span className="text-[1.25rem] leading-[0.9] font-black">
-              rita.d<em className="italic">z</em>gn
-            </span>
+            <WordmarkInline label="rita.dzgn" />
             <button type="button" onClick={() => setOpen(false)} className="cursor-pointer border-0 bg-transparent p-0 text-label">
               (close)
             </button>

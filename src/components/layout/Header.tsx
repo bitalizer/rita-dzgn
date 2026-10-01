@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import { StickyHeader } from "@/components/layout/StickyHeader";
+import { WordmarkInline } from "@/components/layout/Wordmark";
 import { AnchorLink } from "@/components/ui/AnchorLink";
 import { Container } from "@/components/ui/Layout";
 import { primaryNav, secondaryNav } from "@/content/site";
@@ -10,8 +11,8 @@ const link = "transition-opacity duration-200 hover:opacity-60";
 
 export function Logo({ className }: { className?: string }) {
   return (
-    <Link href="/" aria-label="rita.dzgn — home" className={cn("text-[1.25rem] leading-[0.9] font-black", className)}>
-      rita.d<em className="italic">z</em>gn
+    <Link href="/" aria-label="rita.dzgn — home" className={cn("block", className)}>
+      <WordmarkInline />
     </Link>
   );
 }
