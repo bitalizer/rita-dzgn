@@ -9,6 +9,9 @@ import { blur } from "@/lib/blur";
  * On desktop both cards fill the first screen (viewport − header), never shorter than 600px and never taller than
  * 60vw so tall or vertical monitors don't get portrait strips. The image collage absorbs the difference — shrinking on
  * short laptops, growing up to ~35% on tall screens — so both "Explore …" buttons always sit on the first screen.
+ *
+ * Everything here is on the first screen, so nothing is lazy-loaded and the cards slide in without a fade (see `settle`
+ * in globals.css). The portrait is the largest paint on desktop and gets the high fetch priority; on phones it is the headline.
  */
 export function Hero() {
   return (
@@ -16,7 +19,7 @@ export function Hero() {
       <section id="top" aria-labelledby="hero-title" className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,26.25rem),1fr))] items-stretch gap-5">
         <div
           data-cursor-tone="ink"
-          className="flex flex-col items-center bg-pink px-[clamp(1.25rem,2.431vw,2.1875rem)] pt-[clamp(1.75rem,3.125vw,2.8125rem)] pb-[clamp(1.25rem,2.431vw,2.1875rem)] text-center text-ink animate-fade-up lg:h-[clamp(37.5rem,calc(100svh-6.125rem),60vw)]"
+          className="flex flex-col items-center bg-pink px-[clamp(1.25rem,2.431vw,2.1875rem)] pt-[clamp(1.75rem,3.125vw,2.8125rem)] pb-[clamp(1.25rem,2.431vw,2.1875rem)] text-center text-ink animate-settle lg:h-[clamp(37.5rem,calc(100svh-6.125rem),60vw)]"
         >
           <h1 id="hero-title" className="max-w-147.5 text-display font-extrabold">
             Turning ideas into designs{" "}
@@ -35,6 +38,7 @@ export function Hero() {
                 {...blur("/images/lagi.webp")}
                 alt="Lagi business cards on concrete"
                 fill
+                loading="eager"
                 sizes="205px"
                 className="scale-[1.264] object-cover"
               />
@@ -45,6 +49,7 @@ export function Hero() {
                 {...blur("/images/women-wellness-web.webp")}
                 alt="Women Wellness website on a laptop"
                 fill
+                loading="eager"
                 sizes="108px"
                 className="object-cover"
               />
@@ -57,13 +62,14 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="relative flex min-h-[clamp(26.25rem,60vw,37.5rem)] flex-col justify-end overflow-hidden bg-mist p-[clamp(1.25rem,2.431vw,2.1875rem)] animate-fade-up [animation-delay:.1s] lg:min-h-0">
+        <div className="relative flex min-h-[clamp(26.25rem,60vw,37.5rem)] flex-col justify-end overflow-hidden bg-mist p-[clamp(1.25rem,2.431vw,2.1875rem)] animate-settle [animation-delay:.1s] lg:min-h-0">
           <Image
             src="/images/hero-panel.webp"
             {...blur("/images/hero-panel.webp")}
             alt="Rita — graphic and web designer"
             fill
-            preload
+            loading="eager"
+            fetchPriority="high"
             sizes="(min-width: 1440px) 45.83vw, (min-width: 1024px) 46vw, 100vw"
             className="object-cover object-[50%_93.21%] animate-hero-zoom"
           />

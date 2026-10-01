@@ -39,6 +39,7 @@
   --animate-marquee: marquee 42s linear infinite;
   --animate-marquee-reverse: marquee-reverse 50s linear infinite;
   --animate-fade-up: fade-up 0.9s var(--ease-out-expo) both;
+  --animate-settle: settle 0.9s var(--ease-out-expo) both;
   --animate-hero-zoom: hero-zoom 1.8s var(--ease-out-expo) both;
   --animate-hl-in: hl-in 0.9s 0.5s var(--ease-out-expo) both;
 
@@ -62,6 +63,16 @@
     }
     to {
       opacity: 1;
+      transform: none;
+    }
+  }
+  /* fade-up without the fade, for what is on the first screen at load: Chrome never counts content first painted at
+     opacity 0 as the Largest Contentful Paint, so the page's main content must arrive opaque. */
+  @keyframes settle {
+    from {
+      transform: translateY(1.5rem);
+    }
+    to {
       transform: none;
     }
   }
@@ -193,7 +204,7 @@ html[data-js][data-motion="off"] .hl[data-hl] {
   transition: none;
   background-size: 100% 0.7875em;
 }
-html[data-motion="off"] :is(.animate-fade-up, .animate-hl-in, [data-enter], [data-word], [data-line], [data-progress]) {
+html[data-motion="off"] :is(.animate-fade-up, .animate-settle, .animate-hl-in, [data-enter], [data-word], [data-line], [data-progress]) {
   animation: none;
 }
 
